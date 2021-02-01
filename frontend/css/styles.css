@@ -1,0 +1,72 @@
+.header-main {
+  padding-bottom: 250px;
+}
+
+.logo-header {
+  height: 80px;
+  width: 100vw;
+  padding: 20px 0px 20px 0px;
+  position: fixed;
+  z-index: 1;
+  box-shadow: -5px -5px 15px #ffffff, 5px 5px 15px #335080;
+  display: flex;
+  align-items: center;
+}
+
+.main-principale {
+  padding-top: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image {
+  background-image: url("/frontend/images/image-de-presentation.jpg");
+}
+
+.hero-image {
+  width: 90%;
+  height: 600px;
+  object-position: top;
+  object-fit: cover;
+}
+
+.bienvenue {
+  padding-top: 50px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.home-connexion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 55px;
+  z-index: 10;
+}
+
+.img-avatar {
+  border-radius: 50%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  height: 60px;
+  width: 60px;
+}
+
+.img-avatar img {
+  height: 60px;
+}
+
+/*# sourceMappingURL=styles.css.map */

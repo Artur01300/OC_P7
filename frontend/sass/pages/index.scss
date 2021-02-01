@@ -1,0 +1,26 @@
+
+.hero-image {
+    background-image: url("/frontend/images/image-de-presentation.jpg");
+}
+
+.hero-image {
+    width: 90%;
+    height: 600px;
+    object-position: top;
+    object-fit: cover;
+}
+
+.bienvenue{
+    padding-top: 50px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.home-connexion{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 55px;
+    z-index: 10;
+}
