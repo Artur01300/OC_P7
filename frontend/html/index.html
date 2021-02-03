@@ -31,25 +31,25 @@
     </header>
 
     <div class="container">
-            <div class="col-">
-                <p>Créez votre compte</p>
-                    <form method='post' action='http://localhost:3000/api/users/signup' id="signup-form">
-                        <div>
-                            <label for="lastname"></label>
-                            <input type="text" name="lastname" placeholder="Nom">
-                            <label for="firstname"></label>
-                            <input type="text" name="firstname" placeholder="Prénom">
-                        </div>
-                        <div class="email-and-psw">
-                            <label for="email"></label>
-                            <input type="email" name="email" placeholder="Email">
-                            <label for="password"></label>
-                            <input type="password" name="password" placeholder="Mot de passe">
-                        </div>
-                        <button type="button" class="btn btn-info">S'inscrire</button>
-                    </form>
+        <div class="login-page">
+            <div class="form">
+              <form class="register-form">
+                <input type="text" placeholder="name"/>
+                <input type="password" placeholder="password"/>
+                <input type="text" placeholder="email address"/>
+                <button>create</button>
+                <p class="message">Already registered? <a href="#">Sign In</a></p>
+              </form>
+              <form class="login-form">
+                <input type="text" placeholder="username"/>
+                <input type="password" placeholder="password"/>
+                <button>login</button>
+                <p class="message">Not registered? <a href="#">Create an account</a></p>
+              </form>
             </div>
-     </div>
+          </div>
+            
+    </div>
  
     <script src="dfgfdg"></script>
 </body>
