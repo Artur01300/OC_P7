@@ -21,10 +21,41 @@ exports.signup = (req, res, next) => {
     
     db.query(sql, [values], function (err, result) {
       if (err) throw err;
-      console.log("Nombre d'utilisateur inscrit: " + result.affectedRows);
+      console.log("Nombre d'utilisateur créé: " + result.affectedRows);
     });
   })
   .then(()=> res.status(201).json({message: 'Utilisateur créé !'}))//Pour éviter le speaneur
   .catch(error => res.status(500).json({error}));
 };
 
+
+//Login permet de connecter aux users exictent 
+exports.login = (req, res, next) => {
+  
+  let sql = "SELECT * FROM groupomania.users WHERE email = ?";
+  db.query(sql, [req.body.email], function(err, data, result){
+    if(data.length === 0){//si on n'a pas trouver les user on envoie le 401 pour dire non autorisé
+      return res.status(401).json({error: 'Utilisateur non trouvé !'});
+    }
+    // si user est bon alors on cript le mot de passe
+    bcrypt.compare(req.body.password, data[0].password)
+    .then(valid =>{
+      if(!valid){//il reçoit le boolean, c'est-à-dire, si le mot de passe n'est pas valable
+          return res.status(401).json({error: 'Mot de passe incorrect !'});
+      }
+      //si on arrive ici alors la comparaison est true. dans ce cas-là on renvoie la bonne connexion et l'objet json qui contient id d'user dans la base
+      //et on envoie la token
+      res.status(200).json({
+          userId: data[0].id_user,
+          userName:data[0].name,
+          token: jwt.sign(
+          //création d'objet avec user id(userId), qui serra l'identifiant d'utilisateur du user(user._id)
+          {userId: data[0].id_user, userName: data[0].name},
+            `${process.env.DB_TOKEN}`,//ce 2em argument c'est la clé secret d'encodage
+            {expiresIn: '24h'}//3em argument c'est un argument de configuration où on applique une expiration de notre token dans 24h
+          )
+      });
+    })
+    .catch(error => res.status(500).json({error}));
+  });
+};

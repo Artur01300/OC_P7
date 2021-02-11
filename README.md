@@ -16,12 +16,14 @@ Le projet consiste à construire un réseau social interne pour les employés de
 
 ## Le back-end
 
-A la racine de backend, créez un fichier `.env` (backend/.env), mettre les valeurs correctes pour se connecter à une base de donnée mongodb:
-
-`DB_USER="username de la base de donnée mongodb"`  
-`DB_PASS="password de la base de donnée mongodb"`
-`PORT= " "`
-`TOKEN= " "`
+A la racine de backend, créez un fichier `.env` (backend/.env), mettre les valeurs correctes.
+Pour se connecter à une base de donnée Mysql:
+`DB_USER=`
+`DB_PASS=`
+`DB_DATABASE=`
+`DB_PORT=`
+Pour le token d'authentification:
+`DB_TOKEN=`
 
 
 ## Le front-end
