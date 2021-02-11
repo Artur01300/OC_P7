@@ -1,8 +1,10 @@
 const express = require('express');
+const router = express.Router();
 
-//création de route poste avec la méthode signup et login
-router.post('/signup');
+const userCtrl = require('../controllers/user');
+
+
+router.post('/signup', userCtrl.signup);
 router.post('/login');
 
-//exportation de routeur pour importer dans l'app.js
 module.exports = router;
