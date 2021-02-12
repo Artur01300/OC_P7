@@ -22,11 +22,13 @@ exports.signup = (req, res, next) => {
     db.query(sql, [values], function (err, result) {
       if (err) throw err;
       console.log("Nombre d'utilisateur créé: " + result.affectedRows);
+      
     });
   })
   .then(()=> res.status(201).json({message: 'Utilisateur créé !'}))//Pour éviter le speaneur
   .catch(error => res.status(500).json({error}));
 };
+
 
 
 //Login permet de connecter aux users exictent 
