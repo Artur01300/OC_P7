@@ -68,10 +68,12 @@ Pour après:
   -implémnter un admin pour supprimer l'outilisateur
 */
 
-exports.deltAccount = (req, res, next) => {
-  let sql = "DELETE FROM groupomania.users WHERE email = ?";
 
-  db.query(sql, [req.body.email], function(err, data, fields) {
+//Problème de suppression d'un user
+exports.deltAccount = (req, res, next) => {
+  let sql = "DELETE FROM groupomania.users WHERE id_user = ?";
+
+  db.query(sql, [req.body.id_user], function(err, data, fields) {
     if (err) {
       console.log(err)
       return res.status(400).json({err: "suppression est échoué"});

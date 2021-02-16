@@ -1,11 +1,11 @@
 // fonction constructeur
-const Article = function (articles) {
+const Articles = function (articles) {
   this.id_article = articles.id_article;
-  this.title = articles.title,
-  this.content = articles.content,
-  this.image = articles.image,
-  this.users_email = articles.users_email
+  this.id_user = articles.id_user;
+  this.title = articles.title;
+  this.content = articles.content;
+  this.image = articles.image;
 };
   
-module.exports = Article;
+module.exports = Articles;
   
