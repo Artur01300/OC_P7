@@ -6,6 +6,7 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+
 exports.signup = (req, res, next) => {
 
   bcrypt.hash(req.body.password, 10)
@@ -20,12 +21,12 @@ exports.signup = (req, res, next) => {
     let values = [user.name, user.email, user.password];
     
     db.query(sql, [values], function (err, result) {
-      if (err) throw err;
-      console.log("Nombre d'utilisateur créé: " + result.affectedRows);
-      
+      if (err)
+        throw err;
+        console.log("Nombre d'utilisateur créé: " + result.affectedRows);
     });
   })
-  .then(()=> res.status(201).json({message: 'Utilisateur créé !'}))//Pour éviter le speaneur
+  .then(()=> res.status(201).json())//Pour éviter le speaneur
   .catch(error => res.status(500).json({error}));
 };
 
@@ -48,16 +49,33 @@ exports.login = (req, res, next) => {
       //si on arrive ici alors la comparaison est true. dans ce cas-là on renvoie la bonne connexion et l'objet json qui contient id d'user dans la base
       //et on envoie la token
       res.status(200).json({
-          userId: data[0].id_user,
           userName:data[0].name,
           token: jwt.sign(
           //création d'objet avec user id(userId), qui serra l'identifiant d'utilisateur du user(user._id)
-          {userId: data[0].id_user, userName: data[0].name},
+          {userName: data[0].name},
             `${process.env.DB_TOKEN}`,//ce 2em argument c'est la clé secret d'encodage
             {expiresIn: '24h'}//3em argument c'est un argument de configuration où on applique une expiration de notre token dans 24h
           )
       });
     })
     .catch(error => res.status(500).json({error}));
+  });
+};
+
+/*
+Pour après:
+  -implémenter un d'avatar pour user
+  -implémnter un admin pour supprimer l'outilisateur
+*/
+
+exports.deltAccount = (req, res, next) => {
+  let sql = "DELETE FROM groupomania.users WHERE email = ?";
+
+  db.query(sql, [req.body.email], function(err, data, fields) {
+    if (err) {
+      console.log(err)
+      return res.status(400).json({err: "suppression est échoué"});
+    }
+    res.json({status: 200, data, message: "Votre compte a bien été supprimé !"});
   });
 };
