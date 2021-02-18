@@ -11,8 +11,8 @@ const multer = require('../middleware/multer-config');
 router.post('/', multer, articleCtrl.createArticle);//on poste un article dans reseau social
 router.put('/:id', multer, articleCtrl.modifyArticle);//modifie l'article.
 router.delete('/:id', articleCtrl.delateArticle);//Supprime l'article.
-router.get('/');//affiche tout les articles
-router.get('/:id');//affiche une aricle
+router.get('/', articleCtrl.getAllArticles);//affiche tout les articles
+router.get('/:id', articleCtrl.getOneArticle);//affiche une aricle
 
 
 module.exports = router;
