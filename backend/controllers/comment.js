@@ -44,3 +44,14 @@ exports.deleteComment = (req, res, next) => {
         res.json({status: 200, data, message: "Commentaire supprimé !"})
     });
 };
+
+exports.getAllComments = (req, res, next) => {
+    let sql = "SELECT  * from groupomania.comment";
+    db.query(sql, function (err, data){
+        if(err){
+            console.log(err)
+            return res.status(400).json({err});
+        }
+        res.json({status: 200, data, message: "Commentaires affichés !"})
+    });
+}
