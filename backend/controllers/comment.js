@@ -14,3 +14,20 @@ exports.createComment = (req, res, next) => {
         res.json({status: 201, data, message: "Nouveau commentaire ajouté !"})
     });
 };
+
+
+exports.modifyComment = (req, res, next) => {
+
+    if(req.body.users_id_user){
+        
+        let sql = `UPDATE groupomania.comment SET content = ? WHERE users_id_user = ?`;
+        console.log(req.params)
+        let values = [req.body.content, req.body.users_id_user]
+        db.query(sql, values, function(err, data, fields) {
+            if (err) {
+                return res.status(400).json({err});
+            }
+            res.json({status: 201, data, message: "Commentaire modifié !"})
+        });
+    };
+};

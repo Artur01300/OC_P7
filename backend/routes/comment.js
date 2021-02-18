@@ -4,11 +4,11 @@ const router = express.Router();
 const commentCtrl = require("../controllers/comment");
 
 const auth = require("../middleware/auth");
-//Commentaire sur un article
-router.post("/", commentCtrl.createComment);
 
-//modifie le commentaire posté
-// router.put("/:comment", commentCtrl.modifyComment);
+
+
+router.post("/", commentCtrl.createComment);//Commentaire sur un article
+router.put("/", commentCtrl.modifyComment);//modifie le commentaire posté
 
 
 
