@@ -6,6 +6,7 @@ const path = require('path');//donne accès au chemin de note systeme de fichier
 //Importation de router pour enrégistrer ensuit toutes les demandes effectuées vers /api/forum. 
 const articleRoutes = require('./routes/article');
 const userRoutes = require('./routes/user');
+const commentRoutes = require("./routes/comment");
 
 const app = express();
 
@@ -25,5 +26,7 @@ app.use(bodyParser.json());//Il va trensformer le core de la requette en l'objet
 
 app.use('/api/article', articleRoutes);
 app.use('/api/auth', userRoutes);
+
+app.use('/app/comment', commentRoutes);
 
 module.exports = app;

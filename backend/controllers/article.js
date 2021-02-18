@@ -48,13 +48,11 @@ exports.modifyArticle = (req, res, next) => {
         
         console.log(req.file);
 
-        const imagePath = req.file.path;
+        const image = req.file.filename;
         
         // On supprime l'ancienne image du serveur
-        const image = imagePath.split('/images/')[0];
-        console.log(image)
-        fs.unlinkSync(`images/${image}`)
-       
+        // const image = imagePath.split('/images/')[1];
+        // fs.unlinkSync(`images/${image}`);
 
         let values = [image, req.body.id_article];
   
@@ -116,7 +114,6 @@ exports.getOneArticle = (req, res, next) => {
 /*  Clé ORDER BY est utilisé pour trier l'ensemble de résultats par ordre croissant ou décroissant
     Pour trier les enregistrements par ordre décroissant, utilisez le mot clé DESC.
 */
-
 exports.getAllArticles = (req, res, next) => {
     let sql = "SELECT groupomania.articles.id_article, title, content, create_at FROM groupomania.articles INNER JOIN users ON articles.users_id_user = users.id_user ORDER BY create_at DESC"; 
     db.query(sql, function (err, data){
