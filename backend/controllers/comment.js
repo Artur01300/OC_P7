@@ -19,7 +19,7 @@ exports.createComment = (req, res, next) => {
 exports.modifyComment = (req, res, next) => {
 
     if(req.body.users_id_user){
-        
+
         let sql = `UPDATE groupomania.comment SET content = ? WHERE users_id_user = ?`;
         console.log(req.params)
         let values = [req.body.content, req.body.users_id_user]
@@ -30,4 +30,17 @@ exports.modifyComment = (req, res, next) => {
             res.json({status: 201, data, message: "Commentaire modifié !"})
         });
     };
+};
+
+exports.deleteComment = (req, res, next) => {
+
+    let sql = "DELETE FROM groupomania.comment WHERE id_comment = ?";
+    db.query(sql, [req.body.id_comment], function(err, data) {
+
+        if (err) {
+            console.log(err)
+            return res.status(400).json({err});
+        }
+        res.json({status: 200, data, message: "Commentaire supprimé !"})
+    });
 };
