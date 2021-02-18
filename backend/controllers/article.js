@@ -101,6 +101,7 @@ exports.delateArticle = (req, res, next) => {
     });
 }
 
+// Clé INNER JOIN sélectionne les enregistrements qui ont des valeurs correspondantes dans les deux tables.
 exports.getOneArticle = (req, res, next) => {
     let sql = "SELECT groupomania.articles.id_article, title, content, create_at, image, users_id_user FROM groupomania.articles INNER JOIN users ON articles.users_id_user = users.id_user WHERE groupomania.articles.content = ?";
     db.query(sql, [req.params.content], function (err, data, filds){
@@ -108,10 +109,21 @@ exports.getOneArticle = (req, res, next) => {
             console.log(err)
             return res.status(404).json({err});
         }
-        res.json({status: 200, data, message: "Article affiché"})
+        res.json({status: 200, data, message: "Article affiché !"})
     });
 };
 
-exports.getAllArticles = (req, res, next) => {
+/*  Clé ORDER BY est utilisé pour trier l'ensemble de résultats par ordre croissant ou décroissant
+    Pour trier les enregistrements par ordre décroissant, utilisez le mot clé DESC.
+*/
 
+exports.getAllArticles = (req, res, next) => {
+    let sql = "SELECT groupomania.articles.id_article, title, content, create_at FROM groupomania.articles INNER JOIN users ON articles.users_id_user = users.id_user ORDER BY create_at DESC"; 
+    db.query(sql, function (err, data){
+        if(err){
+            console.log(err)
+            return res.status(400).json({err});
+        }
+        res.json({status: 200, data, message: "Articles affichés !"})
+    });
 };
