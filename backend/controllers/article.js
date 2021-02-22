@@ -10,8 +10,7 @@ exports.createArticle = (req, res, next) => {
 
         let sql = "INSERT INTO groupomania.articles(title, content, users_id_user, image) VALUES (?)";
         
-        let image = (`${req.protocol}://${req.get("host")}/images/${req.file.filename}`);
-        let values = [req.body.title, req.body.content, req.body.users_id_user, image];
+        let values = [req.body.title, req.body.content, req.body.users_id_user, req.file.filename];
     
         db.query(sql, [values], function(err, data, filds){
             console.log(err)
@@ -40,47 +39,54 @@ exports.createArticle = (req, res, next) => {
 
 
 //ajouter id d'article pour supprimerr uniquement un article et pas tout les article
-exports.modifyArticle = (req, res, next) => {
-    
-    if (req.file) {
-        
-        const sql = "UPDATE groupomania.articles SET image = ?  WHERE id_article = ?";
-        
-        console.log(req.file);
+exports.modifyTextArticle = (req, res, next) => {
 
-        const image = req.file.filename;
-        
-        // On supprime l'ancienne image du serveur
-        // const image = imagePath.split('/images/')[1];
-        // fs.unlinkSync(`images/${image}`);
+    if(req.params.id){
 
-        let values = [image, req.body.id_article];
-  
+        const sql = "UPDATE groupomania.articles SET content = ?  WHERE id_article = ?";
+        
+        let values = [req.body.content, req.body.id_article];
         db.query(sql, values, function (err, result) {
-            
             if (err) throw err;
             console.log(result.affectedRows + " record(s) updated");
             return res.status(201).json({ result })
         });
-    }else{
-        
-        //si dans les parametre il y a un id . metre cett paramètre quand je mettrais l'id de l'article
-        if(req.params.id){
-    
-            const sql = "UPDATE groupomania.articles SET content = ?  WHERE id_article = ?";
-         
-            let values = [req.body.content, req.body.id_article];
-            db.query(sql, values, function (err, result) {
-                if (err) throw err;
-                console.log(result.affectedRows + " record(s) updated");
-                return res.status(201).json({ result })
-            });
-        }
-    }
+    };
 
 };
 
-/* 
+exports.delImageArticle = (req, res, next) => {
+
+    const sql = "SELECT groupomania.articles.image from articles WHERE id_article = ? AND users_id_user = ?"
+
+    let values = [req.body.id_article, req.body.users_id_user];
+
+    db.query(sql, values, function (err, result) {
+
+        //Récupération de l'image depuis front-end
+        let image = `images/${result[0].image}`
+        //Si il y a l'image, alors on supprime l'image et on met à jour le BDD
+    if (fs.existsSync(image)) {
+        fs.unlinkSync(image);
+        
+        const sql = "UPDATE groupomania.articles SET image = null WHERE id_article = ? AND users_id_user = ?";
+        let values = [req.body.id_article, req.body.users_id_user];
+        db.query(sql, values, function (err, result){
+
+            if(err){
+                console.log(err);
+                return res.status(404).json({err});
+            }
+        });
+        return res.status(201).json({message: 'Image supprimé !'});
+        }else{
+            return res.status(400).json({message: 'Erreur suppression suppretion d\'image !'});
+        }
+    });
+};
+
+
+/*
     Pour après:
     -implémenter un admin pour supprimer l'article
 */
@@ -99,10 +105,12 @@ exports.delateArticle = (req, res, next) => {
     });
 }
 
+
 // Clé INNER JOIN sélectionne les enregistrements qui ont des valeurs correspondantes dans les deux tables.
 exports.getOneArticle = (req, res, next) => {
-    let sql = "SELECT groupomania.articles.id_article, title, content, create_at, image, users_id_user FROM groupomania.articles INNER JOIN users ON articles.users_id_user = users.id_user WHERE groupomania.articles.content = ?";
-    db.query(sql, [req.params.content], function (err, data, filds){
+    let sql = "SELECT * FROM groupomania.v_getOneArticle WHERE id_user = ?";
+    db.query(sql,[req.body.id_user], function (err, data, filds){
+
         if(err){
             console.log(err)
             return res.status(404).json({err});
@@ -111,11 +119,8 @@ exports.getOneArticle = (req, res, next) => {
     });
 };
 
-/*  Clé ORDER BY est utilisé pour trier l'ensemble de résultats par ordre croissant ou décroissant
-    Pour trier les enregistrements par ordre décroissant, utilisez le mot clé DESC.
-*/
 exports.getAllArticles = (req, res, next) => {
-    let sql = "SELECT groupomania.articles.id_article, title, content, create_at FROM groupomania.articles INNER JOIN users ON articles.users_id_user = users.id_user ORDER BY create_at DESC"; 
+    let sql = "SELECT  * from groupomania.articles";
     db.query(sql, function (err, data){
         if(err){
             console.log(err)
