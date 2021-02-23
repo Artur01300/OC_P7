@@ -3,9 +3,6 @@ const db = require("../services/mysql");
 
 exports.likes = (req, res, next) => {
 
-    let like = 1;
-    let diklike = 0;
-    
     let sql = "INSERT INTO groupomania.likes(likesUserId, likesArticlesIdArticle, like, dislike) VALUES (?)";
     let values = [req.body.likesUserId, req.body.likesArticlesIdArticle, req.body.like];
     db.query(sql, [values], function(err, data, fields) {

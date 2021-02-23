@@ -42,9 +42,7 @@ exports.createArticle = (req, res, next) => {
 exports.modifyTextArticle = (req, res, next) => {
 
     if(req.params.id){
-
         const sql = "UPDATE groupomania.articles SET content = ?  WHERE id_article = ?";
-        
         let values = [req.body.content, req.body.id_article];
         db.query(sql, values, function (err, result) {
             if (err) throw err;
@@ -56,9 +54,7 @@ exports.modifyTextArticle = (req, res, next) => {
 };
 
 exports.delImageArticle = (req, res, next) => {
-
     const sql = "SELECT groupomania.articles.image from articles WHERE id_article = ? AND users_id_user = ?"
-
     let values = [req.body.id_article, req.body.users_id_user];
 
     db.query(sql, values, function (err, result) {
@@ -80,34 +76,44 @@ exports.delImageArticle = (req, res, next) => {
         });
         return res.status(201).json({message: 'Image supprimé !'});
         }else{
-            return res.status(400).json({message: 'Erreur suppression suppretion d\'image !'});
+            return res.status(400).json({message: 'Erreur suppression suppretion image !'});
         }
     });
 };
 
+exports.creatImageArticle = (req, res, next) => {
+
+    let sql = "INSERT INTO groupomania.articles (id_article, image, users_id_user) VALUES (VALUES (?)";
+
+    let values = [req.body.image, req.body.id_article, req.body.users_id_user];
+    db.query(sql, [values], function(err, data, filds){
+        console.log(err)
+        if(err){
+            console.log(err)
+            return res.status(400).json({err});
+        }
+        res.json({status: 201, data, message: 'Image ajouté !'})
+    });
+}
 
 /*
     Pour après:
     -implémenter un admin pour supprimer l'article
 */
 
-
-//arjouté id article pour supprimer uniquement larticle et pas tout les article
 exports.delateArticle = (req, res, next) => {
     let sql = "DELETE FROM groupomania.articles WHERE id_article = ?";
     db.query(sql, [req.body.id_article], function(err, data) {
       
-    if (err) {
-        console.log(err)
-        return res.status(400).json({err});
-    }
+        if (err) {
+            console.log(err)
+            return res.status(400).json({err});
+        }
         res.json({status: 200, data, message: "Article supprimé !"})
     });
 }
 
-
-// Clé INNER JOIN sélectionne les enregistrements qui ont des valeurs correspondantes dans les deux tables.
-exports.getOneArticle = (req, res, next) => {
+exports.getOneArticleFromUser = (req, res, next) => {
     let sql = "SELECT * FROM groupomania.v_getOneArticle WHERE id_user = ?";
     db.query(sql,[req.body.id_user], function (err, data, filds){
 
