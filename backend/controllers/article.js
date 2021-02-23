@@ -9,7 +9,6 @@ exports.createArticle = (req, res, next) => {
     if(req.file){
 
         let sql = "INSERT INTO groupomania.articles(title, content, users_id_user, image) VALUES (?)";
-        
         let values = [req.body.title, req.body.content, req.body.users_id_user, req.file.filename];
     
         db.query(sql, [values], function(err, data, filds){
@@ -82,11 +81,10 @@ exports.delImageArticle = (req, res, next) => {
 };
 
 exports.creatImageArticle = (req, res, next) => {
+    let sql = "UPDATE groupomania.articles SET image = ? WHERE articles.id_article = ? AND articles.users_id_user = ?";
 
-    let sql = "INSERT INTO groupomania.articles (id_article, image, users_id_user) VALUES (VALUES (?)";
-
-    let values = [req.body.image, req.body.id_article, req.body.users_id_user];
-    db.query(sql, [values], function(err, data, filds){
+    let values = [req.file.filename, req.body.id_article, req.body.users_id_user];
+    db.query(sql, values, function(err, data, filds){
         console.log(err)
         if(err){
             console.log(err)

@@ -14,7 +14,7 @@ router.delete('/:id', articleCtrl.delateArticle);//Supprime l'article.
 router.get('/', articleCtrl.getAllArticles);//affiche tout les articles
 router.get('/id', articleCtrl.getOneArticleFromUser);//afficher uniquement tout les article d'un seul utilisateur
 
-router.post('/:id', multer, articleCtrl.delImageArticle);//Suprime uniquement l'image de l'article.
-router.post('/:id', multer, articleCtrl.creatImageArticle);//Création uniquement l'image de l'article.
+router.post('/delImg', multer, articleCtrl.delImageArticle);//Suprime uniquement l'image de l'article.
+router.post('/addImg', multer, articleCtrl.creatImageArticle);//Création uniquement l'image de l'article.
 
 module.exports = router;

@@ -8,5 +8,4 @@ const Articles = function (articles) {
 };
   
 
-
 module.exports = Articles;
