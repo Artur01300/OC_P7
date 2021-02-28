@@ -1,6 +1,5 @@
 const Articles = require("../models/Article");
-var db = require("../services/mysql");
-const jwt = require('jsonwebtoken');
+const db = require("../services/mysql");
 
 const fs = require('fs');
 
@@ -112,24 +111,38 @@ exports.delateArticle = (req, res, next) => {
 }
 
 exports.getOneArticleFromUser = (req, res, next) => {
-    let sql = "SELECT * FROM groupomania.v_getOneArticle WHERE id_user = ?";
-    db.query(sql,[req.body.id_user], function (err, data, filds){
-
-        if(err){
-            console.log(err)
-            return res.status(404).json({err});
+    Articles.getOne(id_user, (err, data) => {
+        if (err) {
+           console.log(err)
+        }else{
+            data.forEach(element =>{
+               let userId = element.id_user;
+               console.log(userId)
+            })
+            res.json({status: 200, data, message: "Articles affichés !"})
         }
-        res.json({status: 200, data, message: "Article affiché !"})
     });
+
 };
 
+// exports.getOneArticleFromUser = (req, res, next) => {
+//     let sql = "SELECT * FROM groupomania.v_getOneArticle WHERE id_user = ?";
+//     db.query(sql,[req.body.id_user], function (err, data, filds){
+
+//         if(err){
+//             console.log(err)
+//             return res.status(404).json({err});
+//         }
+//         res.json({status: 200, data, message: "Article affiché !"})
+//     });
+// };
+
 exports.getAllArticles = (req, res, next) => {
-    let sql = "SELECT  * from groupomania.articles";
-    db.query(sql, function (err, data){
+    Articles.getAll((err, data) => {
         if(err){
-            console.log(err)
-            return res.status(400).json({err});
+            return res.status(500).json({err: 'Erreur du serveur'});
+        }else{
+            res.json({status: 200, data, message: "Articles affichés !"})
         }
-        res.json({status: 200, data, message: "Articles affichés !"})
     });
 };
