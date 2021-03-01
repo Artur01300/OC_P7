@@ -22,26 +22,20 @@
           </div>
         </div>
         <div class="col-8 col-md-4 col-lg-3">    
-          <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <div>
+            <div>
+              <p>
                   Paramètres de compte
-                </button>
-              </h2>
+              </p>
             </div>
-            <div id="collapseOne" class="accordion-collapse collapse hide" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                <div class="dropdown__content__text">
-                  <label for="donlaudPhotoProfile" class="custom-file-upload" id="labelChangeAvatar" tabindex="-1" >
-                    <img src="../assets/images/avatar.jpg" width="45" height="45">
-                    <input type="file" id="donlaudPhotoProfile" name="image" />
-                  </label>
-                  <a href="#" tabindex="0">Déconnexion</a>
-                  <a href="#" tabindex="0">Supprimer le compte</a>
-                </div> 
-              </div>
-            </div>
+    
+            <label for="donlaudPhotoProfile" class="custom-file-upload" id="labelChangeAvatar" tabindex="-1" >
+              <img src="../assets/images/avatar.jpg" width="45" height="45">
+              <input type="file" id="donlaudPhotoProfile" name="image" />
+            </label>
+            <a href="#" tabindex="0">Déconnexion</a>
+            <a href="#" tabindex="0">Supprimer le compte</a>
+          
           </div>
         </div>
       </div>

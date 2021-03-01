@@ -110,19 +110,16 @@ exports.delateArticle = (req, res, next) => {
     });
 }
 
-exports.getOneArticleFromUser = (req, res, next) => {
-    Articles.getOne(id_user, (err, data) => {
+exports.getOneArticleFromUser = (req, res) => {
+   
+    Articles.getOne(req.params.idUser, (err, data) => {
         if (err) {
            console.log(err)
         }else{
-            data.forEach(element =>{
-               let userId = element.id_user;
-               console.log(userId)
-            })
+            console.log(data)
             res.json({status: 200, data, message: "Articles affichés !"})
         }
     });
-
 };
 
 // exports.getOneArticleFromUser = (req, res, next) => {

@@ -16,21 +16,19 @@ exports.signup = (req, res, next) => {
       email: req.body.email,
       password: hach
     });
-  
     let sql = "INSERT INTO groupomania.users(name, email, password) VALUES (?)";
     let values = [user.name, user.email, user.password];
     
     db.query(sql, [values], function (err, result) {
       if (err)
         throw err;
+        // res.status(401).json({error: 'Adress email existe dèjà!' + result.affectedRows});
         console.log("Nombre d'utilisateur créé: " + result.affectedRows);
     });
   })
   .then(()=> res.status(201).json())//Pour éviter le speaneur
   .catch(error => res.status(500).json({error}));
 };
-
-
 
 //Login permet de connecter aux users exictent 
 exports.login = (req, res, next) => {
