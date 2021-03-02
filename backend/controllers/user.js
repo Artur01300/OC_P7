@@ -7,30 +7,29 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
-exports.signup = (req, res, next) => {
+exports.createAccount = (req, res, next) => {
+  bcrypt
+  .hash(req.body.password, 10) //password hashing
+  .then((hash) => {
+    //Créatin d'un user depuit inputs
+  const user = new User({
+    name: req.body.name,
+    email: req.body.email,
+    password: hash,
+  });
 
-  bcrypt.hash(req.body.password, 10)
-  .then(hach => {
-    const user = new User({
-      name : req.body.name,
-      email: req.body.email,
-      password: hach
+  // Sauvgard de user dans db
+  User.signup(user, (err, data) => {
+    if (err)
+      res.status(500).send({
+      message: err.message + "|" + " Cette adresse  e-mail est déjà utilisée !",
     });
-    let sql = "INSERT INTO groupomania.users(name, email, password) VALUES (?)";
-    let values = [user.name, user.email, user.password];
-    
-    db.query(sql, [values], function (err, result) {
-      if (err)
-        throw err;
-        // res.status(401).json({error: 'Adress email existe dèjà!' + result.affectedRows});
-        console.log("Nombre d'utilisateur créé: " + result.affectedRows);
+    else res.send(data);
     });
-  })
-  .then(()=> res.status(201).json())//Pour éviter le speaneur
-  .catch(error => res.status(500).json({error}));
+  });
 };
 
-//Login permet de connecter aux users exictent 
+
 exports.login = (req, res, next) => {
   
   let sql = "SELECT * FROM groupomania.users WHERE email = ?";

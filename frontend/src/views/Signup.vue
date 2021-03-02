@@ -41,7 +41,7 @@
                 axios.post("http://localhost:3000/api/auth/signup", this.form)
                .then(function(response) {
                     console.log(response);
-                    window.location.href = "/home";
+                    // window.location.href = "/home";
                 })
                 .catch(err => (console.log(err)))
             }

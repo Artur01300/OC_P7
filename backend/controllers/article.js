@@ -1,4 +1,4 @@
-const Articles = require("../models/Article");
+const Article = require("../models/Article");
 const db = require("../services/mysql");
 
 const fs = require('fs');
@@ -111,8 +111,9 @@ exports.delateArticle = (req, res, next) => {
 }
 
 exports.getOneArticleFromUser = (req, res) => {
-   
-    Articles.getOne(req.params.idUser, (err, data) => {
+   console.log(req.params)
+    Article.getOne(req.params.idUser, (err, data) => {
+
         if (err) {
            console.log(err)
         }else{

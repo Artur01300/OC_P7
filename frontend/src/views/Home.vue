@@ -33,7 +33,7 @@
               <img src="../assets/images/avatar.jpg" width="45" height="45">
               <input type="file" id="donlaudPhotoProfile" name="image" />
             </label>
-            <a href="#" tabindex="0">Déconnexion</a>
+            <router-link to="/login">Déconnexion</router-link> |
             <a href="#" tabindex="0">Supprimer le compte</a>
           
           </div>
