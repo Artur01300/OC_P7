@@ -31,9 +31,9 @@ exports.createAccount = (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
-  
   let sql = "SELECT * FROM groupomania.users WHERE email = ?";
   db.query(sql, [req.body.email], function(err, data, result){
+    //console.error(err);
     if(data.length === 0){//si on n'a pas trouver les user on envoie le 401 pour dire non autorisé
       return res.status(401).json({error: 'Utilisateur non trouvé !'});
     }

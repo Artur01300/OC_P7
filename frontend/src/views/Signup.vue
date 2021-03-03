@@ -24,7 +24,14 @@
     import axios from "axios";
    
     export default {
+        //dans l'objet de configuration on déclar ou vas s'atacher l'application vue (el: '#Signup')
         name: "Signup",
+
+        /*
+            propriété « data » qui a comme valeur un objet,
+            stocker les données afin de pouvoir les réutiliser et effectuer des actions pour l'utilisateur.
+            Elle peut accepter n'importe quelle paire clé - valeur (clé - message, valeur - Hello ?)
+        */
         data(){
             return {
                 form:{
@@ -35,17 +42,17 @@
 
             }
         },
+          //le methodes est un fonction réutilisable
         methods:{
             sentSubmit(){
                 
                 axios.post("http://localhost:3000/api/auth/signup", this.form)
                .then(function(response) {
                     console.log(response);
-                    // window.location.href = "/home";
+                    window.location.href = "/home";
                 })
                 .catch(err => (console.log(err)))
             }
         }
     }
-
 </script>
