@@ -1,9 +1,63 @@
-import { createApp } from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import createPersistedState from 'vuex-persistedstate'
+import Vuex from 'vuex'
 
 // Import Bootstrap an BootstrapVue CSS files
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-createApp(App).use(router).mount('#app')
+//Configuration de Vee-Validate pour la validation des inputs du login et du signup
+import { ValidationProvider, extend } from "vee-validate"
+import { required, email } from "vee-validate/dist/rules"
+import { ValidationObserver } from "vee-validate"
+
+extend("required", {
+    ...required,
+    message: "Ce champ est obligatoire"
+})
+extend("email", {
+    ...email,
+    message: "Cet email n'est pas valide"
+})
+extend('minmax', {
+    validate(value, { min, max }) {
+        return value.length >= min && value.length <= max;
+    },
+    params: ['min', 'max'],
+    message: "Ce champ a trop ou pas assez de caractères"
+})
+
+Vue.use(Vuex)
+Vue.component('ValidationProvider', ValidationProvider)
+Vue.component('ValidationProvider', ValidationObserver)
+
+const store = new Vuex.Store({
+    plugins: [createPersistedState],
+    state: {
+        id_user: null,
+        token: null
+    },
+    mutations: {
+        setid_user(state, id_user) {
+            state.id_user = id_user;
+        },
+        setToken(state, token) {
+            state.token = token;
+        }
+    },
+    actions: {},
+    getters: {
+        isLoggedIn(state) {
+            return !!state.token;
+        }
+    }
+})
+
+new Vue({
+    router,
+    store: store,
+    render: h => h(App)
+}).$mount('#app')
+

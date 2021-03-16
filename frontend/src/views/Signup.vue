@@ -1,58 +1,90 @@
 <template>
-   <div class="container">
+   <div v-if="!submitted" class="container">
         <div class="main wrapper">
             <h1>Inscrivez vous Forum</h1>
-            <div class="main-agileinfo">
-                <div class="agileits-top">
-                    <form v-on:submit.prevent="sentSubmit">
-                        <input class="text" type="text" name="name" v-model="form.name" placeholder="Nom" required="">
-                        <input class="text email" type="email" name="email" v-model="form.email" placeholder="Email" required="">
-                        <input class="text" type="password" name="password" v-model="form.password" placeholder="Mot de passe" required="">
-                        <input class="text w3lpass" type="password" name="password" v-model="form.password_confirm" placeholder="Confirmez votre mot de passe" required="">
-                        <div class="wthree-text">
-                            <!-- <div class="clear"></div> -->
-                        </div>
-                        <input type="submit" value="Inscription">
-                    </form>
-                </div>
+            <div v-if="!submitted" class="main-agileinfo">
+              <div class="agileits-top">
+                <!--Vee-Validate: ValidationObserver pour suspendre la soumission du formulaire à l'existence ou non d'erreurs-->
+                <ValidationObserver v-slot="{ invalid, handleSubmit }">
+                  <form @submit.prevent="handleSubmit(createUser)">
+
+                    <ValidationProvider name="user.name" rules="required|minmax:3,10">
+                    <input type="text" placeholder="Name" require v-model="user.name"  name="name"><br>
+                    <p class="error">{{ errors[0] }}</p>
+                    </ValidationProvider>
+
+                    <ValidationProvider name="user.email" rules="required|email">
+                    <input type="text" placeholder="Email" required  v-model="user.email" name="email"><br>
+                    <p class="error">{{ errors[0] }}</p>
+                    </ValidationProvider>
+
+                    <ValidationProvider name="user.password" rules="required|minmax:3,10">
+                    <input type="password" minlength="6" maxlength="10" required v-model="user.password"><br>
+                    <p class="error">{{ errors[0] }}</p>
+                    </ValidationProvider>
+
+                    <input id="signup-btn" type="submit" v-bind:disabled="invalid">
+                    
+                  </form>
+                </ValidationObserver>
+              </div>
             </div>
         </div>    
     </div>
 </template>
 
 <script>
-    import axios from "axios";
-   
-    export default {
-        //dans l'objet de configuration on déclar ou vas s'atacher l'application vue (el: '#Signup')
-        name: "Signup",
 
-        /*
-            propriété « data » qui a comme valeur un objet,
-            stocker les données afin de pouvoir les réutiliser et effectuer des actions pour l'utilisateur.
-            Elle peut accepter n'importe quelle paire clé - valeur (clé - message, valeur - Hello ?)
-        */
-        data(){
-            return {
-                form:{
-                    name: "",
-                    email : "",
-                    password : ""
-                }
 
-            }
-        },
-          //le methodes est un fonction réutilisable
-        methods:{
-            sentSubmit(){
-                
-                axios.post("http://localhost:3000/api/auth/signup", this.form)
-               .then(function(response) {
-                    console.log(response);
-                    window.location.href = "/home";
-                })
-                .catch(err => (console.log(err)))
-            }
-        }
+import UserUrl from "../service/UserUrl"
+import { mapMutations } from 'vuex'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
+
+export default {
+
+  name: 'Signup',
+  components: {
+    ValidationProvider, ValidationObserver
+  },
+  data (){
+    return {
+      user:{
+        name: "",
+        email: "",
+        password: ""
+      },
+      submitted: false,
+      errors: []
     }
+  },
+  methods: {
+     ...mapMutations([
+       'setid_user',
+       'setToken'
+     ]),
+    /**
+    *Fonction de création d'un nouvel utilisateur
+    * @param {Object} data - Données de l'utilisateur
+    */
+    createUser(){
+      let data = {
+        name: this.user.name,
+        email: this.user.email,
+        password: this.user.password
+      };
+      //lance la requête Axios POST
+      UserUrl.signup(data)
+      .then(response =>{
+        console.log(response.data);
+        this.setid_user(response.data.id_user);
+        this.setToken(response.data.token);
+        this.submitted = true;
+        //  window.location.href = "/";
+        this.$router.push('/');
+      })
+      .catch(error => console.log(error));
+    }
+  }
+}
+
 </script>

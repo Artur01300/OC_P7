@@ -61,16 +61,16 @@
         <footer class="card-footer">
           <div class="like-dislikes">
             <div class="like-dislikes--likes">
-              <i class="material-icons" tabindex="0">thumb_up</i>
-              <span class="likes__counter">4</span>
+              <i class="far fa-thumbs-up" tabindex="0"></i>
+              <span class="likes__counter"> 2</span>
             </div>
             <div class="like-dislikes--dislikes">
-              <i class="material-icons" tabindex="0">thumb_down</i>
-              <span class="likes__counter">4</span>
+              <i class="far fa-thumbs-down" tabindex="0"></i>
+              <span class="likes__counter"> 4</span>
             </div>
             <div class="comments">
-              <i class="material-icons" tabindex="0">chat_bubble</i>
-              <span class="commentsCounter">4</span>
+              <i class="far fa-comments" tabindex="0"></i>
+              <span class="commentsCounter"> 4</span>
             </div>
           </div>
         </footer>

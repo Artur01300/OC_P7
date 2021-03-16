@@ -22,9 +22,9 @@
         </svg>
         <div id="nav">
           <!-- router-link se charge de la navigation -->
-          <router-link to="/">Home</router-link> |
-          <router-link to="/login">Login</router-link> |
-          <router-link to="/signup">Signup</router-link>
+          <router-link to="/">Login</router-link> |
+          <router-link to="/signup">Signup</router-link> |
+          <router-link to="/home">Home</router-link>
         </div>
       </header>
     </div>
