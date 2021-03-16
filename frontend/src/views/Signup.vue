@@ -1,5 +1,5 @@
 <template>
-   <div v-if="!submitted" class="container">
+   <div class="container">
         <div class="main wrapper">
             <h1>Inscrivez vous Forum</h1>
             <div v-if="!submitted" class="main-agileinfo">
@@ -9,18 +9,24 @@
                   <form @submit.prevent="handleSubmit(createUser)">
 
                     <ValidationProvider name="user.name" rules="required|minmax:3,10">
-                    <input type="text" placeholder="Name" require v-model="user.name"  name="name"><br>
-                    <p class="error">{{ errors[0] }}</p>
+                      <div slot-scope="{ errors }">
+                        <input type="text" placeholder="Name" require v-model="user.name"  name="name"><br>
+                        <p class="error">{{ errors[0] }}</p>
+                      </div>
                     </ValidationProvider>
 
                     <ValidationProvider name="user.email" rules="required|email">
-                    <input type="text" placeholder="Email" required  v-model="user.email" name="email"><br>
-                    <p class="error">{{ errors[0] }}</p>
+                      <div slot-scope="{ errors }">
+                        <input type="text" placeholder="E-mail" required  v-model="user.email" name="email"><br>
+                        <p class="error">{{ errors[0] }}</p>
+                      </div>
                     </ValidationProvider>
 
                     <ValidationProvider name="user.password" rules="required|minmax:3,10">
-                    <input type="password" minlength="6" maxlength="10" required v-model="user.password"><br>
-                    <p class="error">{{ errors[0] }}</p>
+                      <div slot-scope="{ errors }">
+                        <input type="password" placeholder="Password" minlength="6" maxlength="10" required v-model="user.password"><br>
+                        <p class="error">{{ errors[0] }}</p>
+                      </div>
                     </ValidationProvider>
 
                     <input id="signup-btn" type="submit" v-bind:disabled="invalid">
@@ -54,6 +60,7 @@ export default {
         password: ""
       },
       submitted: false,
+      foundError: false,
       errors: []
     }
   },
@@ -79,10 +86,13 @@ export default {
         this.setid_user(response.data.id_user);
         this.setToken(response.data.token);
         this.submitted = true;
-        //  window.location.href = "/";
         this.$router.push('/');
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        if(error.response.status === 500){
+          alert('Cette adresse e-mail exite déjà !')
+        }
+      });
     }
   }
 }

@@ -5,6 +5,7 @@ import createPersistedState from 'vuex-persistedstate'
 import Vuex from 'vuex'
 
 // Import Bootstrap an BootstrapVue CSS files
+import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -15,23 +16,26 @@ import { ValidationObserver } from "vee-validate"
 
 extend("required", {
     ...required,
-    message: "Ce champ est obligatoire"
+    message: "Remplire ce champ SVP !"
 })
 extend("email", {
     ...email,
-    message: "Cet email n'est pas valide"
+    message: "Cet E-mail n'est pas valide !"
 })
 extend('minmax', {
     validate(value, { min, max }) {
         return value.length >= min && value.length <= max;
     },
     params: ['min', 'max'],
-    message: "Ce champ a trop ou pas assez de caractères"
+    message: "Le mot de passe doit contenir au moins 6 caractères !"
 })
 
+Vue.use(BootstrapVue)
 Vue.use(Vuex)
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationProvider', ValidationObserver)
+
+Vue.config.productionTip = false
 
 const store = new Vuex.Store({
     plugins: [createPersistedState],
