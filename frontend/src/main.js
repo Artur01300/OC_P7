@@ -14,6 +14,7 @@ import { ValidationProvider, extend } from "vee-validate"
 import { required, email } from "vee-validate/dist/rules"
 import { ValidationObserver } from "vee-validate"
 
+//Permet d'afficher les message si les inputes sont mal romplies
 extend("required", {
     ...required,
     message: "Remplire ce champ SVP !"
@@ -37,6 +38,7 @@ Vue.component('ValidationProvider', ValidationObserver)
 
 Vue.config.productionTip = false
 
+//toutes ces informations sont conservées dans le store Vuex qui détermine les roles et les autorisations du users)
 const store = new Vuex.Store({
     plugins: [createPersistedState],
     state: {

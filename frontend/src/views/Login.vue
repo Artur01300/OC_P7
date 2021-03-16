@@ -1,64 +1,89 @@
 <template>
     <div class="container">
-        <div class="login-page">
-            <div class="form">
-              <!--  @submit.prevent="login" pour accéder aux éléments du formulaire -->
-              <form class="form-signin" @submit.prevent="login">
-                <h2 class="form-signin-heading">Connectez-vous...</h2>
+      <div v-if="!submitted" class="form">
+        <ValidationObserver v-slot="{ invalid, handleSubmit }">
+          <form class="form-signin" @submit.prevent="handleSubmit(loginSubmit)">
+            <h2 class="form-signin-heading">Connectez-vous...</h2>
 
-                <!-- v-model crée une liaison de données sur les champs de formulaire -->
-                <label for="inputEmail" class="sr-only">Email address</label>
-                <input  v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            <!-- v-model crée une liaison de données sur les champs de formulaire -->
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <ValidationProvider name="user.email" rules="required|email">
+              <div slot-scope="{ errors }">
+                <input  v-model="email" type="email" class="form-control" placeholder="Email address" required autofocus>
+                <p class="error">{{ errors[0] }}</p>
+              </div>
+            </ValidationProvider>
 
-                <label for="inputPassword" class="sr-only">Mot de passe</label>
-                <input v-model="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Conncetion</button>
-                <p class="message">Vous n'êtes pas inscrit ? <router-link to="/signup">Create an account</router-link></p>
-              </form>
-            </div>
-        </div> 
+            <label for="password" class="sr-only">Mot de passe</label>
+             <ValidationProvider name="user.password" rules="required|minmax:3,10">
+                <div slot-scope="{ errors }">
+                  <input v-model="password" type="password" class="form-control" placeholder="Password" required>
+                  <p class="error">{{ errors[0] }}</p>
+                </div>
+             </ValidationProvider>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit" v-bind:disabled="invalid">Conncetion</button>
+            <p class="message">Vous n'êtes pas inscrit ? <router-link to="/signup">Create an account</router-link></p>
+        </form>
+        <p>{{ errorMessage }}</p>
+      </ValidationObserver>
     </div>
+  </div> 
 </template>
 
 <script>
 
-import axios from 'axios'
+import UserUrl from "../service/UserUrl"
+import { mapMutations } from 'vuex'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
+
 
 export default {
   name: 'Login',
+  components: {
+    ValidationProvider, ValidationObserver
+  },
   data () {
     return {
       //je récupère les valeur des chmps de formulaire grâca à v-model-valeur
       email: '',
-      password: ''
+      password: '',
+      submitted: false,
+      errorMessage: ""
     }
   },
   methods: {
-    login () {
-      axios.post('http://localhost:3000/api/auth/login', { email: this.email, password: this.password })
-      .then(request => this.loginSuccessful(request))
-      .catch(() => this.loginFailed())
-    },
-    /*
-    Quoi qu'il en soit, nous disons à axios que la promesse qu'elle renvoie doit être appelée loginSuccessfulavec 
-    l'objet request si tout se passe bien, et si elle ne le fait pas, elle loginFailed doit être appelée
+    // utilisant la fonction utilitaire mapMutations qui attache les méthodes du composant aux appels de store
+    ...mapMutations([
+      'setid_user',
+      'setToken'
+    ]),
+    /**
+      *Fonction de connexion d'un user existant
+      * @param {Object} data - Email et password du user
     */
-    loginSuccessful (req) {
-
-      //si l'adresse email et mot de passe sonc correct on rédirection ver la  page prancipale
-      window.location.href = "/home";
-      if (!req.data.token) {
-        this.loginFailed()
-        return
+    loginSubmit(){
+      let data = {
+        email: this.email,
+        password: this.password
       }
-      localStorage.token = req.data.token
-      this.error = false
-    },
-    loginFailed () {
-      alert('Mot de pass ou adresse e-mail incorrecte')
-      this.error = 'Login failed!'
-      delete localStorage.token
+      UserUrl.login(data)
+        .then(response => {
+        this.setid_user(response.data.id_user);
+        this.setToken(response.data.token);
+        this.submitted = true;
+        this.$router.push('/home');
+      })
+      .catch(error => {
+        console.log(error);
+        if (error.response.status === 401) {
+          this.errorMessage = "Adresse e-mail ou mot de passe invalide !";
+        } else if (error.response.status === 429) {
+          this.errorMessage = "Vous avez dépassé le nombre maximal de tentatives, merci de réessayer ultérieurement.";
+        } else if (error.response.status === 404) {
+          this.errorMessage = "Cet email est invalide ou ne correspond à aucun utilisateur connu.";
+        }
+      })
     }
   }
 }

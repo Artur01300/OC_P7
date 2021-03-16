@@ -6,6 +6,7 @@
               <div class="agileits-top">
                 <!--Vee-Validate: ValidationObserver pour suspendre la soumission du formulaire à l'existence ou non d'erreurs-->
                 <ValidationObserver v-slot="{ invalid, handleSubmit }">
+                  <!-- v-on:submit.preventl'évènement `submit` ne rechargera plus la page -->
                   <form @submit.prevent="handleSubmit(createUser)">
 
                     <ValidationProvider name="user.name" rules="required|minmax:3,10">
@@ -65,6 +66,7 @@ export default {
     }
   },
   methods: {
+    //Utilisation de Vuex pour déterminer les rôles
      ...mapMutations([
        'setid_user',
        'setToken'
