@@ -55,7 +55,7 @@ export default {
   methods: {
     // utilisant la fonction utilitaire mapMutations qui attache les méthodes du composant aux appels de store
     ...mapMutations([
-      'setid_user',
+      'setUserName',
       'setToken'
     ]),
     /**
@@ -63,26 +63,26 @@ export default {
       * @param {Object} data - Email et password du user
     */
     loginSubmit(){
-      let data = {
+      var data = {
         email: this.email,
         password: this.password
       }
       UserUrl.login(data)
         .then(response => {
-        this.setid_user(response.data.id_user);
+        this.setUserName(response.data.userName);
         this.setToken(response.data.token);
         this.submitted = true;
         this.$router.push('/home');
       })
       .catch(error => {
         console.log(error);
-        if (error.response.status === 401) {
-          this.errorMessage = "Adresse e-mail ou mot de passe invalide !";
-        } else if (error.response.status === 429) {
-          this.errorMessage = "Vous avez dépassé le nombre maximal de tentatives, merci de réessayer ultérieurement.";
-        } else if (error.response.status === 404) {
-          this.errorMessage = "Cet email est invalide ou ne correspond à aucun utilisateur connu.";
-        }
+        // if (error.response.status === 401) {
+        //   this.errorMessage = "Adresse e-mail ou mot de passe invalide !";
+        // } else if (error.response.status === 429) {
+        //   this.errorMessage = "Vous avez dépassé le nombre maximal de tentatives, merci de réessayer ultérieurement.";
+        // } else if (error.response.status === 404) {
+        //   this.errorMessage = "Cet email est invalide ou ne correspond à aucun utilisateur connu.";
+        // }
       })
     }
   }

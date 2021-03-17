@@ -42,12 +42,12 @@ Vue.config.productionTip = false
 const store = new Vuex.Store({
     plugins: [createPersistedState],
     state: {
-        id_user: null,
-        token: null
+        idUser: null,
+        token: null,
     },
     mutations: {
-        setid_user(state, id_user) {
-            state.id_user = id_user;
+        setUserName(state, idUser) {
+            state.idUser = idUser;
         },
         setToken(state, token) {
             state.token = token;

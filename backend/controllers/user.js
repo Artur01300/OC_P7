@@ -65,6 +65,18 @@ Pour après:
   -implémnter un admin pour supprimer l'outilisateur
 */
 
+//
+
+exports.getOneUser = (req, res, next) => {
+  let sql = "SELECT users.id_user, users.name, users.email FROM groupomania.users where users.id_user = ?";
+  db.query(sql,[req.body.id_user], function (err, data, filds){
+    console.log(req.body.id_user)
+    if(err){
+      return res.status(404).json({err});
+    }
+    res.json({status: 200, data, message: "User affiché !"})
+  });
+}
 
 //Problème de suppression d'un user
 exports.deltAccount = (req, res, next) => {

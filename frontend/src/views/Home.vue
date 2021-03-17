@@ -1,83 +1,163 @@
 <template>
-  <div class="container">
-        
-    <div class="card-paramsCompt">
-      <div class="row">
-        <div class="col-12 col-md-8 col-lg-9">
-          <div class="card-header">
-            <img src="../assets/images/avatar.jpg" width="45" height="45">
-          </div>
-
-          <div class="card-body">
-            <form>
-                <textarea class="form-control autoExpand" placeholder="On vous écoute!" name="post" rows="6" data-min-rows='1' required></textarea> 
-            </form>
-            <div class="card-footer">
-              <label for="image" class="custom-file-upload" id="labelImage" tabindex="-1" >
-                <i class="material-icons" tabindex="-1">insert_photo</i>
-                <input type="file" name="image" accept="image/*" onfocus="focusBtnImg()" onblur="blurBtnImg()" tabindex="0" />
-              </label>
-            </div>
-            <input class="btn btn-default" type="submit" value="Submit">
-          </div>
+  <main>
+    <div class="introPage">
+      <!--Si le user est connecté, les liens vers les plateformes sont disponibles et cliquables-->
+      <section v-if="isLoggedIn" class="container jumbotron text-center intro">
+        <div>
+          <h1>Bienvenue sur Groupomania, le réseau social de votre entreprise !</h1>
         </div>
-        <div class="col-8 col-md-4 col-lg-3">    
-          <div>
-            <div>
-              <p>
-                  Paramètres de compte
-              </p>
-            </div>
-    
-            <label for="donlaudPhotoProfile" class="custom-file-upload" id="labelChangeAvatar" tabindex="-1" >
-              <img src="../assets/images/avatar.jpg" width="45" height="45">
-              <input type="file" id="donlaudPhotoProfile" name="image" />
-            </label>
-            <router-link to="/login">Déconnexion</router-link> |
-            <a href="#" tabindex="0">Supprimer le compte</a>
-          
+        <div class='row text-center'>
+          <div class="card col-4 col-sm-5">
+              <h2>Partagez vos articles préférés</h2>
+              <span class="card__icon"><i class="fas fa-newspaper"></i></span>
+              <router-link to="/articles" aria-label="Lien vers la plateforme d'articles"><button class="btn btn-primary card__btn">Accès au Forum Groupomania Articles</button></router-link>
           </div>
+          <router-view />
+        </div>
+      </section>
+
+      <!--Si le user n'est pas connecté, les liens vers les plateformes ne sont pas disponibles, ils renvoient le user au la page de connexion/inscription via le "CallToLogin"-->
+      <section v-else class="container jumbotron text-center intro">
+        <h1 class="intro__title">Bienvenue sur Groupomania, le réseau social de votre entreprise !</h1>
+        <div class='row intro__box text-center'>
+            <div class="card col-12 col-sm-5 intro__articles">
+                <h2 class="card__title">Partagez vos articles préférés</h2>
+                <span><i class="fas fa-newspaper"></i></span>
+                <button @click="InLogin">Accès au Forum Groupomania Articles</button>
+            </div>
+        </div>
+      </section>
+
+        <!--Importation du component CallToLogin-->
+      <InLogin v-if="loginCalled" />
+
+      <div> 
+        <!--Importation du component Identification-->
+        <UserIdentification
+        :logout="logout"
+        :isLoggedIn="isLoggedIn"
+          />
+        <div class="info">
+            <!--Si le user est connecté et non-administrateur, l'icône de son compte s'afficher-->
+            <button v-if="isLoggedIn"  @click="showAccount"><i class="fas fa-user"></i> Votre compte</button>
         </div>
       </div>
-    </div>
 
-    <div class="card-paramsCompt">
-      <article class="card">
-        <header class="card-header">
-          <img src="../assets/images/avatar.jpg" width="45" height="45">
-          <div class="card-title">Pseudo users</div>
-          <div class="card-date">Il y a 10 Minutes</div>
-        </header>
-        <div class="card-body">
-          <p>
-            <img src="../assets/images/image-de-presentation.jpg" class="img-fluid" alt="Responsive image">
-          </p>
-          <p>
-            Découvert petit à petit par le public dans l'émission La Classe en 1991, 
-            il interprète plusieurs one-man-shows. En octobre 2000, il devient présentateur du jeu
-            télévisé Les Z'amours, sur France 2. Il reste aux commandes du jeu pendant dix-sept ans,
-          </p>
-        </div>
-        <footer class="card-footer">
-          <div class="like-dislikes">
-            <div class="like-dislikes--likes">
-              <i class="far fa-thumbs-up" tabindex="0"></i>
-              <span class="likes__counter"> 2</span>
-            </div>
-            <div class="like-dislikes--dislikes">
-              <i class="far fa-thumbs-down" tabindex="0"></i>
-              <span class="likes__counter"> 4</span>
-            </div>
-            <div class="comments">
-              <i class="far fa-comments" tabindex="0"></i>
-              <span class="commentsCounter"> 4</span>
-            </div>
-          </div>
-        </footer>
-      </article>
-    </div>
-  </div>
+      <!--Ecran qui détaille les données du compte-->
+      <div v-if="accountAsked">
+        <span><i class="fas fa-user"></i></span>
+        <h3>Détails de votre compte</h3>
+        <p>Pseudo : {{ name }}</p>
+        <p>Email: {{ email }}</p>
+        <button class="btn account__btn" @click="confirmDelete"><i class="far fa-trash-alt"></i> Supprimer votre compte</button>
+        <button class="btn account__btn" @click="hideAccount"><i class="fas fa-arrow-left"></i> Retour</button>
+      </div>
+      <!--Ecran qui demande confirmation pour la suppression du compte-->
+      <div v-if="confirmation" class="confirmSuppress">
+        <p>Etes-vous sûr de vouloir supprimer votre compte ? Toute suppression est définitive.</p>
+        <button type= "button" @click="suppressUser">Supprimer</button>
+        <button type= "button" @click="refreshPage">Annuler</button>
+      </div>
+    </div> 
+  </main>
 </template>
+
+
+<script>
+
+import UserIdentification from "../components/UserIdentification"
+import InLogin from "../components/InLogin"
+import UserUrl from "../service/UserUrl"
+import { mapGetters, mapState } from 'vuex'  
+    
+export default {
+	name: "Home",
+	components: {
+  InLogin, UserIdentification
+	},
+	data() {
+  return {
+      loginCalled: false,
+      accountAsked: false,
+      email: "",
+      name: "",
+      confirmation: false
+    }
+  },
+	computed: {
+    //Utilisation de Vuex pour déterminer les rôles et les autorisations du user (toutes ces informations étant conservées dans le store Vuex)
+    ...mapGetters(['isLoggedIn']),
+    ...mapState({ idUser: "idUser"}),
+    ...mapState({ token: "token"})
+	},
+	methods: {
+    //Fonction d'appel du component CallToLogin
+    InLogin() {
+      if (this.isLoggedIn == false) {
+          this.loginCalled = true;
+      }
+    },
+    //Fonction de déconnexion
+    logout() {
+      this.$store.commit("logout");
+      this.$router.push({ path: "/" });
+      localStorage.clear();
+    },
+    //Fonction d'affichage des données du user courant
+    showAccount() {
+        this.accountAsked = true
+    },
+    //Fonction de masquage des données du compte
+    hideAccount() {
+      this.accountAsked = false
+    },
+    /**
+    *Fonction de récupération des données du user courant via une requête Axios GET
+    * @param {Number} idUser
+    * @return {Object} currentUser
+    */
+   showUser() {
+     UserUrl.getCurrentUser(this.idUser) 
+      .then(response => {
+        this.currentUser = JSON.parse(JSON.stringify(response.data.data[0]));
+        this.name = this.currentUser.name,
+        this.email = this.currentUser.email,
+        console.log(this.name, this.email);
+
+      })
+      .catch(error => console.log(error));
+    },
+    /**
+    *Fonction de suppression du compte user courant via une requête Axios DELETE
+    * @param {Number} idUser
+    */
+    suppressUser() {
+    UserUrl.deleteUser(this.idUser) 
+      .then(response => {
+        console.log(response.data);
+        this.isLoggedIn = false;
+        this.logout();
+        this.refreshPage();
+      })
+      .catch(error => console.log(error));
+    },
+    //Fonction d'affichage de la demande de confirmation de suppression
+    confirmDelete() {
+      return (this.confirmation = true);
+    },
+    //Fonction de rafraîchissement de la page
+    refreshPage() {
+      this.$router.push({ path: "/" });
+      this.hideAccount();
+      this.confirmation = false;
+    },
+	},
+    //Déclenchement de la récupération des données du user au moment du rendu de la page 
+    mounted() {
+      this.showUser(this.idUser);
+    },
+}
+</script>
 
 <style>
 
