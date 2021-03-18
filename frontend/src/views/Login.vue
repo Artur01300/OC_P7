@@ -69,20 +69,20 @@ export default {
       }
       UserUrl.login(data)
         .then(response => {
-        this.setUserName(response.data.userName);
+        this.setUserName(response.data.id_user);
         this.setToken(response.data.token);
         this.submitted = true;
         this.$router.push('/home');
       })
       .catch(error => {
         console.log(error);
-        // if (error.response.status === 401) {
-        //   this.errorMessage = "Adresse e-mail ou mot de passe invalide !";
-        // } else if (error.response.status === 429) {
-        //   this.errorMessage = "Vous avez dépassé le nombre maximal de tentatives, merci de réessayer ultérieurement.";
-        // } else if (error.response.status === 404) {
-        //   this.errorMessage = "Cet email est invalide ou ne correspond à aucun utilisateur connu.";
-        // }
+        if (error.response.status === 401) {
+          this.errorMessage = "Adresse e-mail ou mot de passe invalide !";
+        } else if (error.response.status === 429) {
+          this.errorMessage = "Vous avez dépassé le nombre maximal de tentatives, merci de réessayer ultérieurement.";
+        } else if (error.response.status === 404) {
+          this.errorMessage = "Cet email est invalide ou ne correspond à aucun utilisateur connu.";
+        }
       })
     }
   }

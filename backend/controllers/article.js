@@ -112,7 +112,7 @@ exports.delateArticle = (req, res, next) => {
 
 exports.getOneArticleFromUser = (req, res) => {
    console.log(req.params)
-    Article.getOne(req.params.idUser, (err, data) => {
+    Article.getOne(req.params.id_user, (err, data) => {
 
         if (err) {
            console.log(err)

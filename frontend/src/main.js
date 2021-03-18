@@ -39,18 +39,23 @@ Vue.component('ValidationProvider', ValidationObserver)
 Vue.config.productionTip = false
 
 //toutes ces informations sont conservées dans le store Vuex qui détermine les roles et les autorisations du users)
+//gestion de données 
 const store = new Vuex.Store({
     plugins: [createPersistedState],
     state: {
-        idUser: null,
+        id_user: null,
         token: null,
     },
     mutations: {
-        setUserName(state, idUser) {
-            state.idUser = idUser;
+        setUserName(state, id_user) {
+            state.id_user = id_user;
         },
         setToken(state, token) {
             state.token = token;
+        },
+        logout(state){
+            state.id_user = null;
+            state.token = null;
         }
     },
     actions: {},

@@ -39,7 +39,7 @@
           />
         <div class="info">
             <!--Si le user est connecté et non-administrateur, l'icône de son compte s'afficher-->
-            <button v-if="isLoggedIn"  @click="showAccount"><i class="fas fa-user"></i> Votre compte</button>
+            <button v-if="isLoggedIn" class="btn btn-primary" @click="showAccount"><i class="fas fa-user"></i> Votre compte</button>
         </div>
       </div>
 
@@ -87,16 +87,17 @@ export default {
 	computed: {
     //Utilisation de Vuex pour déterminer les rôles et les autorisations du user (toutes ces informations étant conservées dans le store Vuex)
     ...mapGetters(['isLoggedIn']),
-    ...mapState({ idUser: "idUser"}),
+    ...mapState({ id_user: "id_user"}),
     ...mapState({ token: "token"})
 	},
 	methods: {
     //Fonction d'appel du component CallToLogin
     InLogin() {
       if (this.isLoggedIn == false) {
-          this.loginCalled = true;
+        this.loginCalled = true;
       }
     },
+  
     //Fonction de déconnexion
     logout() {
       this.$store.commit("logout");
@@ -105,37 +106,34 @@ export default {
     },
     //Fonction d'affichage des données du user courant
     showAccount() {
-        this.accountAsked = true
+      this.accountAsked = true
     },
     //Fonction de masquage des données du compte
     hideAccount() {
       this.accountAsked = false
     },
-    /**
-    *Fonction de récupération des données du user courant via une requête Axios GET
-    * @param {Number} idUser
-    * @return {Object} currentUser
-    */
-   showUser() {
-     UserUrl.getCurrentUser(this.idUser) 
+
+    // Fonction de récupération des données du user courant via une requête Axios GET
+
+    showUser() {
+     UserUrl.getCurrentUser(this.id_user) 
       .then(response => {
+      //   console.log(response)
         this.currentUser = JSON.parse(JSON.stringify(response.data.data[0]));
         this.name = this.currentUser.name,
-        this.email = this.currentUser.email,
-        console.log(this.name, this.email);
-
+        this.email = this.currentUser.email
+        // console.log(this.userName, this.email);
       })
       .catch(error => console.log(error));
     },
-    /**
-    *Fonction de suppression du compte user courant via une requête Axios DELETE
-    * @param {Number} idUser
-    */
+    
+    // Fonction de suppression du compte user courant via une requête  DELETE
     suppressUser() {
-    UserUrl.deleteUser(this.idUser) 
+    UserUrl.deleteUser(this.id_user) 
       .then(response => {
         console.log(response.data);
-        this.isLoggedIn = false;
+        // this.isLoggedIn = false;
+        alert('Votre compt a bien éé supprimé !')
         this.logout();
         this.refreshPage();
       })
@@ -147,15 +145,14 @@ export default {
     },
     //Fonction de rafraîchissement de la page
     refreshPage() {
-      this.$router.push({ path: "/" });
       this.hideAccount();
       this.confirmation = false;
     },
 	},
-    //Déclenchement de la récupération des données du user au moment du rendu de la page 
-    mounted() {
-      this.showUser(this.idUser);
-    },
+  // Déclenchement de la récupération des données du user au moment du rendu de la page 
+  mounted() {
+    this.showUser(this.id_user);
+  },
 }
 </script>
 

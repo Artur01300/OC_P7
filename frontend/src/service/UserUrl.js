@@ -7,11 +7,11 @@ class UserUrl {
     signup(data) {
         return http.post('/api/auth/signup', data);
     }
-    getCurrentUser(id) {//ok ?
-        return http.get(`api/article/${id}`);
+    getCurrentUser(id) {
+        return http.get(`api/auth/user/${id}`);
     }
     deleteUser(id) {
-        return http.delete(`/api/auth/login${id}`);
+        return http.delete(`/api/auth/user/${id}`);
     }
 }
 

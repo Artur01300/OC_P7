@@ -29,7 +29,6 @@ exports.createAccount = (req, res, next) => {
   });
 };
 
-
 exports.login = (req, res, next) => {
   let sql = "SELECT * FROM groupomania.users WHERE email = ?";
   db.query(sql, [req.body.email], function(err, data, result){
@@ -46,7 +45,7 @@ exports.login = (req, res, next) => {
       //si on arrive ici alors la comparaison est true. dans ce cas-là on renvoie la bonne connexion et l'objet json qui contient id d'user dans la base
       //et on envoie la token
       res.status(200).json({
-          userName:data[0].name,
+          userName:data[0].name, id_user:data[0].id_user,
           token: jwt.sign(
           //création d'objet avec user id(userId), qui serra l'identifiant d'utilisateur du user(user._id)
           {userName: data[0].name},
@@ -69,20 +68,19 @@ Pour après:
 
 exports.getOneUser = (req, res, next) => {
   let sql = "SELECT users.id_user, users.name, users.email FROM groupomania.users where users.id_user = ?";
-  db.query(sql,[req.body.id_user], function (err, data, filds){
-    console.log(req.body.id_user)
+  db.query(sql,[req.params.id_user], function (err, data, filds){
     if(err){
       return res.status(404).json({err});
     }
     res.json({status: 200, data, message: "User affiché !"})
   });
-}
+};
 
 //Problème de suppression d'un user
 exports.deltAccount = (req, res, next) => {
   let sql = "DELETE FROM groupomania.users WHERE id_user = ?";
 
-  db.query(sql, [req.body.id_user], function(err, data, fields) {
+  db.query(sql, [req.params.id_user], function(err, data, fields) {
     if (err) {
       console.log(err)
       return res.status(400).json({err: "suppression est échoué"});

@@ -23,9 +23,9 @@ Article.getAll = (result) => {
   });
 };
 
-Article.getOne = (idUser, result) => {
-  console.log(idUser)
-  db.query("SELECT * FROM groupomania.articles WHERE users_id_user = ?", [idUser], (err, res) => {
+Article.getOne = (id_user, result) => {
+  console.log(id_user)
+  db.query("SELECT * FROM groupomania.articles WHERE users_id_user = ?", [id_user], (err, res) => {
     if (err) {
       result(err, null);
       return;

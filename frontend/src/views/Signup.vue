@@ -68,7 +68,7 @@ export default {
   methods: {
     //Utilisation de Vuex pour déterminer les rôles
      ...mapMutations([
-       'setid_user',
+       'setUserName',
        'setToken'
      ]),
     /**
@@ -81,11 +81,11 @@ export default {
         email: this.user.email,
         password: this.user.password
       };
-      //lance la requête Axios POST
+      //lance la requête  POST
       UserUrl.signup(data)
       .then(response =>{
         console.log(response.data);
-        this.setid_user(response.data.id_user);
+        this.setUserName(response.data.id_user);
         this.setToken(response.data.token);
         this.submitted = true;
         this.$router.push('/');
