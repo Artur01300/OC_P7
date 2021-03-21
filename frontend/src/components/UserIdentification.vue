@@ -1,13 +1,15 @@
 <template>
-    <div>
+
+    <div class="UserIdentificationFlex">
         <!--Section qui s'affiche si le user n'est pas connecté-->
         <div v-if="!isLoggedIn">
-            <router-link to="/" ><button type= "button" ><i class="fas fa-user-plus"></i> Login _</button></router-link><br/>
+            <router-link to="/" ><b-button variant="success" type= "button" ><i class="fas fa-user-plus"></i> Login </b-button></router-link><br/>
+            
             <router-view />
         </div>
         <!--Section qui s'affiche si le user est connecté-->
         <div v-else>
-            <button type="button" @click="logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+            <b-button variant="success" type="button" @click="logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</b-button><br><br>
         </div>
     </div>
 </template>
@@ -29,3 +31,14 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+
+    .UserIdentificationFlex{
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+</style>

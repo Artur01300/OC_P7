@@ -2,34 +2,30 @@
   <main>
     <div class="introPage">
       <!--Si le user est connecté, les liens vers les plateformes sont disponibles et cliquables-->
-      <section v-if="isLoggedIn" class="container jumbotron text-center intro">
+      <section v-if="isLoggedIn" class="container home_container text-center"><br><br>
         <div>
-          <h1>Bienvenue sur Groupomania, le réseau social de votre entreprise !</h1>
+          <h1>Bienvenue sur Groupomania, le réseau social de votre entreprise !</h1><br>
         </div>
-        <div class='row text-center'>
-          <div class="card col-4 col-sm-5">
-              <h2>Partagez vos articles préférés</h2>
-              <span class="card__icon"><i class="fas fa-newspaper"></i></span>
-              <router-link to="/articles" aria-label="Lien vers la plateforme d'articles"><button class="btn btn-primary card__btn">Accès au Forum Groupomania Articles</button></router-link>
+        <div class='container'>
+          <div class="col-col-sm-5">
+              <router-link to="articles" aria-label="Lien vers la plateforme d'articles"><button class="btn btn-primary">Accès au Forum Groupomania</button></router-link>
           </div>
           <router-view />
         </div>
       </section>
 
       <!--Si le user n'est pas connecté, les liens vers les plateformes ne sont pas disponibles, ils renvoient le user au la page de connexion/inscription via le "CallToLogin"-->
-      <section v-else class="container jumbotron text-center intro">
-        <h1 class="intro__title">Bienvenue sur Groupomania, le réseau social de votre entreprise !</h1>
-        <div class='row intro__box text-center'>
-            <div class="card col-12 col-sm-5 intro__articles">
-                <h2 class="card__title">Partagez vos articles préférés</h2>
-                <span><i class="fas fa-newspaper"></i></span>
-                <button @click="InLogin">Accès au Forum Groupomania Articles</button>
-            </div>
+      <section v-else class="container text-center">
+        <h1 class="intro__title">Bienvenue sur Groupomania, le réseau social de votre entreprise !</h1><br><br>
+        <div class='text-center'>
+          <div class="col-col-sm-5">
+              <b-button variant="success" @click="CallToLogin">Accès au Forum</b-button><br>
+          </div>
         </div>
       </section>
 
         <!--Importation du component CallToLogin-->
-      <InLogin v-if="loginCalled" />
+      <CallToLogin v-if="loginCalled" />
 
       <div> 
         <!--Importation du component Identification-->
@@ -39,24 +35,26 @@
           />
         <div class="info">
             <!--Si le user est connecté et non-administrateur, l'icône de son compte s'afficher-->
-            <button v-if="isLoggedIn" class="btn btn-primary" @click="showAccount"><i class="fas fa-user"></i> Votre compte</button>
+            <button v-if="isLoggedIn" class="btn btn-primary" @click="showAccount"><i class="fas fa-user"></i> Votre compte</button><br><br>
         </div>
       </div>
 
       <!--Ecran qui détaille les données du compte-->
       <div v-if="accountAsked">
-        <span><i class="fas fa-user"></i></span>
+        
         <h3>Détails de votre compte</h3>
-        <p>Pseudo : {{ name }}</p>
-        <p>Email: {{ email }}</p>
-        <button class="btn account__btn" @click="confirmDelete"><i class="far fa-trash-alt"></i> Supprimer votre compte</button>
-        <button class="btn account__btn" @click="hideAccount"><i class="fas fa-arrow-left"></i> Retour</button>
+        <p><strong>Pseudo :</strong> {{ name }}</p>
+        <p><strong>Email:</strong> {{ email }}</p>
+        <b-button variant="danger" class="btn account__btn" @click="confirmDelete"><i class="far fa-trash-alt"></i><strong> Supprimer votre compte</strong></b-button>
+        <b-button variant="success" class="btn account__btn" @click="hideAccount"><i class="fas fa-arrow-left"></i><strong> Retour</strong></b-button>
       </div>
       <!--Ecran qui demande confirmation pour la suppression du compte-->
-      <div v-if="confirmation" class="confirmSuppress">
+      <div v-if="confirmation">
         <p>Etes-vous sûr de vouloir supprimer votre compte ? Toute suppression est définitive.</p>
-        <button type= "button" @click="suppressUser">Supprimer</button>
-        <button type= "button" @click="refreshPage">Annuler</button>
+        <div class="confirmSuppress">
+          <b-button variant="danger" type= "button" @click="suppressUser">Supprimer</b-button>
+          <b-button variant="success" type= "button" @click="refreshPage">Annuler</b-button>
+        </div>
       </div>
     </div> 
   </main>
@@ -66,14 +64,14 @@
 <script>
 
 import UserIdentification from "../components/UserIdentification"
-import InLogin from "../components/InLogin"
-import UserUrl from "../service/UserUrl"
+import CallToLogin from "../components/CallToLogin"
+import UserUrlData from "../service/UserUrlData"
 import { mapGetters, mapState } from 'vuex'  
     
 export default {
 	name: "Home",
 	components: {
-  InLogin, UserIdentification
+  CallToLogin, UserIdentification
 	},
 	data() {
   return {
@@ -92,7 +90,7 @@ export default {
 	},
 	methods: {
     //Fonction d'appel du component CallToLogin
-    InLogin() {
+    CallToLogin() {
       if (this.isLoggedIn == false) {
         this.loginCalled = true;
       }
@@ -101,7 +99,7 @@ export default {
     //Fonction de déconnexion
     logout() {
       this.$store.commit("logout");
-      this.$router.push({ path: "/" });
+      this.$router.push({ path: "/signup" });
       localStorage.clear();
     },
     //Fonction d'affichage des données du user courant
@@ -116,7 +114,7 @@ export default {
     // Fonction de récupération des données du user courant via une requête Axios GET
 
     showUser() {
-     UserUrl.getCurrentUser(this.id_user) 
+     UserUrlData.getCurrentUser(this.id_user) 
       .then(response => {
       //   console.log(response)
         this.currentUser = JSON.parse(JSON.stringify(response.data.data[0]));
@@ -129,11 +127,11 @@ export default {
     
     // Fonction de suppression du compte user courant via une requête  DELETE
     suppressUser() {
-    UserUrl.deleteUser(this.id_user) 
+    UserUrlData.deleteUser(this.id_user) 
       .then(response => {
         console.log(response.data);
-        // this.isLoggedIn = false;
         alert('Votre compt a bien éé supprimé !')
+        this.isLoggedIn = false;
         this.logout();
         this.refreshPage();
       })
@@ -145,6 +143,7 @@ export default {
     },
     //Fonction de rafraîchissement de la page
     refreshPage() {
+      // this.$router.push({ path: "/" });
       this.hideAccount();
       this.confirmation = false;
     },
@@ -158,10 +157,22 @@ export default {
 
 <style>
 
+  .confirmSuppress{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly
+  }
+
   .header-main {
     padding-bottom: 150px;
   }
 
+  .home_container{
+    background: rgba(0, 0, 0, 0.18);;
+  }
+  .card_color {
+    background-color: none;
+  }
   .logo-header {
     height: 80px;
     width: 100vw;

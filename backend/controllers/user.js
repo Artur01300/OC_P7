@@ -77,10 +77,10 @@ exports.getOneUser = (req, res, next) => {
 };
 
 //Problème de suppression d'un user
-exports.deltAccount = (req, res, next) => {
-  let sql = "DELETE FROM groupomania.users WHERE id_user = ?";
 
-  db.query(sql, [req.params.id_user], function(err, data, fields) {
+exports.deltAccount = (req, res, next) => {
+  let sql = "UPDATE groupomania.users SET state = 1  WHERE id_user = ?";
+  db.query(sql, [req.params.id_user],  function(err, data, fields) {
     if (err) {
       console.log(err)
       return res.status(400).json({err: "suppression est échoué"});

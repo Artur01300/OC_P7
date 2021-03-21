@@ -111,7 +111,7 @@ exports.delateArticle = (req, res, next) => {
 }
 
 exports.getOneArticleFromUser = (req, res) => {
-   console.log(req.params)
+//    console.log(req.params)
     Article.getOne(req.params.id_user, (err, data) => {
 
         if (err) {
@@ -135,12 +135,24 @@ exports.getOneArticleFromUser = (req, res) => {
 //     });
 // };
 
+// exports.getAllArticles = (req, res, next) => {
+//     Articles.getAll((err, data) => {
+//         if(err){
+//             return res.status(500).json({err: 'Erreur du serveur'});
+//         }else{
+//             res.json({status: 200, data, message: "Articles affichés !"})
+//         }
+//     });
+// };
+
 exports.getAllArticles = (req, res, next) => {
-    Articles.getAll((err, data) => {
-        if(err){
-            return res.status(500).json({err: 'Erreur du serveur'});
-        }else{
-            res.json({status: 200, data, message: "Articles affichés !"})
-        }
-    });
+    let sql = "SELECT * FROM groupomania.v_getonearticle";
+
+    db.query(sql, function (err, data) {
+    if (err) {
+        return res.status(400).json({err});
+    }
+    res.json({status: 200, data, message: "Articles affichés !"})
+    console.log('Accèd forum')
+  });
 };

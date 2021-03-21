@@ -11,20 +11,20 @@ const Article = function (article) {
 
 
 // tourver tous les articles
-Article.getAll = (result) => {
- db.query("SELECT  * from groupomania.articles", (err, res) => {
-    if (err) {
-      result(err, null);
-      return;
-    } else {
-      result (null, res);
-      return;
-    }
-  });
-};
+// Article.getAll = (result) => {
+//  db.query("SELECT  * from groupomania.articles", (err, res) => {
+//     if (err) {
+//       result(err, null);
+//       return;
+//     } else {
+//       result (null, res);
+//       return;
+//     }
+//   });
+// };
 
 Article.getOne = (id_user, result) => {
-  console.log(id_user)
+  // console.log(id_user)
   db.query("SELECT * FROM groupomania.articles WHERE users_id_user = ?", [id_user], (err, res) => {
     if (err) {
       result(err, null);

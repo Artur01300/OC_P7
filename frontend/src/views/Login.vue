@@ -33,7 +33,7 @@
 
 <script>
 
-import UserUrl from "../service/UserUrl"
+import UserUrlData from "../service/UserUrlData"
 import { mapMutations } from 'vuex'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 
@@ -67,7 +67,7 @@ export default {
         email: this.email,
         password: this.password
       }
-      UserUrl.login(data)
+      UserUrlData.login(data)
         .then(response => {
         this.setUserName(response.data.id_user);
         this.setToken(response.data.token);

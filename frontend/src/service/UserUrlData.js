@@ -1,6 +1,6 @@
 import http from "../http";
 
-class UserUrl {
+class UserUrlData {
     login(data) {
         return http.post('/api/auth/login/', data);
     }
@@ -11,8 +11,8 @@ class UserUrl {
         return http.get(`api/auth/user/${id}`);
     }
     deleteUser(id) {
-        return http.delete(`/api/auth/user/${id}`);
+        return http.put(`/api/auth/user/${id}`);
     }
 }
 
-export default new UserUrl();
+export default new UserUrlData();
