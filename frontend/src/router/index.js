@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
 import Home from '../views/Home.vue'
 import Article from '../views/Articles.vue'
+import PostArticle from '../views/PostArticle.vue'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,11 @@ const routes = [
     path: '/articles',
     name: 'articles-list',
     component: Article
+  },
+  {
+    path: '/articles/creat',
+    name: 'post-article',
+    component: PostArticle
   }
 ]
 

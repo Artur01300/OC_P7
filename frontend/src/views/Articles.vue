@@ -5,38 +5,38 @@
         <div class="articles">
             <h1>Plateforme de partage d'articles</h1>
             <div>
-                <h2>Derniers articles postés</h2>
-                    <div>
-                        <!-- <label>Recherche par thème : </label>
-                         <select name="name" v-model="search">
-                            <option value="">-- Liste complète --</option>
-                        </select> -->
+                <div>
+                    <!-- <label>Recherche par thème : </label>
+                        <select name="name" v-model="search">
+                        <option value="">-- Liste complète --</option>
+                    </select> -->
+                </div>
+                <div class="container">
+                    <div class='row articles__box'>
+                        <ul class="col-12 col-lg-9">
+                            <!--Boucle sur le tableau des articles filtrés-->
+                                <!-- <li v-for="article in filteredArticles" :key="article.name"> -->
+                            <li v-for="article in filteredArticles" :key="article.title">
+                                <!--Importation du component ArticlesItem-->
+                                <ArticlesItem 
+                                :id_user="article.id_user"
+                                :title="article.title"
+                                :content="article.content"
+                                :image ="article.image"
+                                :name="article.name"
+                                :create_at="article.create_at" 
+                                :id_article="article.id_article"
+                                />
+                            </li>
+                        </ul>
+                        <div class="col-12 col-lg-3">
+                                <!-- attribut est utilisé pour définir une chaîne qui étiquette l'élément actuel.
+                                Utilisez-le dans les cas où une étiquette de texte n'est pas visible à l'écran.  
+                            -->
+                            <router-link to="/articles/creat" aria-label="Poster un nouvel article"><button  type= "button" class="btn btn-primary btn-add"><i class="far fa-plus-square"></i> Poster un nouvel article</button></router-link>
+                        </div> 
                     </div>
-                    <div class="container">
-                        <div class='row articles__box'>
-                            <ul class="col-12 col-lg-9">
-                                <!--Boucle sur le tableau des articles filtrés-->
-                                <li v-for="article in filteredArticles" :key="article.name">
-                                    <!--Importation du component ArticlesItem-->
-                                    <ArticlesItem 
-                                    :id_user="article.id_user"
-                                    :title="article.title"
-                                    :content="article.content"
-                                    :image ="article.image"
-                                    :name="article.name"
-                                    :create_at="article.create_at" 
-                                    :id_article="article.id_article"
-                                    />
-                                </li>
-                            </ul>
-                            <div class="col-12 col-lg-3">
-                                 <!-- attribut est utilisé pour définir une chaîne qui étiquette l'élément actuel.
-                                    Utilisez-le dans les cas où une étiquette de texte n'est pas visible à l'écran.  
-                                -->
-                                <router-link to="/articles/" aria-label="Poster un nouvel article"><button  type= "button" class="btn btn-primary btn-add"><i class="far fa-plus-square"></i> Poster un nouvel article</button></router-link>
-                            </div> 
-                        </div>
-                    </div>
+                </div>
                 <p v-if="articles.length == 0">{{ message }}</p>
             </div>
             <!--Importation du component -->
@@ -47,7 +47,6 @@
                 :isLoggedIn="isLoggedIn"
                 />
         </div> 
-        <!--Importation du component Footer-->
     </main>
 </template>
 
@@ -79,7 +78,7 @@ export default {
        //Fontion de filtrage des articles par sujet
         filteredArticles() {
             return this.articles.filter(article => {
-            return article.name.includes(this.search);
+            return article.title.includes(this.search);
             })
         }
     },
@@ -89,6 +88,7 @@ export default {
             //Fonction qui lance la requête GET via Axios
             ArticlesUrlDada.getAllArticles({ Authorization: `Bearer ${this.token}`})
                 .then(response => {
+                    console.log('text image', response)
                 this.articles = JSON.parse(JSON.stringify(response.data.data));
                 })
                 .catch(error => console.log(error));

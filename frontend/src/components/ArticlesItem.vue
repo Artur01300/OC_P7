@@ -8,6 +8,10 @@
                 <h3 class="card-title card__title">{{ title }}</h3>
                 <p class="card-subtitle card__subtitle">{{ content }}</p>
                 <p class="card__date">Article posté le : {{ new Date(create_at).toLocaleDateString('fr-CA') }} par {{ name }}</p>
+                <!-- <p v-if="image">{{ image }} par {{ name }}</p> -->
+                <img v-if="image" v-bind:src="'../../backend/images/' + image" alt="image">
+    
+                
             </div>
             <a class="btn btn-secondary card__btnDetails" :href="'/articles/' + id_user"><i class="fas fa-info-circle"></i> En savoir plus</a>
         </div>
