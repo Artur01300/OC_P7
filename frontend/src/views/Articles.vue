@@ -2,9 +2,19 @@
 
 <template>
     <main>
-        <div class="articles">
-            <h1>Plateforme de partage d'articles</h1>
+        <div class="articles container_form">
+
+            <div class="articles_containter">
+                <!--
+                    attribut est utilisé pour définir une chaîne qui étiquette l'élément actuel.
+                    Utilisez-le dans les cas où une étiquette de texte n'est pas visible à l'écran.  
+                -->
+                <router-link to="/articles/creat" aria-label="Poster un nouvel article"><button  type= "button" class="btn btn-primary btn-add"><i class="far fa-plus-square"></i> Poster un nouvel article</button></router-link>
+                <UserIdentification :logout="logout" :isLoggedIn="isLoggedIn" />
+            </div>
+            
             <div>
+                    <!--Importation du component UserIdentification-->
                 <div>
                     <!-- <label>Recherche par thème : </label>
                         <select name="name" v-model="search">
@@ -13,7 +23,8 @@
                 </div>
                 <div class="container">
                     <div class='row articles__box'>
-                        <ul class="col-12 col-lg-9">
+                        <ul class="col-12 col-lg-12">
+                           <h1>Plateforme de partage d'articles</h1><br><br>
                             <!--Boucle sur le tableau des articles filtrés-->
                                 <!-- <li v-for="article in filteredArticles" :key="article.name"> -->
                             <li v-for="article in filteredArticles" :key="article.title">
@@ -29,23 +40,12 @@
                                 />
                             </li>
                         </ul>
-                        <div class="col-12 col-lg-3">
-                                <!-- attribut est utilisé pour définir une chaîne qui étiquette l'élément actuel.
-                                Utilisez-le dans les cas où une étiquette de texte n'est pas visible à l'écran.  
-                            -->
-                            <router-link to="/articles/creat" aria-label="Poster un nouvel article"><button  type= "button" class="btn btn-primary btn-add"><i class="far fa-plus-square"></i> Poster un nouvel article</button></router-link>
-                        </div> 
                     </div>
                 </div>
                 <p v-if="articles.length == 0">{{ message }}</p>
             </div>
             <!--Importation du component -->
             <CallToLogin v-if="!isLoggedIn" />
-            <!--Importation du component UserIdentification-->
-            <UserIdentification
-                :logout="logout"
-                :isLoggedIn="isLoggedIn"
-                />
         </div> 
     </main>
 </template>
@@ -109,7 +109,14 @@ export default {
 </script>
 
 <style>
+
+
     li{
         list-style:none;
+    }
+
+    .articles_containter{
+        position: fixed;
+        z-index: 1;
     }
 </style>

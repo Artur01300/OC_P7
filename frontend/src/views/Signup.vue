@@ -1,5 +1,5 @@
 <template>
-   <div class="container">
+   <div class="container  agileites_padding">
         <div class="main wrapper">
             <h1>Inscrivez vous Forum</h1>
             <div v-if="!submitted" class="main-agileinfo">
@@ -100,3 +100,11 @@ export default {
 }
 
 </script>
+
+<style>
+
+.agileites_padding{
+  padding-top: 200px;
+}
+
+</style>

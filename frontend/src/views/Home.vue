@@ -1,10 +1,10 @@
 <template>
   <main>
-    <div class="introPage">
+    <div class="introPage container_form">
       <!--Si le user est connecté, les liens vers les plateformes sont disponibles et cliquables-->
       <section v-if="isLoggedIn" class="container home_container text-center"><br><br>
         <div>
-          <h1>Bienvenue sur Groupomania, le réseau social de votre entreprise !</h1><br>
+          <h1>Bienvenue sur le réseau social de votre entreprise !</h1><br>
         </div>
         <div class='container'>
           <div class="col-col-sm-5">
@@ -167,6 +167,10 @@ export default {
     padding-bottom: 150px;
   }
 
+  .container_form{
+    padding-top: 200px;
+  }
+
   .home_container{
     background: rgba(0, 0, 0, 0.18);;
   }
@@ -217,7 +221,6 @@ export default {
 
   .form input {
     outline: 0;
-    background: #700b0b;
     width: 100%;
     border: 0;
     margin: 0 0 15px;

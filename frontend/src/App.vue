@@ -43,6 +43,14 @@
   color: #2c3e50;
 }
 
+.header{
+  position: fixed;
+  background: rgba(203, 245, 187, 0.97);
+  width: 100%;
+  z-index: 2;
+  box-shadow: 0 2px 4px -3px rgba(51, 51, 51, 0.2);
+}
+
 #nav {
   padding: 30px;
   overflow: hidden;

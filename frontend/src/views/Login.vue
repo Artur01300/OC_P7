@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container container_form">
       <div v-if="!submitted" class="form">
         <ValidationObserver v-slot="{ invalid, handleSubmit }">
           <form class="form-signin" @submit.prevent="handleSubmit(loginSubmit)">
@@ -22,7 +22,7 @@
                 </div>
              </ValidationProvider>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit" v-bind:disabled="invalid">Conncetion</button>
+            <button class="btn btn-primary btn-block btn-sm" type="submit" v-bind:disabled="invalid">Conncetion</button>
             <p class="message">Vous n'êtes pas inscrit ? <router-link to="/signup">Create an account</router-link></p>
         </form>
         <p>{{ errorMessage }}</p>

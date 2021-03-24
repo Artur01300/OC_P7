@@ -1,18 +1,17 @@
 <!--PAGE D'AJOUT D'UN NOUVEL ARTICLE-->
 
 <template>
-    <main class="jumbotron"> 
-        <h1 v-if="!submitted">Vous souhaitez partager vos intérêts avec votre communauté ? C'est ici !</h1>
+    <main class="formArticle">
         <!--Utilisation de Vee-Validate : ValidationObserver pour suspendre la soumission du formulaire à l'existence ou non d'erreurs-->
             <ValidationObserver v-slot="{ invalid, handleSubmit }" v-if="!submitted" >    
-                <form class="container text-center form formArticle" @submit.prevent="handleSubmit(saveArticle)">
-                <h2>Pour poster un nouvel article, merci de remplir les champs suivants :</h2>
+                <form class="container text-center form" @submit.prevent="handleSubmit(saveArticle)">
+                <h2>Pour poster un nouvel article, merci de remplir les champs suivants :</h2><br>
                 <div class="row">
-                    <div class="formArticle__box col-12 col-md-9">
+                    <div class="col-10 col-md-12">
                         <div class="form-group">
-                            <label for="title">Titre</label>
+                       
                             <!--Utilisation de Vee-Validate : ValidationProvider, pour tester la validité des données-->
-                            <ValidationProvider name="article.title" rules="required|minmax:3,100"><!--Définition des règles de validité de l'input-->
+                            <ValidationProvider name="article.title" rules="required|minmax:3,2000"><!--Définition des règles de validité de l'input-->
                                 <div slot-scope="{ errors }">
                                     <input 
                                        type="text" 
@@ -20,13 +19,13 @@
                                        required
                                        v-model="article.title"
                                        name="title"
+                                       placeholder="Titre"
                                        aria-required="true" />
                                     <p class="error">{{ errors[0] }}</p><!--Une erreur s'affiche si l'input ne respecte pas les règles de ValidationProvider-->
                                 </div>
                             </ValidationProvider>
                         </div>
                         <div class="form-group">
-                            <label for="content">Description</label>
                             <ValidationProvider name="article.content" rules="minmax:3,2000">
                                 <div slot-scope="{ errors }">
                                     <textarea 
@@ -41,37 +40,21 @@
                                 </div>
                             </ValidationProvider>
                         </div>
-                        <!-- <div class="form-group">
-                            <label for="image">image</label>
-                            <ValidationProvider name="article.image" rules="minmax:11,200">
-                                <div slot-scope="{ errors }">
-                                    <input 
-                                       type="text" 
-                                       class="form-control"
-                                       v-model="article.image"
-                                       name="image" 
-                                    />
-                                    <p class="error">{{ errors[0] }}</p>
-                                </div>
-                            </ValidationProvider>
-                        </div> -->
-
                         <div class="form-group">
-                            <label for="image">image</label>
                             <ValidationProvider name="article.image" rules="minmax:11,200">
                                 <div slot-scope="{ errors }">
                                     <!-- <input type="text" class="form-control" v-model="article.image" name="image" /> -->
                                     <!-- <input type="file" name="image" id="image" /> -->
 
-                                    <input type="file" id="image" ref="image" v-on:change="handleFileUpload()"/>
+                                    <input type="file" class="btn-info" id="image" ref="image" v-on:change="handleFileUpload()"/>
                                     <p class="error">{{ errors[0] }}</p>
                                 </div>
                             </ValidationProvider>
                         </div>
                         
                         <div class="post-btns">
-                            <button class="btn btn-success" type="submit" value="Submit" v-bind:disabled="invalid"><i class="fas fa-check"></i> Valider ce post</button>
-                            <router-link to="/articles" class="btn-return" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Retour à la liste</button></router-link>
+                            <button class="btn btn-info" type="submit" value="Submit" v-bind:disabled="invalid"><i class="fas fa-check"></i> Valider ce post</button><br><br>
+                            <router-link to="/articles" class="btn-info" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Retour à la liste</button></router-link>
                             <router-view />
                         </div>
                     </div>
@@ -126,7 +109,6 @@ export default {
         
         handleFileUpload(){
             this.article.image = this.$refs.image.files[0];
-            console.log(this.article.image.name)
         },
         
         saveArticle(Authorization) {
@@ -158,3 +140,12 @@ export default {
     }
 }
 </script>
+
+<style>
+
+.formArticle{
+    padding-top: 250px;
+}
+
+</style>
+

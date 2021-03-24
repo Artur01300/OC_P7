@@ -5,11 +5,12 @@
         <!--Section qui s'affiche si la page qui appelle ce component est celle qui affiche la liste complète des articles-->
         <div v-if="this.$route.name == 'articles-list'" class="card text-center">
             <div class="card-body card__body">
+           <h2 class="card-title"> Article posté par {{ name }}</h2> 
+               
                 <h3 class="card-title card__title">{{ title }}</h3>
-                <p class="card-subtitle card__subtitle">{{ content }}</p>
-                <p class="card__date">Article posté le : {{ new Date(create_at).toLocaleDateString('fr-CA') }} par {{ name }}</p>
-                <!-- <p v-if="image">{{ image }} par {{ name }}</p> -->
-                <img v-if="image" v-bind:src="'../../backend/images/' + image" alt="image">
+                <p class="card-subtitle card__subtitle">{{ content }}</p><br>
+                <p class="card__date">Article posté le : {{ new Date(create_at).toLocaleDateString() }}</p>
+                <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" alt=" Image sur l'article">
     
                 
             </div>
