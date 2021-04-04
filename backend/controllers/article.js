@@ -5,15 +5,17 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
 //quand j'ajoute un article il m'affiche null, pour quoi ?
-exports.createArticle = (req, res, next) => {
+exports.createArticle = (req, res) => {
+    
     const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
+
     if(req.file){
 
         let sql = "INSERT INTO groupomania.articles(title, content, users_id_user, image) VALUES (?)";
         let values = [req.body.title, req.body.content, decodedToken.id_user, req.file.filename];
     
-        db.query(sql, [values], function(err, data, filds){
+        db.query(sql, [values], function(err, data){
             console.log(err)
             if(err){
                 console.log(err)
@@ -23,11 +25,10 @@ exports.createArticle = (req, res, next) => {
         });
 
     }else{
-        
         let sql = "INSERT INTO groupomania.articles(title, content, users_id_user) VALUES (?)";
         let values = [req.body.title, req.body.content, decodedToken.id_user,];
     
-        db.query(sql, [values], function(err, data, filds){
+        db.query(sql, [values], function(err, data){
             console.log(err)
             if(err){
                 console.log(err)
@@ -41,12 +42,16 @@ exports.createArticle = (req, res, next) => {
 
 //ajouter id d'article pour supprimerr uniquement un article et pas tout les article
 exports.modifyTextArticle = (req, res, next) => {
+    const token = req.headers.authorization;
+    const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
 
-    if(req.params.id){
-        const sql = "UPDATE groupomania.articles SET content = ?  WHERE id_article = ?";
-        let values = [req.body.content, req.body.id_article];
+    if(req.params.id_article){
+        const sql = "UPDATE groupomania.articles SET content = ?, title = ?  WHERE id_article = ?";
+        let values = [req.body.content, req.body.title, req.params.id_article];
         db.query(sql, values, function (err, result) {
             if (err) throw err;
+            console.log(err)
+
             console.log(result.affectedRows + " record(s) updated");
             return res.status(201).json({ result })
         });
@@ -54,27 +59,29 @@ exports.modifyTextArticle = (req, res, next) => {
 
 };
 
-exports.delImageArticle = (req, res, next) => {
-    const sql = "SELECT groupomania.articles.image from articles WHERE id_article = ? AND users_id_user = ?"
-    let values = [req.body.id_article, req.body.users_id_user];
+exports.delImageArticle = (req, res) => {
+    const token = req.headers.authorization;
+    const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
 
-    db.query(sql, values, function (err, result) {
+    const sqlSelect = "SELECT groupomania.articles.image from articles WHERE id_article = ? AND users_id_user = ?";
+    const sqlUpdate = "UPDATE groupomania.articles SET image = null WHERE id_article = ? AND users_id_user = ?";
+    let values = [req.body.id_article, decodedToken.id_user];
+
+    db.query(sqlSelect, values, function (err, result) {
 
         //Récupération de l'image depuis front-end
         let image = `images/${result[0].image}`
         //Si il y a l'image, alors on supprime l'image et on met à jour le BDD
     if (fs.existsSync(image)) {
-        fs.unlinkSync(image);
-        
-        const sql = "UPDATE groupomania.articles SET image = null WHERE id_article = ? AND users_id_user = ?";
-        let values = [req.body.id_article, req.body.users_id_user];
-        db.query(sql, values, function (err, result){
-
+      
+        db.query(sqlUpdate, values, function (err, result){
+            
             if(err){
                 console.log(err);
                 return res.status(404).json({err});
             }
         });
+        fs.unlinkSync(image);
         return res.status(201).json({message: 'Image supprimé !'});
         }else{
             return res.status(400).json({message: 'Erreur suppression suppretion image !'});
@@ -101,7 +108,7 @@ exports.creatImageArticle = (req, res, next) => {
     -implémenter un admin pour supprimer l'article
 */
 
-exports.delateArticle = (req, res, next) => {
+exports.delateArticle = (req, res) => {
     let sql = "DELETE FROM groupomania.articles WHERE id_article = ?";
     db.query(sql, [req.body.id_article], function(err, data) {
       
@@ -113,7 +120,7 @@ exports.delateArticle = (req, res, next) => {
     });
 }
 
-exports.getOneArticleFromUser = (req, res, next) => {
+exports.getOneArticleFromUser = (req, res) => {
     let sql = "SELECT * FROM groupomania.articles WHERE id_article = ?";
     db.query(sql, [req.params.id_article], function(err, data, fields){
         if (err) {

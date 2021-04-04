@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import Article from '../views/Articles.vue'
 import ArticleDetails from '../views/ArticleDetails.vue'
 import PostArticle from '../views/PostArticle.vue'
+// import CommentPost from '/..views/CommentPost.vue'
 
 import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
@@ -34,21 +35,22 @@ const routes = [
     name: 'articles-list',
     component: Article
   },
-  // {
-  //   path: '/articleInfo/',
-  //   name: 'ArticleInfo',
-  //   component: ArticleInfo
-  // },
-  {
-    path: '/ArticleDetails/:id_article',
-    name: 'one-article-details',
-    component: ArticleDetails
-  },
   {//Poste article
     path: '/articles/creat',
     name: 'post-article',
     component: PostArticle
-  }
+  },
+  {
+    path: '/ArticleDetails/:id_article',
+    name: 'one-article-details',// ??
+    component: ArticleDetails
+  },
+  // {
+  //   path: '/Articles/:id_comment/comments',
+  //   name: 'comments-list',
+  //   component: CommentPost
+
+  // }
 ]
 
 const router =  new VueRouter({

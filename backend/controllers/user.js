@@ -6,7 +6,6 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-
 exports.createAccount = (req, res, next) => {
   bcrypt
   .hash(req.body.password, 10) //password hashing

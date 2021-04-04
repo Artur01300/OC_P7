@@ -11,12 +11,6 @@
               <button class="btn btn-primary">Accès au Forum Groupomania</button>
             </router-link><br><br>
           </div>
-          <div class="col-col-sm-5">
-
-            <!-- <router-link to='/ArticleInfo' + id_article aria-label="Lien vers la plateforme d'articles">
-              <button class="btn btn-primary">Articl Info</button>
-            </router-link> -->
-          </div>
 
           <router-view />
         </div>

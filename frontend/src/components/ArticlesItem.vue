@@ -34,10 +34,9 @@
             <div class="card-body">
                 <h2 class="card-title">{{ title }}</h2>
                 <p class="card-text">{{ content }}</p>
+                <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" alt=" Image sur l'article">
                 <p>Article posté le : {{ new Date(create_at).toLocaleDateString('fr-CA') }}</p>
             </div>
-     
-            
         </div>
     </div>
 </template>

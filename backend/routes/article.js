@@ -9,8 +9,8 @@ const multer = require('../middleware/multer-config');
 
 //ne pas oublier le auth !!!
 router.post('/creat', auth, multer, articleCtrl.createArticle);//on poste un article dans reseau social
-router.put('/:id_user', auth, articleCtrl.modifyTextArticle);//modifie le text de l'article.
-router.delete('/:id_user', auth, articleCtrl.delateArticle);//Supprime l'article.
+router.put('/:id_article', auth, articleCtrl.modifyTextArticle);//modifie le text de l'article.
+router.delete('/', auth, articleCtrl.delateArticle);//Supprime l'article.
 
 router.get('/:id_article', auth, articleCtrl.getOneArticleFromUser);
 

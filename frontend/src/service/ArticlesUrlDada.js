@@ -12,12 +12,12 @@ class ArticlesUrlDada {
         return http.post('/api/article/creat/', data, {headers});
     }
 
-    modifyTextArticle(id, data, headers){
-        return http.put(`/api/article/${id}`, data, {headers});
+    modifyTextArticle(id_article, data, headers){
+        return http.put (`/api/article/${id_article}`, data, {headers});
     }
 
     delateArticle(id, headers){
-        return http.delete(`/api/article/${id}`, {headers});
+        return http.delete('/api/article/', {headers});
     }
 
 
