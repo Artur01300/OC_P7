@@ -25,7 +25,7 @@
 
                     <router-link to="/articles" aria-label="Lien vers la liste d'article">
                         <button type= "button" class="btn btn-primary" id="arrow-only" aria-label="Lien vers la page d'accueil">
-                            <i class="fas fa-arrow-left"></i> Home
+                            <i class="fas fa-arrow-left"></i> Retour à la liste
                         </button>
                     </router-link>
                 </div>
@@ -34,28 +34,25 @@
                 <div v-if="validUser" class="col-12 col-md-2 action valid">
                     <button type= "button" class="btn btn-primary action__btn" @click="showUpdate"><i class="far fa-edit"></i> Modifier</button><br/>
                     <p class="text">{{ messageUpdate }}</p>
-                    <!-- <button type= "button" class="btn btn-primary btn-suppress action__btn" @click="confirmDelete"><i class="far fa-trash-alt"></i> Supprimer</button> -->
+                    <button type= "button" class="btn btn-primary btn-suppress action__btn" @click="confirmDelete"><i class="far fa-trash-alt"></i> Supprimer</button>
                     <!--Message qui ne s'affiche que quand le user clique sur le bouton "suppression"-->
-                    <div v-if="confirmation" class="confirmation">
+                    <div v-if="confirmation">
                         <p class="text">Etes-vous sûr de vouloir supprimer ce post ?</p>
-                        <button type= "button" class="btn btn-primary" @click="deleteArticle">Supprimer</button>
-                        <button type= "button" class="btn btn-primary cancel-btn" @click="refreshPage">Annuler</button>
+                        <button type= "button" class="btn btn-primary" @click="deleteUserArticle">Supprimer</button><br><br>
+                        <button type= "button" class="btn btn-primary cancel-btn" @click="refreshPage">Annuler</button><br><br>
                     </div>
-                    <router-link to="/articles" class="valid__return" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Retour à la liste</button></router-link>
-                    <router-view />
+                    <!-- <router-link to="/articles" class="valid__return" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Retour à la liste</button></router-link>
+                    <router-view /> -->
                 </div>
-
-                
-                <!--Les boutons "suppression" et "modification" ne s'affiche que si le user est celui qui a posté l'article  ou s'il est administrateur-->
      
-                <!--Affiche si le user n'est pas l'auteur de l'article ni l'administrateur-->
-                <div v-else class="action invalid">
+                <!-- <div>
                     <router-link to="/articles" aria-label="Lien vers la liste d'article"><button type= "button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Retour à la liste</button></router-link>
                     <router-view />
-                </div>
+                </div> -->
+                <!--Affiche si le user n'est pas l'auteur de l'article ni l'administrateur-->
             </div>
 
-             <!--Formulaire qui ne s'affiche que quand le user clique sur le bouton "modifier"-->
+             <!--Formulaire s'affiche quand le user clique sur le bouton "modifier"-->
             <div v-if="askForUpdate">
                <div role="form" class="container text-center formUpdate">
                     <h2 >Pour modifier cet article, merci de remplir les champs suivants :</h2>
@@ -91,7 +88,6 @@
                 </div>
             </div>
 
-            <!--Importation UserIdentification-->
             <UserIdentification
                 :logout="logout"
                 :isLoggedIn="isLoggedIn" 
@@ -126,7 +122,6 @@ export default {
         }
     },
     computed: {
-       //Utilisation de Vuex pour déterminer les rôles et les autorisations du user (toutes ces informations étant conservées dans le store Vuex)
         ...mapGetters(['isLoggedIn']),
         ...mapState({ token: "token"})
     },
@@ -138,19 +133,25 @@ export default {
             .then(response => {
                 this.currentArticle = JSON.parse(JSON.stringify(response.data.data));
 
-            localStorage.setItem("Article_Id", this.currentArticle[0].id_article);
+                localStorage.setItem("Article_Id", this.currentArticle[0].id_article);
+                // console.log(this.token.id_user)
 
-                if (this.currentArticle[0].user_id !== this.userId) { //????
-                    this.validUser = false;  
-                } else {
-                    this.validUser = true;
-                }
+                // if (this.currentArticle[0].users_id_user == this.currentArticle[0].id_article) { //????
+                //     this.validUser = false;  
+                // } else {
+                //     this.validUser = true;
+                // }
+                 this.validUser = true;
             })
             .catch(error => console.log(error));
         },
 
          showUpdate() {  
             return (this.askForUpdate = true);
+        },
+
+         confirmDelete() {
+            return (this.confirmation = true);
         },
 
          refreshPage() {
@@ -164,7 +165,6 @@ export default {
                 content: this.currentArticle[0].content,
             };
             Authorization = this.token;
-            //Fonction qui déclenche la requête PUT via Axios
             ArticlesUrlDada.modifyTextArticle(this.$route.params.id_article, data, { Authorization }) 
                 .then(response => {
                     console.log('response')
@@ -173,7 +173,17 @@ export default {
                     this.askForUpdate = false;
                 })
             .catch(error => console.log(error));
-        }, 
+        },
+
+        deleteUserArticle(Authorization) {
+            Authorization = this.token;
+            ArticlesUrlDada.delateArticle(this.currentArticle[0].id_article, { Authorization })
+                .then(response => {
+                    console.log(response.data);
+                    this.$router.push({ path: "/articles" });
+                })
+                .catch(error => console.log(error));
+        },
 
         logout() {
             this.$store.commit("logout");

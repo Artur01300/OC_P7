@@ -41,11 +41,11 @@ exports.createArticle = (req, res) => {
 
 
 //ajouter id d'article pour supprimerr uniquement un article et pas tout les article
-exports.modifyTextArticle = (req, res, next) => {
+exports.modifyTextArticle = (req, res) => {
     const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
 
-    if(req.params.id_article){
+    if(decodedToken.id_user){
         const sql = "UPDATE groupomania.articles SET content = ?, title = ?  WHERE id_article = ?";
         let values = [req.body.content, req.body.title, req.params.id_article];
         db.query(sql, values, function (err, result) {
@@ -89,11 +89,11 @@ exports.delImageArticle = (req, res) => {
     });
 };
 
-exports.creatImageArticle = (req, res, next) => {
+exports.creatImageArticle = (req, res) => {
     let sql = "UPDATE groupomania.articles SET image = ? WHERE articles.id_article = ? AND articles.users_id_user = ?";
 
     let values = [req.file.filename, req.body.id_article, req.body.users_id_user];
-    db.query(sql, values, function(err, data, filds){
+    db.query(sql, values, function(err, data){
         console.log(err)
         if(err){
             console.log(err)
@@ -109,8 +109,11 @@ exports.creatImageArticle = (req, res, next) => {
 */
 
 exports.delateArticle = (req, res) => {
-    let sql = "DELETE FROM groupomania.articles WHERE id_article = ?";
-    db.query(sql, [req.body.id_article], function(err, data) {
+    const token = req.headers.authorization;
+    const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
+
+    let sql = "DELETE FROM groupomania.articles WHERE id_article = ? AND users_id_user = ?";
+    db.query(sql, [req.params.id_article, decodedToken.id_user], function(err, data) {
       
         if (err) {
             console.log(err)

@@ -16,8 +16,8 @@ class ArticlesUrlDada {
         return http.put (`/api/article/${id_article}`, data, {headers});
     }
 
-    delateArticle(id, headers){
-        return http.delete('/api/article/', {headers});
+    delateArticle(id_article, headers){
+        return http.delete(`/api/article/${id_article}`, {headers});
     }
 
 
