@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import createPersistedState from 'vuex-persistedstate'
+import vuexPersistedstate from 'vuex-persistedstate'
 import Vuex from 'vuex'
 
 // Import Bootstrap an BootstrapVue CSS files
@@ -38,23 +38,16 @@ Vue.component('ValidationProvider', ValidationObserver)
 
 Vue.config.productionTip = false
 
-//toutes ces informations sont conservées dans le store Vuex qui détermine les roles et les autorisations du users)
-//gestion de données 
 const store = new Vuex.Store({
-    plugins: [createPersistedState],
+    plugins: [vuexPersistedstate()],
     state: {
-        id_user: null,
-        token: null,
+        token: null
     },
     mutations: {
-        setUserName(state, id_user) {
-            state.id_user = id_user;
-        },
         setToken(state, token) {
             state.token = token;
         },
         logout(state){
-            state.id_user = null;
             state.token = null;
         }
     },

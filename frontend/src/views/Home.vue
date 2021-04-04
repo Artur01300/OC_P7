@@ -1,15 +1,23 @@
 <template>
   <main>
     <div class="introPage container_form">
-      <!--Si le user est connecté, les liens vers les plateformes sont disponibles et cliquables-->
       <section v-if="isLoggedIn" class="container home_container text-center"><br><br>
         <div>
           <h1>Bienvenue sur le réseau social de votre entreprise !</h1><br>
         </div>
         <div class='container'>
           <div class="col-col-sm-5">
-              <router-link to="articles" aria-label="Lien vers la plateforme d'articles"><button class="btn btn-primary">Accès au Forum Groupomania</button></router-link>
+            <router-link to="/articles" aria-label="Lien vers la plateforme d'articles">
+              <button class="btn btn-primary">Accès au Forum Groupomania</button>
+            </router-link><br><br>
           </div>
+          <div class="col-col-sm-5">
+
+            <!-- <router-link to='/ArticleInfo' + id_article aria-label="Lien vers la plateforme d'articles">
+              <button class="btn btn-primary">Articl Info</button>
+            </router-link> -->
+          </div>
+
           <router-view />
         </div>
       </section>
@@ -85,7 +93,6 @@ export default {
 	computed: {
     //Utilisation de Vuex pour déterminer les rôles et les autorisations du user (toutes ces informations étant conservées dans le store Vuex)
     ...mapGetters(['isLoggedIn']),
-    ...mapState({ id_user: "id_user"}),
     ...mapState({ token: "token"})
 	},
 	methods: {
@@ -99,7 +106,7 @@ export default {
     //Fonction de déconnexion
     logout() {
       this.$store.commit("logout");
-      this.$router.push({ path: "/signup" });
+      this.$router.push({ path: "/" });
       localStorage.clear();
     },
     //Fonction d'affichage des données du user courant
@@ -114,20 +121,19 @@ export default {
     // Fonction de récupération des données du user courant via une requête Axios GET
 
     showUser() {
-     UserUrlData.getCurrentUser(this.id_user) 
+     UserUrlData.getCurrentUser({Authorization: this.token})
       .then(response => {
       //   console.log(response)
-        this.currentUser = JSON.parse(JSON.stringify(response.data.data[0]));
-        this.name = this.currentUser.name,
-        this.email = this.currentUser.email
-        // console.log(this.userName, this.email);
+        this.userInformation = JSON.parse(JSON.stringify(response.data.data[0]));
+        this.name = this.userInformation.name,
+        this.email = this.userInformation.email
       })
       .catch(error => console.log(error));
     },
     
     // Fonction de suppression du compte user courant via une requête  DELETE
     suppressUser() {
-    UserUrlData.deleteUser(this.id_user) 
+    UserUrlData.deltAccount({Authorization: this.token}) 
       .then(response => {
         console.log(response.data);
         alert('Votre compt a bien éé supprimé !')
@@ -150,7 +156,7 @@ export default {
 	},
   // Déclenchement de la récupération des données du user au moment du rendu de la page 
   mounted() {
-    this.showUser(this.id_user);
+    this.showUser(this.token);
   },
 }
 </script>

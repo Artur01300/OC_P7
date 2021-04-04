@@ -3,8 +3,12 @@
     <div class="UserIdentificationFlex">
         <!--Section qui s'affiche si le user n'est pas connecté-->
         <div v-if="!isLoggedIn">
-            <router-link to="/" ><b-button variant="success" type= "button" ><i class="fas fa-user-plus"></i> Login </b-button></router-link><br/>
-            
+            <router-link to="/" >
+                <b-button variant="success" type= "button" >
+                    <i class="fas fa-user-plus"></i>
+                    Login 
+                </b-button>
+            </router-link><br/>
             <router-view />
         </div>
         <!--Section qui s'affiche si le user est connecté-->

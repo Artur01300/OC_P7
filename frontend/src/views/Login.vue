@@ -54,14 +54,8 @@ export default {
   },
   methods: {
     // utilisant la fonction utilitaire mapMutations qui attache les méthodes du composant aux appels de store
-    ...mapMutations([
-      'setUserName',
-      'setToken'
-    ]),
-    /**
-      *Fonction de connexion d'un user existant
-      * @param {Object} data - Email et password du user
-    */
+    ...mapMutations(['setToken']),
+  
     loginSubmit(){
       var data = {
         email: this.email,
@@ -69,7 +63,7 @@ export default {
       }
       UserUrlData.login(data)
         .then(response => {
-        this.setUserName(response.data.id_user);
+        // this.setId_user(response.data.id_user);
         this.setToken(response.data.token);
         this.submitted = true;
         this.$router.push('/home');

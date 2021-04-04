@@ -43,9 +43,7 @@
                         <div class="form-group">
                             <ValidationProvider name="article.image" rules="minmax:11,200">
                                 <div slot-scope="{ errors }">
-                                    <!-- <input type="text" class="form-control" v-model="article.image" name="image" /> -->
-                                    <!-- <input type="file" name="image" id="image" /> -->
-
+                                    <!-- v-on écoute les évènements du DOM -->
                                     <input type="file" class="btn-info" id="image" ref="image" v-on:change="handleFileUpload()"/>
                                     <p class="error">{{ errors[0] }}</p>
                                 </div>
@@ -62,7 +60,7 @@
             </form>
         </ValidationObserver>
         <div v-else id="afterMessage">
-            <h3>Votre article a bien été posté sur la plateforme !</h3>
+            <h3>Votre article a bien été posté !</h3>
             <router-link to="/articles" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary">Retour à la liste</button></router-link>
             <router-view />
         </div>
@@ -102,24 +100,22 @@ export default {
      computed: {
          //Utilisation de Vuex pour déterminer les rôles et les autorisations du user (toutes ces informations étant conservées dans le store Vuex)
         ...mapGetters(['isLoggedIn']),
-        ...mapState({ token: "token"}),
-        ...mapState({ id_user: "id_user"})
+        ...mapState({ token: "token"})
     },
     methods: {
-        
         handleFileUpload(){
             this.article.image = this.$refs.image.files[0];
         },
         
         saveArticle(Authorization) {
+            //La méthode append() de l'interface FormData ajoute une nouvelle valeur à une clé existante dans un objet FormData
             let formData = new FormData();
             formData.append('image', this.article.image);
             formData.append('title', this.article.title);
             formData.append('content', this.article.content);
-            formData.append('users_id_user', this.id_user);
+            // formData.append('users_id_user', this.token);
 
-   
-            Authorization = `Bearer ${this.token}`;
+            Authorization = this.token;
 
            // Requête Axios POST
             ArticlesUrlDada.createArticle(formData, {Authorization})

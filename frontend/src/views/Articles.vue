@@ -6,11 +6,20 @@
 
             <div class="articles_containter">
                 <!--
-                    attribut est utilisé pour définir une chaîne qui étiquette l'élément actuel.
+                    attribut  aria-label est utilisé pour définir une chaîne qui étiquette l'élément actuel.
                     Utilisez-le dans les cas où une étiquette de texte n'est pas visible à l'écran.  
                 -->
-                <router-link to="/articles/creat" aria-label="Poster un nouvel article"><button  type= "button" class="btn btn-primary btn-add"><i class="far fa-plus-square"></i> Poster un nouvel article</button></router-link>
-                <UserIdentification :logout="logout" :isLoggedIn="isLoggedIn" />
+                <!-- 
+                    /articles/creat renvoie vers la page http://localhost:8080/articles/creat.
+                    et renvoie également vers PostArticle.vue
+                --> 
+                <router-link to="/articles/creat" aria-label="Poster un nouvel article">
+                    <button  type= "button" class="btn btn-primary btn-add">
+                        <i class="far fa-plus-square"></i>
+                            Poster un nouvel article
+                        </button>
+                    </router-link>
+                <!-- <UserIdentification :logout="logout" :isLoggedIn="isLoggedIn" /> -->
             </div>
             
             <div>
@@ -38,6 +47,7 @@
                                 :create_at="article.create_at" 
                                 :id_article="article.id_article"
                                 />
+                                
                             </li>
                         </ul>
                     </div>
@@ -46,6 +56,13 @@
             </div>
             <!--Importation du component -->
             <CallToLogin v-if="!isLoggedIn" />
+
+                <!--Importation du component Identification-->
+            <UserIdentification
+                :logout="logout"
+                :isLoggedIn="isLoggedIn"
+            />
+            
         </div> 
     </main>
 </template>
@@ -55,6 +72,7 @@
 import UserIdentification from "../components/UserIdentification"
 import CallToLogin from "../components/CallToLogin"
 import ArticlesItem from "../components/ArticlesItem"
+
 import ArticlesUrlDada from "../service/ArticlesUrlDada"
 import { mapGetters, mapState } from 'vuex'
         
@@ -83,15 +101,15 @@ export default {
         }
     },
     methods: {
+        
   
         getAll() {
             //Fonction qui lance la requête GET via Axios
-            ArticlesUrlDada.getAllArticles({ Authorization: `Bearer ${this.token}`})
-                .then(response => {
-                    console.log('text image', response)
-                this.articles = JSON.parse(JSON.stringify(response.data.data));
-                })
-                .catch(error => console.log(error));
+            ArticlesUrlDada.getAllArticles({ Authorization: this.token})
+            .then(response => {
+            this.articles = JSON.parse(JSON.stringify(response.data.data));
+            })
+            .catch(error => console.log(error));
         },
         //Fonction de déconnexion;
         logout() {

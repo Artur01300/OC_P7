@@ -1,14 +1,17 @@
-const Article = require("../models/Article");
+// const Article = require("../models/Article");
 const db = require("../services/mysql");
+const jwt = require('jsonwebtoken');
 
 const fs = require('fs');
 
 //quand j'ajoute un article il m'affiche null, pour quoi ?
 exports.createArticle = (req, res, next) => {
+    const token = req.headers.authorization;
+    const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
     if(req.file){
 
         let sql = "INSERT INTO groupomania.articles(title, content, users_id_user, image) VALUES (?)";
-        let values = [req.body.title, req.body.content, req.body.users_id_user, req.file.filename];
+        let values = [req.body.title, req.body.content, decodedToken.id_user, req.file.filename];
     
         db.query(sql, [values], function(err, data, filds){
             console.log(err)
@@ -22,7 +25,7 @@ exports.createArticle = (req, res, next) => {
     }else{
         
         let sql = "INSERT INTO groupomania.articles(title, content, users_id_user) VALUES (?)";
-        let values = [req.body.title, req.body.content, req.body.users_id_user];
+        let values = [req.body.title, req.body.content, decodedToken.id_user,];
     
         db.query(sql, [values], function(err, data, filds){
             console.log(err)
@@ -110,37 +113,27 @@ exports.delateArticle = (req, res, next) => {
     });
 }
 
-exports.getOneArticleFromUser = (req, res) => {
-//    console.log(req.params)
-    Article.getOne(req.params.id_user, (err, data) => {
-
+exports.getOneArticleFromUser = (req, res, next) => {
+    let sql = "SELECT * FROM groupomania.articles WHERE id_article = ?";
+    db.query(sql, [req.params.id_article], function(err, data, fields){
         if (err) {
-           console.log(err)
-        }else{
-            console.log(data)
-            res.json({status: 200, data, message: "Articles affichés !"})
+            console.log(err);
+            return res.status(400).json({err});
         }
+        res.json({status: 200, data, message: "Article d'un utilisateur affiché !"})
+        console.log("Article d'un utilisateur affiché !")
     });
-};
+}
 
-// exports.getOneArticleFromUser = (req, res, next) => {
-//     let sql = "SELECT * FROM groupomania.v_getOneArticle WHERE id_user = ?";
-//     db.query(sql,[req.body.id_user], function (err, data, filds){
+// exports.getAllArticleFromOneUser = (req, res) => {
+// //    console.log(req.params)
+//     Article.getOne(req.params.id_user, (err, data) => {
 
-//         if(err){
-//             console.log(err)
-//             return res.status(404).json({err});
-//         }
-//         res.json({status: 200, data, message: "Article affiché !"})
-//     });
-// };
-
-// exports.getAllArticles = (req, res, next) => {
-//     Articles.getAll((err, data) => {
-//         if(err){
-//             return res.status(500).json({err: 'Erreur du serveur'});
+//         if (err) {
+//            console.log(err)
 //         }else{
-//             res.json({status: 200, data, message: "Articles affichés !"})
+//             console.log(data)
+//             res.json({status: 200, data, message: "Article affichés !"})
 //         }
 //     });
 // };

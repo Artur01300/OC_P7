@@ -7,11 +7,11 @@ class UserUrlData {
     signup(data) {
         return http.post('/api/auth/signup', data);
     }
-    getCurrentUser(id) {
-        return http.get(`api/auth/user/${id}`);
+    getCurrentUser(headers) {
+        return http.get('/api/auth/user/', {headers});
     }
-    deleteUser(id) {
-        return http.put(`/api/auth/user/${id}`);
+    deltAccount(headers, data) {
+        return http.put('/api/auth/user/', data, {headers});
     }
 }
 

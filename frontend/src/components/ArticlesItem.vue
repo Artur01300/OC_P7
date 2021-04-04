@@ -1,65 +1,43 @@
-<!--COMPONENT CORRESPONDANT A L'AFFICHAGE D'UN ARTICLE (UTILISE DANS LES PAGES ARTICLES.VUE ET ARTICLEDETAILS.VUE)-->
+<!--
+    cet component affiche tous les articles postés par users (avec like, dislike...).
+    il est utilisé dans la page Articles.vue et ArticleDitails.vue
+-->
 
 <template>
     <div>
-        <!--Section qui s'affiche si la page qui appelle ce component est celle qui affiche la liste complète des articles-->
+        <!--Section affiche la liste complète des articles-->
         <div v-if="this.$route.name == 'articles-list'" class="card text-center">
-            <div class="card-body card__body">
-           <h2 class="card-title"> Article posté par {{ name }}</h2> 
+            <div class="card-bod">
                
-                <h3 class="card-title card__title">{{ title }}</h3>
-                <p class="card-subtitle card__subtitle">{{ content }}</p><br>
-                <p class="card__date">Article posté le : {{ new Date(create_at).toLocaleDateString() }}</p>
+                <h3 class="card-title">{{ title }}</h3>
+                <p class="card-subtitle">{{ content }}</p><br>
+                <p>Article posté le : {{ new Date(create_at).toLocaleDateString()}} par {{name}}</p>
                 <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" alt=" Image sur l'article">
     
                 
             </div>
-            <a class="btn btn-secondary card__btnDetails" :href="'/articles/' + id_user"><i class="fas fa-info-circle"></i> En savoir plus</a>
+            <!-- href="'/articles/articleId' associer avec index.js:  path: '/articles/articleId:id' -->
+            <a class="btn btn-secondary" :href="'/ArticleDetails/' + id_article"><i class="fas fa-info-circle"></i> Cliquez : Voire en détaille sur cet article</a>
         </div>
-        <!--Section qui s'affiche si la page qui appelle ce component est celle qui affiche un article en particulier-->
-        <div v-else class="card text-center">
-            <div class="card-header card__header">
+        <!--Section affiche un article en particulier-->
+         <div v-else class="card text-center">
+        <!-- <div class="card text-center"> -->
+            <div class="card-header">
                 <ul class="list-group">
-                    <li class="list-group-item card__comments">
+                    <li class="list-group-ite">
+                        <!-- permet de voir les liste de commentaire d'un article -->
                         <a href="#commentsList"><i class="far fa-eye"></i> Voir tous les commentaires</a>
-                        <a :href="'/articles/' + id_user + '/comments'"><i class="far fa-edit"></i> Poster un commentaire</a>
-                    </li>
-                    <li class="list-group-item">
-                        <!--La section suivante ne s'affiche que si le user a liké ou disliké l'article-->
-                        <div v-if="liked || disliked" >
-                            <!--La section suivante ne s'affiche que si le user a liké l'article : donc le pouce du like est rouge et celui du dislike est grisé-->
-                            <div v-if="liked">
-                                <span class="card__stats">{{ totalLikes }} </span><span @click="deleteThumb" class="thumbs thumbs__up thumbs__red"><i class="far fa-thumbs-up thumbs"></i></span>
-                                <span class="thumbs__down thumbs disabled"><i class="far fa-thumbs-down thumbs"></i></span><span class="card__stats"> {{ totalDislikes }}</span>
-                            </div>
-                            <!--La section suivante ne s'affiche que si le user a disliké l'article : : donc le pouce du dislike est rouge et celui du like est grisé-->
-                            <div v-else>
-                                <span class="card__stats">{{ totalLikes }} </span><span class="thumbs thumbs__up disabled"><i class="far fa-thumbs-up thumbs"></i></span>
-                                <span @click="deleteThumb" class="thumbs thumbs__down thumbs__red"><i class="far fa-thumbs-down thumbs"></i></span><span class="card__stats"> {{ totalDislikes }}</span>
-                            </div>
-                        </div>
-                        <!--La section suivante s'affiche si le user n'a pas encore liké ou disliké l'article-->
-                        <div v-else>
-                            <div>
-                                <span class="card__stats">{{ totalLikes }} </span><span @click="sendLike" class="thumbs thumbs__up"><i class="far fa-thumbs-up thumbs"></i></span>
-                                <span @click="sendDislike" class="thumbs thumbs__down"><i class="far fa-thumbs-down thumbs"></i></span><span class="card__stats"> {{ totalDislikes }}</span>
-                            </div>
-                        </div>
+                        <a :href="'/api/comment/'"><i class="far fa-edit"></i> Poster un commentaire</a>
                     </li>
                 </ul>
             </div>
-            <div class="card-body card__body ">
-                <h2 class="card-title card__title">{{ title }}</h2>
-                <p class="card-subtitle card__subtitle">{{ subject }}</p>
-                <p class="card__date">Article posté le : {{ new Date(create_at).toLocaleDateString('fr-CA') }} par {{ name }}</p>
-                <p class="card-text card__description">{{ content }}</p>
+            <div class="card-body">
+                <h2 class="card-title">{{ title }}</h2>
+                <p class="card-text">{{ content }}</p>
+                <p>Article posté le : {{ new Date(create_at).toLocaleDateString('fr-CA') }}</p>
             </div>
-            <div v-if="presenceOfLinks === true" card__links >
-                <a :href="lien_web" target="_blank" class="btn btn-primary card__btnWeb" aria-label="Lien vers le site web">Lien vers l'article</a>
-                <iframe :src="lien_web" width="300px" height="200px" title="Aperçu du site web" aria-label="Aperçu du site web" sandbox class="card__iframe"></iframe>
-            </div>
-            <div v-else card__links >
-            </div>
+     
+            
         </div>
     </div>
 </template>
@@ -70,10 +48,7 @@
 export default {
 	name: "ArticlesItem",
 	props: {
-        id_user: {
-            type: Number,
-            required: true
-        },
+        
 		title: {
 			type: String,
 			required: true
@@ -84,7 +59,7 @@ export default {
 		},
 		name: {
 			type: String,
-			required: true
+			required: null
 		},
 		create_at: {
 			type: String,

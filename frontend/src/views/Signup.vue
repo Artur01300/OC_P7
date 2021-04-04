@@ -67,14 +67,10 @@ export default {
   },
   methods: {
     //Utilisation de Vuex pour déterminer les rôles
-     ...mapMutations([
-       'setUserName',
+    ...mapMutations([
        'setToken'
      ]),
-    /**
-    *Fonction de création d'un nouvel utilisateur
-    * @param {Object} data - Données de l'utilisateur
-    */
+
     createUser(){
       let data = {
         name: this.user.name,
@@ -84,8 +80,6 @@ export default {
       //lance la requête  POST
       UserUrlData.signup(data)
       .then(response =>{
-        console.log(response.data);
-        this.setUserName(response.data.id_user);
         this.setToken(response.data.token);
         this.submitted = true;
         this.$router.push('/');
