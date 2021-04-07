@@ -59,11 +59,70 @@ exports.modifyTextArticle = (req, res) => {
 
 };
 
+exports.creatImageArticle = (req, res) => {
+    let sql = "UPDATE groupomania.articles SET image = ? WHERE articles.id_article = ? AND articles.users_id_user = ?";
+
+    let values = [req.file.filename, req.body.id_article, req.body.users_id_user];
+    db.query(sql, values, function(err, data){
+        console.log(err)
+        if(err){
+            console.log(err)
+            return res.status(400).json({err});
+        }
+        res.json({status: 201, data, message: 'Image ajouté !'})
+    });
+}
+
+/*
+    Pour après:
+    -implémenter un admin pour supprimer l'article
+*/
+
+exports.delateArticle = (req, res) => {
+    const token = req.headers.authorization;
+    const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
+    
+    const sqlUpdate = "UPDATE groupomania.articles SET image = null, id_article = null, title = null, content = null, create_at = null, users_id_user = null WHERE id_article = ? AND users_id_user = ?";
+    const sqlSelect = "SELECT * groupomania.articles.image from articles WHERE id_article = ? AND users_id_user = ?";
+    
+    let values = [req.body.id_article, decodedToken.id_user];
+    console.log(fs.file)
+    if(req.file){
+        db.query(sqlSelect, values, function (err, result){
+        
+            let image = `images/${result[0].image}`
+
+            db.query(sqlUpdate, values, function (err, result){
+
+                if(err){
+                    console.log(err);
+                    return res.status(404).json({err});
+                }
+            });
+            fs.unlinkSync(image);
+            return res.status(201).json({message: 'Image supprimé !'});
+        })
+
+    }else{
+        
+        let sql = "DELETE FROM groupomania.articles WHERE id_article = ? AND users_id_user = ?";
+        db.query(sql,[req.params.id_article, decodedToken.id_user], function(err, data) {
+          
+            if (err) {
+                console.log(err)
+                return res.status(400).json({err});
+            }
+            res.json({status: 200, data, message: "Article supprimé !"})
+        });
+    }
+
+}
+
 exports.delImageArticle = (req, res) => {
     const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
 
-    const sqlSelect = "SELECT groupomania.articles.image from articles WHERE id_article = ? AND users_id_user = ?";
+    const sqlSelect = "SELECT * groupomania.articles.image from articles WHERE id_article = ? AND users_id_user = ?";
     const sqlUpdate = "UPDATE groupomania.articles SET image = null WHERE id_article = ? AND users_id_user = ?";
     let values = [req.body.id_article, decodedToken.id_user];
 
@@ -89,64 +148,25 @@ exports.delImageArticle = (req, res) => {
     });
 };
 
-exports.creatImageArticle = (req, res) => {
-    let sql = "UPDATE groupomania.articles SET image = ? WHERE articles.id_article = ? AND articles.users_id_user = ?";
-
-    let values = [req.file.filename, req.body.id_article, req.body.users_id_user];
-    db.query(sql, values, function(err, data){
-        console.log(err)
-        if(err){
-            console.log(err)
-            return res.status(400).json({err});
-        }
-        res.json({status: 201, data, message: 'Image ajouté !'})
-    });
-}
-
-/*
-    Pour après:
-    -implémenter un admin pour supprimer l'article
-*/
-
-exports.delateArticle = (req, res) => {
+exports.getOneArticleFromUser = (req, res) => {
     const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
 
-    let sql = "DELETE FROM groupomania.articles WHERE id_article = ? AND users_id_user = ?";
-    db.query(sql, [req.params.id_article, decodedToken.id_user], function(err, data) {
-      
-        if (err) {
-            console.log(err)
-            return res.status(400).json({err});
-        }
-        res.json({status: 200, data, message: "Article supprimé !"})
-    });
-}
-
-exports.getOneArticleFromUser = (req, res) => {
     let sql = "SELECT * FROM groupomania.articles WHERE id_article = ?";
+
     db.query(sql, [req.params.id_article], function(err, data, fields){
+        
         if (err) {
             console.log(err);
             return res.status(400).json({err});
         }
-        res.json({status: 200, data, message: "Article d'un utilisateur affiché !"})
-        console.log("Article d'un utilisateur affiché !")
+        if (data[0].users_id_user == decodedToken.id_user){
+            res.status(200).json({owner: true, data})
+        } else {
+            res.status(200).json({owner: false, data})
+        }        
     });
 }
-
-// exports.getAllArticleFromOneUser = (req, res) => {
-// //    console.log(req.params)
-//     Article.getOne(req.params.id_user, (err, data) => {
-
-//         if (err) {
-//            console.log(err)
-//         }else{
-//             console.log(data)
-//             res.json({status: 200, data, message: "Article affichés !"})
-//         }
-//     });
-// };
 
 exports.getAllArticles = (req, res, next) => {
     let sql = "SELECT * FROM groupomania.v_getonearticle";

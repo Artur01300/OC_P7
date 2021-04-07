@@ -11,7 +11,6 @@
                 <div v-if="currentArticle[0]" class="container col-12 col-md-10">
                     <div class='row'>
                         <div class="col-12 col-lg-11 article-item">
-                            <!--Importation du ArticlesItem-->
                             <ArticlesItem 
                                 :title="currentArticle[0].title"
                                 :content="currentArticle[0].content"
@@ -19,9 +18,33 @@
                                 :create_at="currentArticle[0].create_at"
                                 :image="currentArticle[0].image"
                                 :id_article="currentArticle[0].id_article"
-                            />
+                                :users_id_user="currentArticle[0].users_id_user"
+                            /><br>
+
+                            <h3>{{ messageComments }}</h3><br>
+                        
+                            <!--Boucle sur le tableau des commentaires-->
+                            <div v-for="comment in comments" :key="comment.created_at">
+                                <ul>
+                                    <li>
+                                        <CommentsItem
+                                            :name="comment.name"
+                                            :content="comment.content"
+                                            :created_at="comment.created_at"
+                                        />
+                                    </li>
+                                </ul><br>
+                            </div>
                         </div>
                     </div> <br>
+
+                    <p v-if="messageUpdate" class="message_modify">
+                        <strong>{{ messageUpdate }}</strong>
+                    </p>
+
+                    <p v-if="confirmation" class="message_modify">
+                        Etes-vous sûr de supprimer ce article ?
+                    </p>
 
                     <router-link to="/articles" aria-label="Lien vers la liste d'article">
                         <button type= "button" class="btn btn-primary" id="arrow-only" aria-label="Lien vers la page d'accueil">
@@ -29,33 +52,21 @@
                         </button>
                     </router-link>
                 </div>
-
-                  <!--La section suivante des boutons "suppression" et "modification" ne s'affiche que si le user est celui qui a posté l'article' à l'origine ou s'il est administrateur-->
-                <div v-if="validUser" class="col-12 col-md-2 action valid">
-                    <button type= "button" class="btn btn-primary action__btn" @click="showUpdate"><i class="far fa-edit"></i> Modifier</button><br/>
-                    <p class="text">{{ messageUpdate }}</p>
-                    <button type= "button" class="btn btn-primary btn-suppress action__btn" @click="confirmDelete"><i class="far fa-trash-alt"></i> Supprimer</button>
-                    <!--Message qui ne s'affiche que quand le user clique sur le bouton "suppression"-->
+                <div v-if="owner" class="col-12 col-md-2 action valid">
+                    <button type= "button" class="btn btn-primary " @click="showUpdate"><i class="far fa-edit"></i> Modifier</button><br/><br>
+                    <button type= "button" class="btn btn-primary btn-warning " @click="confirmDelete"><i class="far fa-trash-alt"></i> Supprimer</button><br><br>
+                    <!--s'affiche quand le user clique sur le bouton "suppression"-->
                     <div v-if="confirmation">
-                        <p class="text">Etes-vous sûr de vouloir supprimer ce post ?</p>
-                        <button type= "button" class="btn btn-primary" @click="deleteUserArticle">Supprimer</button><br><br>
-                        <button type= "button" class="btn btn-primary cancel-btn" @click="refreshPage">Annuler</button><br><br>
+                        <button type= "button" class="btn btn-danger" @click="deleteUserArticle">Supprimer</button><br><br>
+                        <button type= "button" class="btn btn-success cancel-btn" @click="refreshPage">Annuler</button><br><br>
                     </div>
-                    <!-- <router-link to="/articles" class="valid__return" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Retour à la liste</button></router-link>
-                    <router-view /> -->
                 </div>
-     
-                <!-- <div>
-                    <router-link to="/articles" aria-label="Lien vers la liste d'article"><button type= "button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Retour à la liste</button></router-link>
-                    <router-view />
-                </div> -->
-                <!--Affiche si le user n'est pas l'auteur de l'article ni l'administrateur-->
+              
             </div>
 
              <!--Formulaire s'affiche quand le user clique sur le bouton "modifier"-->
             <div v-if="askForUpdate">
                <div role="form" class="container text-center formUpdate">
-                    <h2 >Pour modifier cet article, merci de remplir les champs suivants :</h2>
                     <div class="row">
                         <div class="col-12 col-md-9 text-center">
                             <div class="form-group">
@@ -100,21 +111,23 @@
 
 import UserIdentification from "../components/UserIdentification"
 import ArticlesItem from "../components/ArticlesItem"
+import CommentsItem from "../components/CommentsItem"
 import ArticlesUrlDada from "../service/ArticlesUrlDada"
+import CommentsData from "../service/CommentsData"
 import { mapGetters, mapState } from 'vuex'
 
 export default {
 
     name: "ArticleDetails",
     components: {
-        ArticlesItem, UserIdentification
+        ArticlesItem, CommentsItem, UserIdentification
 	},
     data () {
         return {
             currentArticle: [],
             comments: [],
             messageComments: "",
-            validUser: false,
+            owner: false,
             askForUpdate: "",
             confirmation: false,
             messageUpdate: "",
@@ -129,19 +142,13 @@ export default {
         getOneArticle(id_article, Authorization) {
 
             Authorization = this.token;
+           
             ArticlesUrlDada.getOneArticleFromUser(id_article, {Authorization})
             .then(response => {
                 this.currentArticle = JSON.parse(JSON.stringify(response.data.data));
-
-                localStorage.setItem("Article_Id", this.currentArticle[0].id_article);
-                // console.log(this.token.id_user)
-
-                // if (this.currentArticle[0].users_id_user == this.currentArticle[0].id_article) { //????
-                //     this.validUser = false;  
-                // } else {
-                //     this.validUser = true;
-                // }
-                 this.validUser = true;
+                localStorage.setItem("article_id", this.currentArticle[0].id_article);
+                this.owner = response.data.owner
+        
             })
             .catch(error => console.log(error));
         },
@@ -169,7 +176,7 @@ export default {
                 .then(response => {
                     console.log('response')
                     console.log(response.data);
-                    this.messageUpdate = "Cet article a été modifié avec succès.";
+                    this.messageUpdate = "L'article modifié avec succès !";
                     this.askForUpdate = false;
                 })
             .catch(error => console.log(error));
@@ -178,24 +185,41 @@ export default {
         deleteUserArticle(Authorization) {
             Authorization = this.token;
             ArticlesUrlDada.delateArticle(this.currentArticle[0].id_article, { Authorization })
-                .then(response => {
-                    console.log(response.data);
-                    this.$router.push({ path: "/articles" });
-                })
-                .catch(error => console.log(error));
+            .then(response => {
+                console.log(response.data);
+                this.$router.push({ path: "/articles" });
+            })
+            .catch(error => console.log(error));
         },
 
         logout() {
             this.$store.commit("logout");
             this.$router.push({ path: "/" });
             localStorage.clear();
-        }
-       
-    },    
+        },
+        
+        getAllComments() {
+
+        CommentsData.getAll(this.$route.params.id_article, {Authorization: this.token})
+            
+            .then(response => {
+                this.comments = JSON.parse(JSON.stringify(response.data.data));
+
+                //S'il n'y a aucun article disponible on affichage un message
+                if (this.comments.length !== 0) {
+                    this.messageComments = "Derniers commentaires postés"; 
+                } else {
+                    this.messageComments = "Il n'y a aucun commentaire pour le moment.";
+                }
+            })
+            .catch(error => console.log(error));
+        },       
+    },
+
     beforeMount() {
         this.getOneArticle(this.$route.params.id_article, this.token);
+        this.getAllComments();
         this.askForUpdate = false;
-        this.validUser = false;
     }
 }
 </script>
@@ -208,6 +232,10 @@ export default {
     .jumbotron{
   
        background: rgba(0, 0, 0, 0.18);
+    }
+
+    .message_modify{
+        font-size: 2em;
     }
 
 </style>
