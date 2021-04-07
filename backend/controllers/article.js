@@ -16,9 +16,7 @@ exports.createArticle = (req, res) => {
         let values = [req.body.title, req.body.content, decodedToken.id_user, req.file.filename];
     
         db.query(sql, [values], function(err, data){
-            console.log(err)
             if(err){
-                console.log(err)
                 return res.status(400).json({err});
             }
             res.json({status: 201, data, message: 'Nouvelle article créé !'})
@@ -29,9 +27,7 @@ exports.createArticle = (req, res) => {
         let values = [req.body.title, req.body.content, decodedToken.id_user,];
     
         db.query(sql, [values], function(err, data){
-            console.log(err)
             if(err){
-                console.log(err)
                 return res.status(400).json({err});
             }
             res.json({status: 201, data, message: 'Nouvelle article créé !'})
@@ -50,10 +46,9 @@ exports.modifyTextArticle = (req, res) => {
         let values = [req.body.content, req.body.title, req.params.id_article];
         db.query(sql, values, function (err, result) {
             if (err) throw err;
-            console.log(err)
 
             console.log(result.affectedRows + " record(s) updated");
-            return res.status(201).json({ result })
+            res.status(201).json({ result })
         });
     };
 
@@ -64,9 +59,9 @@ exports.creatImageArticle = (req, res) => {
 
     let values = [req.file.filename, req.body.id_article, req.body.users_id_user];
     db.query(sql, values, function(err, data){
-        console.log(err)
+        console.log('LOG 67 ',err)
         if(err){
-            console.log(err)
+            console.log('LOG 69 ',err)
             return res.status(400).json({err});
         }
         res.json({status: 201, data, message: 'Image ajouté !'})
@@ -91,24 +86,23 @@ exports.delateArticle = (req, res) => {
 
         if (err) {
             console.log(err)
-            return res.status(400).json({err});
+            return res.status(500).json({err});
         }
-        
-        let image = `images/${result[0].image}`
+        if(result[0].image){
+            let image = `images/${result[0].image}`
 
-        if (image){
-            fs.unlinkSync(image);
+            if (image){
+                fs.unlinkSync(image);
+            }
         }
-        
     });
     
     db.query(sqlDeleteArticle, values, function(err, data) {
-        
         if (err) {
             console.log(err)
-            return res.status(400).json({err});
+            return res.status(500).json({err});
         }
-        res.json({status: 200, data, message: "Article supprimé !"})
+        res.status(200).json({message: "Article supprimé !"});
     });
 }
 
@@ -163,13 +157,12 @@ exports.getOneArticleFromUser = (req, res) => {
 }
 
 exports.getAllArticles = (req, res, next) => {
-    let sql = "SELECT * FROM groupomania.v_getonearticle";
+    let sql = "SELECT name, title, content, image, create_at, id_article FROM groupomania.v_getonearticle";
 
     db.query(sql, function (err, data) {
     if (err) {
         return res.status(400).json({err});
     }
-    res.json({status: 200, data, message: "Articles affichés !"})
-    console.log('Accèd forum')
+    res.status(200).json({data})
   });
 };

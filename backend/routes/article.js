@@ -17,7 +17,7 @@ router.get('/:id_article', auth, articleCtrl.getOneArticleFromUser);
 router.get('/', auth, articleCtrl.getAllArticles);//affiche tout les articles
 // router.get('/articleUser/:id_user', auth, articleCtrl.getAllArticlesFromOneUser);//afficher uniquement tout les article d'un seul utilisateur
 
-router.post('/delImg', auth, multer, articleCtrl.delImageArticle);//Suprime uniquement l'image de l'article.
+router.post('/delImg', auth, articleCtrl.delImageArticle);//Suprime uniquement l'image de l'article.
 router.post('/addImg', auth, multer, articleCtrl.creatImageArticle);//Création uniquement l'image de l'article.
 
 module.exports = router;

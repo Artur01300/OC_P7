@@ -1,4 +1,4 @@
-<!--PAGE D'ACCUEIL DU FORUM ARTICLES PRESENTANT LA LISTE COMPLETE DES ARTICLES-->
+<!-- pAGE d'accuil de forum (qui liste les article postées) -->
 
 <template>
     <main>
@@ -11,14 +11,6 @@
                             Poster un nouvel article
                         </button>
                 </router-link>
-                <!--
-                    attribut  aria-label est utilisé pour définir une chaîne qui étiquette l'élément actuel.
-                    Utilisez-le dans les cas où une étiquette de texte n'est pas visible à l'écran.  
-                -->
-                <!-- 
-                    /articles/creat renvoie vers la page http://localhost:8080/articles/creat.
-                    et renvoie également vers PostArticle.vue
-                --> 
             </div>
             
             <div>
@@ -46,10 +38,10 @@
                 </div>
                 <p v-if="articles.length == 0">{{ message }}</p>
             </div>
-            <!--Importation du component -->
+            <!--Importation du CallToLogin -->
             <CallToLogin v-if="!isLoggedIn" />
 
-                <!--Importation du component Identification-->
+                <!--Importation du Identification-->
             <UserIdentification
                 :logout="logout"
                 :isLoggedIn="isLoggedIn"
@@ -82,10 +74,10 @@ export default {
         }
     },
    computed: {
-       //Utilisation de Vuex pour déterminer les rôles et les autorisations du user (toutes ces informations étant conservées dans le store Vuex)
+       //Utilisation de Vuex
         ...mapGetters(['isLoggedIn']),
         ...mapState({ token: "token"}),
-       //Fontion de filtrage des articles par sujet
+       //filtrage des articles par sujet
         filteredArticles() {
             return this.articles.filter(article => {
             return article.title.includes(this.search);
@@ -96,7 +88,7 @@ export default {
         
   
         getAll() {
-            //Fonction qui lance la requête GET via Axios
+            //requête GET par Axios
             ArticlesUrlDada.getAllArticles({ Authorization: this.token})
             .then(response => {
             this.articles = JSON.parse(JSON.stringify(response.data.data));
@@ -110,7 +102,7 @@ export default {
             localStorage.clear();
         }
     },
-    //Déclenchement de la récupération de la liste d'articles avant le rendu de la page 
+    //Déclenchement de la récupération d'articles avant le rendu de la page 
     beforeMount() {
         this.getAll();
     }
