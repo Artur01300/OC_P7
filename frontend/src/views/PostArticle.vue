@@ -41,11 +41,14 @@
                             </ValidationProvider>
                         </div>
                         <div class="form-group">
-                            <ValidationProvider name="article.image" rules="minmax:11,200">
+                            <ValidationProvider name="article.image"  rules="minmax:11,200">
                                 <div slot-scope="{ errors }">
                                     <!-- v-on écoute les évènements du DOM -->
-                                    <input type="file" class="btn-info" id="image" ref="image" v-on:change="handleFileUpload()"/>
+                                    <input type="file" class="btn-info" id="image" ref="image" v-on:change="handleFileUpload()" accept="image/*"/>
                                     <p class="error">{{ errors[0] }}</p>
+                                    <!-- <div v-if="imageLoaded">
+                                        Image size is {{image.size}}
+                                    </div> -->
                                 </div>
                             </ValidationProvider>
                         </div>
@@ -92,6 +95,7 @@ export default {
                 title: "",
                 content: "",
                 image: "",
+                size: ""
             },
             submitted: false,
             errors: []
@@ -104,7 +108,16 @@ export default {
     },
     methods: {
         handleFileUpload(){
+
+            //Réstriction pour la taile de l'image: l'image ne doit pas dépassé le 1.2 Mo
             this.article.image = this.$refs.image.files[0];
+            let imageSize = this.article.image.size;
+            const MAX_HEIGHT = 1200000;
+
+            if (imageSize > MAX_HEIGHT){
+                alert('La taile de l\'image ne doit pas dépassé le 1.2 Mo !');
+                this.$router.push({ path: "/articles/" });
+            }
         },
         
         saveArticle(Authorization) {
@@ -116,8 +129,6 @@ export default {
             // formData.append('users_id_user', this.token);
 
             Authorization = this.token;
-
-           // Requête Axios POST
             ArticlesUrlDada.createArticle(formData, {Authorization})
             .then(response => {
                 console.log(response);

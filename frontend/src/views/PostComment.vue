@@ -28,18 +28,18 @@
                             <div class="action">
                                 <button class="btn btn-success btn-post" aria-label="Poster le commentaire" type="submit" value="Submit" v-bind:disabled="invalid">
                                     <i class="fas fa-check"></i> 
-                                    Poster ce commentaire 
+                                    Envoyez un commentaire 
                                 </button>
 
                                 <router-link to="/articles" aria-label="Lien vers la liste d'articles">
-                                    <button type= "button" class="btn btn-primary"><i class="fas fa-times"></i>
+                                    <button type= "button" class="btn btn-success"><i class="fas fa-times"></i>
                                         Annuler
                                     </button>
                                 </router-link>
 
                                 <router-link to="/articles/" aria-label="Lien vers la liste d'articles">
                                     <button type= "button" class="btn btn-primary">
-                                        Retour à la liste
+                                        Retour
                                     </button>
                                 </router-link>
                             </div>
@@ -81,8 +81,7 @@ export default {
     methods: {
         postCommentDetail(id_article, data, Authorization) {
             data = {
-                content: this.comment.content,
-                // id_article: localStorage.getItem("article_id")
+                content: this.comment.content
             };
             Authorization = this.token;
             id_article = this.$route.params.id_article;

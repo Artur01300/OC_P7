@@ -82,40 +82,34 @@ exports.delateArticle = (req, res) => {
     const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
     
-    const sqlUpdate = "UPDATE groupomania.articles SET image = null, id_article = null, title = null, content = null, create_at = null, users_id_user = null WHERE id_article = ? AND users_id_user = ?";
-    const sqlSelect = "SELECT * groupomania.articles.image from articles WHERE id_article = ? AND users_id_user = ?";
+    const sqlSelectFile = "SELECT image FROM groupomania.articles WHERE id_article = ? AND users_id_user = ?";
+    const sqlDeleteArticle = "DELETE FROM groupomania.articles WHERE id_article = ? AND users_id_user = ?";
     
-    let values = [req.body.id_article, decodedToken.id_user];
-    console.log(fs.file)
-    if(req.file){
-        db.query(sqlSelect, values, function (err, result){
+    let values = [req.params.id_article, decodedToken.id_user];
+
+    db.query(sqlSelectFile, values, function (err, result){
+
+        if (err) {
+            console.log(err)
+            return res.status(400).json({err});
+        }
         
-            let image = `images/${result[0].image}`
+        let image = `images/${result[0].image}`
 
-            db.query(sqlUpdate, values, function (err, result){
-
-                if(err){
-                    console.log(err);
-                    return res.status(404).json({err});
-                }
-            });
+        if (image){
             fs.unlinkSync(image);
-            return res.status(201).json({message: 'Image supprimé !'});
-        })
-
-    }else{
+        }
         
-        let sql = "DELETE FROM groupomania.articles WHERE id_article = ? AND users_id_user = ?";
-        db.query(sql,[req.params.id_article, decodedToken.id_user], function(err, data) {
-          
-            if (err) {
-                console.log(err)
-                return res.status(400).json({err});
-            }
-            res.json({status: 200, data, message: "Article supprimé !"})
-        });
-    }
-
+    });
+    
+    db.query(sqlDeleteArticle, values, function(err, data) {
+        
+        if (err) {
+            console.log(err)
+            return res.status(400).json({err});
+        }
+        res.json({status: 200, data, message: "Article supprimé !"})
+    });
 }
 
 exports.delImageArticle = (req, res) => {

@@ -5,6 +5,12 @@
         <div class="articles container_form">
 
             <div class="articles_containter">
+                <router-link to="/articles/creat" aria-label="Poster un nouvel article">
+                    <button  type= "button" class="btn btn-primary btn-add">
+                        <i class="far fa-plus-square"></i>
+                            Poster un nouvel article
+                        </button>
+                </router-link>
                 <!--
                     attribut  aria-label est utilisé pour définir une chaîne qui étiquette l'élément actuel.
                     Utilisez-le dans les cas où une étiquette de texte n'est pas visible à l'écran.  
@@ -13,23 +19,9 @@
                     /articles/creat renvoie vers la page http://localhost:8080/articles/creat.
                     et renvoie également vers PostArticle.vue
                 --> 
-                <router-link to="/articles/creat" aria-label="Poster un nouvel article">
-                    <button  type= "button" class="btn btn-primary btn-add">
-                        <i class="far fa-plus-square"></i>
-                            Poster un nouvel article
-                        </button>
-                    </router-link>
-                <!-- <UserIdentification :logout="logout" :isLoggedIn="isLoggedIn" /> -->
             </div>
             
             <div>
-                    <!--Importation du component UserIdentification-->
-                <div>
-                    <!-- <label>Recherche par thème : </label>
-                        <select name="name" v-model="search">
-                        <option value="">-- Liste complète --</option>
-                    </select> -->
-                </div>
                 <div class="container">
                     <div class='row articles__box'>
                         <ul class="col-12 col-lg-12">

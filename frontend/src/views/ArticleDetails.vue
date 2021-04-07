@@ -5,12 +5,29 @@
         <div class="container home_container">
             <div id="header">
                 <!-- s'affiche dans la page http://localhost:8080/articles/articleId124 -->
-                <h1>Metre un tire</h1>
+                <h1>Détails d'un article séléctionné</h1>
             </div>
             <div class="row">
-                <div v-if="currentArticle[0]" class="container col-12 col-md-10">
+                <div class="bottos-fix col-sm col-lg-2">
+                    <router-link to="/articles" aria-label="Lien vers la liste d'article">
+                        <button type= "button" class="btn btn-primary" id="arrow-only" aria-label="Lien vers la page d'accueil">
+                            <i class="fas fa-arrow-left"></i> Retour
+                        </button><br><br>
+                    </router-link>
+                    
+                    <div v-if="owner" class="action valid">
+                        <button type= "button" class="btn btn-primary " @click="showUpdate"><i class="far fa-edit"></i> Modifier</button><br/><br>
+                        <button type= "button" class="btn btn-primary btn-warning " @click="confirmDelete"><i class="far fa-trash-alt"></i> Supprimer</button><br><br>
+                        <!--s'affiche quand le user clique sur le bouton "suppression"-->
+                        <div v-if="confirmation">
+                            <button type= "button" class="btn btn-danger" @click="deleteUserArticle">Supprimer</button><br><br>
+                            <button type= "button" class="btn btn-success cancel-btn" @click="refreshPage">Annuler</button><br><br>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="currentArticle[0]" class="container col-10 col-md-9">
                     <div class='row'>
-                        <div class="col-12 col-lg-11 article-item">
+                        <div class="col-12 col-lg-11">
                             <ArticlesItem 
                                 :title="currentArticle[0].title"
                                 :content="currentArticle[0].content"
@@ -18,7 +35,6 @@
                                 :create_at="currentArticle[0].create_at"
                                 :image="currentArticle[0].image"
                                 :id_article="currentArticle[0].id_article"
-                                :users_id_user="currentArticle[0].users_id_user"
                             /><br>
 
                             <h3>{{ messageComments }}</h3><br>
@@ -45,23 +61,7 @@
                     <p v-if="confirmation" class="message_modify">
                         Etes-vous sûr de supprimer ce article ?
                     </p>
-
-                    <router-link to="/articles" aria-label="Lien vers la liste d'article">
-                        <button type= "button" class="btn btn-primary" id="arrow-only" aria-label="Lien vers la page d'accueil">
-                            <i class="fas fa-arrow-left"></i> Retour à la liste
-                        </button>
-                    </router-link>
                 </div>
-                <div v-if="owner" class="col-12 col-md-2 action valid">
-                    <button type= "button" class="btn btn-primary " @click="showUpdate"><i class="far fa-edit"></i> Modifier</button><br/><br>
-                    <button type= "button" class="btn btn-primary btn-warning " @click="confirmDelete"><i class="far fa-trash-alt"></i> Supprimer</button><br><br>
-                    <!--s'affiche quand le user clique sur le bouton "suppression"-->
-                    <div v-if="confirmation">
-                        <button type= "button" class="btn btn-danger" @click="deleteUserArticle">Supprimer</button><br><br>
-                        <button type= "button" class="btn btn-success cancel-btn" @click="refreshPage">Annuler</button><br><br>
-                    </div>
-                </div>
-              
             </div>
 
              <!--Formulaire s'affiche quand le user clique sur le bouton "modifier"-->
@@ -236,6 +236,11 @@ export default {
 
     .message_modify{
         font-size: 2em;
+    }
+
+      .bottos-fix{
+        position: fixed;
+        z-index: 1;
     }
 
 </style>

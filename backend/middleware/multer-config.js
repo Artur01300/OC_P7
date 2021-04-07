@@ -5,7 +5,8 @@ const multer = require('multer');
 const MIME_TYPES = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpg',
-    'image/png': 'png'
+    'image/png': 'png',
+    "image/gif": "gif"
 };
 
 //Création d'un objet de configuration pour multer pour enregistrer sur le disque
@@ -28,4 +29,10 @@ const storage = multer.diskStorage({
 
 // //on exporte le middelwar multer en appelant le multer à la quelle on passe notre objet storage et on  apelle la méthode single pour dire
 // //il sagie un fichier unique et on explique à multer qu'il sagie le fichier image uniquement
-module.exports = multer({storage: storage}).single('image');
+
+
+module.exports = multer({
+    storage: storage,
+    limits: {fileSize: 1200000}// La taile de l'image ne doit pas dépassé le 1.2 Mo !
+    
+}).single('image');
