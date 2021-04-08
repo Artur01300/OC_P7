@@ -16,8 +16,17 @@
                     </router-link>
                     
                     <div v-if="owner" class="action valid">
-                        <button type= "button" class="btn btn-primary " @click="showUpdate"><i class="far fa-edit"></i> Modifier</button><br/><br>
-                        <button type= "button" class="btn btn-primary btn-warning " @click="confirmDelete"><i class="far fa-trash-alt"></i> Supprimer</button><br><br>
+
+                        <button type= "button" class="btn btn-primary " @click="showUpdate">
+                            <i class="far fa-edit"></i>
+                            Modifier
+                        </button><br/><br>
+
+                        <button type= "button" class="btn btn-primary btn-warning " @click="confirmDelete">
+                            <i class="far fa-trash-alt"></i>
+                                Supprimer
+                        </button><br><br>
+                        
                         <!--s'affiche quand le user clique sur le bouton "suppression"-->
                         <div v-if="confirmation">
                             <button type= "button" class="btn btn-danger" @click="deleteUserArticle">Supprimer</button><br><br>
@@ -47,6 +56,7 @@
                                             :name="comment.name"
                                             :content="comment.content"
                                             :created_at="comment.created_at"
+                                            :id_comment="comment.id_comment"
                                         />
                                     </li>
                                 </ul><br>
@@ -200,7 +210,7 @@ export default {
         
         getAllComments() {
 
-        CommentsData.getAll(this.$route.params.id_article, {Authorization: this.token})
+        CommentsData.getAllComments(this.$route.params.id_article, {Authorization: this.token})
             
             .then(response => {
                 this.comments = JSON.parse(JSON.stringify(response.data.data));

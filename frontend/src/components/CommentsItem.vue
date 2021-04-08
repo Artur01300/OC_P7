@@ -1,49 +1,52 @@
 <template>
     <div>
-        <!--Section qui s'affiche si la page qui appelle ce component est celle qui affiche un commentaire en particulier-->
-        <div v-if="this.$route.name == 'one-comment-details'" class="card text-center">
-            <!-- <div class="card-header card__header">
-
-                <p v-if="comment"><i class="fas fa-comments"></i><strong>Commentaire posté le : </strong>
-                    {{ new Date(created_at).toLocaleDateString() }} 
-                    <strong>par </strong> {{ name }}
-                </p>
-          
-                <p class="card-text">{{ content }}</p>
-            </div> -->
+        <!--Section affiche un commentaire séléctioné-->
+        <div v-if="this.$route.name == 'oneCommentDetails'" class="card text-center">
+            <div class="card-header card__header">
+                <p><i class="fas fa-comments"></i> Commentaire posté le : {{ new Date(created_at).toLocaleDateString() }} par {{ name }}</p>
+            </div>
+            <div class="card-body card__body">
+                <p class="card-text card__text ">{{ content }}</p>
+            </div>
         </div>
-        <!--Section qui s'affiche si la page qui appelle ce component est celle qui affiche la liste complète des commentaires-->
+        <!--Section s'affiche tout les commentaires-->
         <div v-else class="card text-center">   
             <div class="card-header card__header">
-                <p v-if="content"><i class="fas fa-comments"></i><strong> Commentaire posté le :</strong> {{ new Date(created_at).toLocaleDateString('fr-CA') }} <strong>par </strong> {{ name }}</p>
+                <p v-if="content">
+                    <i class="fas fa-comments"></i>
+                        Commentaire posté par : <strong> {{ name }} </strong> le : {{new Date(created_at).toLocaleDateString()}}
+                    <a class="btn btn-primary card__btnDetails icon-text" :href="'/ArticleDetails/comment/' + id_comment" aria-label="Détails du commentaire">
+                        <i class="fas fa-info-circle"></i> 
+                        Détails
+                    </a>
+                </p>
                 <p class="card-text card__text ">{{ content }}</p>
             </div>
         </div> 
     </div>
 </template>
 
-
 <script>
     
 export default {
-	name: "CommentsItem",
+	name: "OneCommentDetails",
 	props: {
 		content: {
 			type: String,
-			required: false
+			required: true
 		},
 		name: {
 			type: String,
-			required: false
+			required: false // fails ???
 		},
 		created_at: {
 			type: String,
-			required: false
+			required: true
 		},
         id_comment: {
-			type: Number,
-			required: false
-		}
+            type: Number,
+            required: false // fails ????
+        }
 	}
 }
     

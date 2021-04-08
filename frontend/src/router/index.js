@@ -6,6 +6,7 @@ import Article from '../views/Articles.vue'
 import ArticleDetails from '../views/ArticleDetails.vue'
 import PostArticle from '../views/PostArticle.vue'
 import PostComment from '../views/PostComment.vue'
+import OneCommentDetails from '../views/OneCommentDetails.vue'
 
 
 import Login from '../views/Login.vue'
@@ -50,7 +51,12 @@ const routes = [
     path: '/ArticleDetails/:id_article/comment/',
     name: 'commentsList',
     component: PostComment
-  } 
+  },
+  {
+    path: '/ArticleDetails/comment/:id_comment',
+    name: 'oneCommentDetails',
+    component: OneCommentDetails
+}   
 ]
 
 const router =  new VueRouter({

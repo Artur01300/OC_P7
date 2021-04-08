@@ -70,7 +70,7 @@ export default {
             comment: {
                 content: "",
                 id_article: 0,
-                created_at: "",
+                created_at: ""
             },
             submitted: false
         }

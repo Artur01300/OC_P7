@@ -16,7 +16,10 @@
     
             </div>
             <!-- href="'/articles/articleId' associer avec index.js:  path: '/articles/articleId:id' -->
-            <a class="btn btn-secondary" :href="'/ArticleDetails/' + id_article"><i class="fas fa-info-circle"></i> Cliquez : Voire en détaille sur cet article</a>
+            <a class="btn btn-secondary" :href="'/ArticleDetails/' + id_article">
+                <i class="fas fa-info-circle"></i>
+                Cliquez : Voire en détaille sur cet article
+            </a>
         </div>
         <!--Section affiche un article en particulier-->
          <div v-else class="card text-center">
@@ -24,7 +27,10 @@
                 <ul class="list-group">
                     <li class="list-group-ite">
                         <!-- permet de voir les liste de commentaire d'un article -->
-                        <a :href="'/ArticleDetails/' + id_article + '/comment/'"><i class="far fa-edit"></i> Envoyez un commentaire</a>
+                        <a :href="'/ArticleDetails/' + id_article + '/comment/'">
+                            <i class="far fa-edit"></i>
+                            Envoyez un commentaire
+                        </a>
                     </li>
                 </ul>
             </div>

@@ -40,9 +40,29 @@ exports.getAllComments = (req, res) => {
 
     db.query(sql, [values], function (err, data){
         if(err){
-            console.log(err)
             return res.status(400).json({err});
         }
         return res.status(200).json({data})
+    });
+};
+
+exports.getOneCommentFromUser = (req, res, next) => {
+    const token = req.headers.authorization;
+    const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
+    
+    let sql = "SELECT id_comment, users_id_user, content, created_at, articles_id_article FROM groupomania.comment WHERE id_comment = ?";
+    let values = [req.params.id_comment];
+    db.query(sql, [values], function(err, data) {
+        
+        if (err) {
+            console.log(err)
+            return res.status(400).json({err});
+        }
+        console.log(data)
+        if (data[0].users_id_user == decodedToken.id_user) {
+            res.status(200).json({owner: true, data});
+        }else{
+            res.status(200).json({owner: false, data});
+        }
     });
 };
