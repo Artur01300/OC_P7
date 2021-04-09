@@ -16,21 +16,16 @@
         </div>
       </section>
 
-      <!--Si le user n'est pas connecté, les liens vers les plateformes ne sont pas disponibles, ils renvoient le user au la page de connexion/inscription via le "CallToLogin"-->
+      <!--Si le user n'est pas connecté, les liens vers les plateformes ne sont pas disponibles-->
       <section v-else class="container text-center">
-        <h1 class="intro__title">Bienvenue sur Groupomania, le réseau social de votre entreprise !</h1><br><br>
-        <div class='text-center'>
-          <div class="col-col-sm-5">
-              <b-button variant="success" @click="CallToLogin">Accès au Forum</b-button><br>
-          </div>
-        </div>
+        <h1 class="intro__title">Pour accéder à votre réseau social de l'entreprise vous devez vous connecter !</h1><br><br>
       </section>
 
-        <!--Importation du component CallToLogin-->
+        <!--Importation du  CallToLogin-->
       <CallToLogin v-if="loginCalled" />
 
       <div> 
-        <!--Importation du component Identification-->
+        <!--Importation du Identification-->
         <UserIdentification
         :logout="logout"
         :isLoggedIn="isLoggedIn"

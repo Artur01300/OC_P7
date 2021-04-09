@@ -5,8 +5,8 @@
         <div v-if="!isLoggedIn">
             <router-link to="/" >
                 <b-button variant="success" type= "button" >
-                    <i class="fas fa-user-plus"></i>
-                    Login 
+                    <i class="fas fa-user-plus"></i> 
+                       Login 
                 </b-button>
             </router-link><br/>
             <router-view />
@@ -36,13 +36,3 @@ export default {
 }
 </script>
 
-<style scoped>
-
-    .UserIdentificationFlex{
-        display: flex;
-        text-align: center;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-</style>

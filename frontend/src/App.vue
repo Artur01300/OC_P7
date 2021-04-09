@@ -70,4 +70,15 @@
     color: #42b983;
   }
 
+  @media screen and (max-width : 600px) and (max-width : 1024px) {
+
+    .logo-header {
+      padding-bottom: 40px;
+    }
+    #nav {
+      padding-top: 50px;
+    }
+  }
+
+
 </style>

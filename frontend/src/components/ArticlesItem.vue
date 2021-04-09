@@ -9,17 +9,18 @@
         <div v-if="this.$route.name == 'articles-list'" class="card text-center">
             <div class="card-body">
                
-                <p class="name">Article posté  par {{name}}, le : {{ new Date(create_at).toLocaleDateString()}}</p>
-                <h3 class="card-title">{{ title }}</h3>
-                <p class="card-subtitle">{{ content }}</p><br>
-                <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" class="img-fluid" width="600" height="400" alt=" Image sur l'article"><br><br>
+                <span class="name">Article posté  par {{name}}, le : {{ new Date(create_at).toLocaleDateString()}}</span>
+                <h3 class="card-title name">Titre : {{ title }}</h3>
+                <span class="name">Déscrpitpon</span><br><br>
+                <p class="card-subtitle border border-warning">Déscrpitpon : {{ content }}</p><br>
+                <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" class="img-fluid" width="600" height="400" alt=" Image sur l'article">
     
             </div>
             <!-- href="'/articles/articleId' associer avec index.js:  path: '/articles/articleId:id' -->
-            <a class="btn btn-secondary" :href="'/ArticleDetails/' + id_article">
-                <i class="fas fa-info-circle"></i>
+            <a class="btn btn-info col-12 col-lg-12" :href="'/ArticleDetails/' + id_article">
+                <i class="fas fa-hand-point-up"></i>
                 Cliquez : Voire en détaille sur cet article
-            </a>
+            </a><br>
         </div>
         <!--Section affiche un article en particulier-->
          <div v-else class="card text-center">
@@ -86,11 +87,34 @@ export default {
 </script>
 
 <style scoped>
+
+    .home_container{
+        background: rgba(0, 0, 0, 0.1);
+    }
     .name{
-        color: gold;
+        color: white;
         font-size: 1.5em;
         padding-top: 20px;
     }
 
+    .card{
+        /* background-color: #11ffee00; */
+        background-color: transparent;
+        color: rgb(207, 195, 195);
+        
+    }
+    .card p{
+        font-size: 1.6em;
+    }
+
+    .btn-info{
+        width: 330px;
+        text-align: center;
+        margin: auto;
+    }
+    .border{
+        background-color: white;
+        color: black;
+    }
 
 </style>

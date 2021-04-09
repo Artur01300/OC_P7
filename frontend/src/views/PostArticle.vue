@@ -46,9 +46,6 @@
                                     <!-- v-on écoute les évènements du DOM -->
                                     <input type="file" class="btn-info" id="image" ref="image" v-on:change="handleFileUpload()" accept="image/*"/>
                                     <p class="error">{{ errors[0] }}</p>
-                                    <!-- <div v-if="imageLoaded">
-                                        Image size is {{image.size}}
-                                    </div> -->
                                 </div>
                             </ValidationProvider>
                         </div>
@@ -68,7 +65,7 @@
             <router-view />
         </div>
         
-        <!--Importation du component Identification-->
+        <!--Importation du Identification-->
         <UserIdentification
             :logout="logout"
             :isLoggedIn="isLoggedIn" 

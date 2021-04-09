@@ -2,26 +2,35 @@
 
 <template>
     <main>
-        <div class="articles container_form">
+        <div class="container container_form form">
 
             <div class="articles_containter">
-                <router-link to="/articles/creat" aria-label="Poster un nouvel article">
-                    <button  type= "button" class="btn btn-primary btn-add">
+                <router-link to="/articles/creat" aria-label="Poster un nouvel article" class="btn_marge">
+                    <button type= "button" class="btn btn-info btn-add">
                         <i class="far fa-plus-square"></i>
+                        <span>
                             Poster un nouvel article
-                        </button>
-                </router-link>
+                        </span>
+                    </button>
+
+                    </router-link>
+                    <CallToLogin v-if="!isLoggedIn" />
+
+                <!--Importation du Identification-->
+                    <UserIdentification
+                        :logout="logout"
+                        :isLoggedIn="isLoggedIn"
+                    />
+
             </div>
             
             <div>
                 <div class="container">
-                    <div class='row articles__box'>
+                    <div class='row marge_container'>
                         <ul class="col-12 col-lg-12">
                            <h1>Plateforme de partage d'articles</h1><br><br>
-                            <!--Boucle sur le tableau des articles filtrés-->
-                                <!-- <li v-for="article in filteredArticles" :key="article.name"> -->
-                            <li v-for="article in filteredArticles" :key="article.title">
-                                <!--Importation du component ArticlesItem-->
+                            <li v-for="article in articles" :key="article.title">
+                                <!--Importation du ArticlesItem-->
                                 <ArticlesItem 
                                 :id_user="article.id_user"
                                 :title="article.title"
@@ -31,7 +40,6 @@
                                 :create_at="article.create_at" 
                                 :id_article="article.id_article"
                                 />
-                                
                             </li>
                         </ul>
                     </div>
@@ -39,14 +47,7 @@
                 <p v-if="articles.length == 0">{{ message }}</p>
             </div>
             <!--Importation du CallToLogin -->
-            <CallToLogin v-if="!isLoggedIn" />
-
-                <!--Importation du Identification-->
-            <UserIdentification
-                :logout="logout"
-                :isLoggedIn="isLoggedIn"
-            />
-            
+       
         </div> 
     </main>
 </template>
@@ -77,12 +78,6 @@ export default {
        //Utilisation de Vuex
         ...mapGetters(['isLoggedIn']),
         ...mapState({ token: "token"}),
-       //filtrage des articles par sujet
-        filteredArticles() {
-            return this.articles.filter(article => {
-            return article.title.includes(this.search);
-            })
-        }
     },
     methods: {
         
@@ -114,11 +109,40 @@ export default {
 
 
     li{
-        list-style:none;
+        list-style: none;
     }
 
     .articles_containter{
         position: fixed;
         z-index: 1;
+        display: flex;
+    }
+
+    .container_form{
+        padding-top: 10em;
+    }
+    .btn_marge{
+        padding-right: 1em;
+    }
+
+    .marge_container{
+        padding-top: 5em;
+    }
+
+    @media screen and (max-width : 600px) and (max-width : 1024px) { 
+        .articles_containter{
+            width: 10%;
+        }
+        .articles_containter span{
+            font-size: 0.8em;
+        }
+        .articles_containter button{
+            width: 150px;
+        }
+
+        .marge_container h1{
+            font-size: 1.2em;
+        }
+
     }
 </style>
