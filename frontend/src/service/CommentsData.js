@@ -13,8 +13,8 @@ class CommentsData {
         return http.post(`/api/comment/${id_article}`, data, {headers});
     }
     
-    deleteComment(id_article, headers) {
-        return http.delete(`/api/comment/${id_article}`, {headers});
+    deleteComment(id_comment, headers) {
+        return http.delete(`/api/comment/${id_comment}`, {headers});
     }
 }
 

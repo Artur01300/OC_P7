@@ -21,13 +21,13 @@ exports.createComment = (req, res) => {
 
 exports.deleteComment = (req, res, next) => {
     let sql = "DELETE FROM groupomania.comment WHERE id_comment = ?";
-    db.query(sql, [req.body.id_comment], function(err, data) {
+    db.query(sql, [req.params.id_comment], function(err, data) {
 
         if (err) {
             console.log(err)
             return res.status(400).json({err});
         }
-        res.json({status: 200, data, message: "Commentaire supprimé !"})
+        res.status(200).json({ data, message: "Commentaire supprimé !"})
     });
 };
 
@@ -58,7 +58,6 @@ exports.getOneCommentFromUser = (req, res, next) => {
             console.log(err)
             return res.status(400).json({err});
         }
-        console.log(data)
         if (data[0].users_id_user == decodedToken.id_user) {
             res.status(200).json({owner: true, data});
         }else{

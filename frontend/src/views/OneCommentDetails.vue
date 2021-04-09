@@ -14,8 +14,8 @@
 
                         <div class="comment__btnBox">
                             <!--La section des boutons "delet" s'affiche que si le user est celui qui a posté le commentaire-->
-                            <div v-if="owner && !deleted" class="comment__btns">
-                                <button @click="suppressComment" type= "button" class="btn btn-primary">
+                            <div v-if="owner && !deleted">
+                                <button @click="deleteOneComent" type= "button" class="btn btn-primary">
                                     <i class="far fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -67,7 +67,6 @@ export default {
         }
     },
     computed: {
-    
         ...mapGetters(['isLoggedIn']),
         ...mapState({ token: "token"})
      },
@@ -77,28 +76,24 @@ export default {
             Authorization = this.token;
            //requête GET
             CommentsData.getOneCommentFromUser(this.$route.params.id_comment, { Authorization }) 
-                .then(response => {
-                    this.currentComment = JSON.parse(JSON.stringify(response.data.data[0]));
-                    this.owner = response.data.owner
-                    console.log(response)     
-                })
-                .catch(error => console.log(error));
+            .then(response => {
+                this.currentComment = JSON.parse(JSON.stringify(response.data.data[0]));
+                this.owner = response.data.owner 
+            })
+            .catch(error => console.log(error));
         },
         
-        suppressComment(cryptoslug, slug, Authorization) {
-            Authorization = `Bearer ${this.token}`;
-            //Fonction qui lance la requête DELETE via Axios
-            CommentsData.deleteComment(this.$route.params.cryptoslug, this.$route.params.slug, { Authorization })
-                .then(response => {
-                    console.log(response.data);
-                    this.deleted = true;
-                    //Actualisation du localStorage pour permettre au user de réécrire un nouveau commentaire à l'avenir
-                    let previousComments = JSON.parse(localStorage.getItem("alreadyCommented"));
-                    console.log(previousComments);
-                    previousComments = previousComments.filter(item => (item != this.$route.params.slug));
-                    localStorage.setItem("alreadyCommented", JSON.stringify(previousComments)); 
-                })
-                .catch(error => console.log(error));
+        deleteOneComent(Authorization) {
+            Authorization = this.token;
+            CommentsData.deleteComment(this.$route.params.id_comment, { Authorization })
+            .then(response => {
+                console.log(response.data);
+                this.deleted = true;
+                alert('Comment supprimé !')
+                this.$router.push({ path: "/Articles/"});
+               
+            })
+            .catch(error => console.log(error));
         },
         //Fonction de déconnexion
         logout() {
