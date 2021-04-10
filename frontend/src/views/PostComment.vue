@@ -2,13 +2,13 @@
 
 <template>
     <main class="main-comment">
-        <div class="container jumbotron text-center comment">
+        <div class="container text-center">
 
             <ValidationObserver v-slot="{ invalid, handleSubmit }">
                 <form v-if="!submitted" @submit.prevent="handleSubmit(postCommentDetail)">
-                    <h1>Commentez votre article sélectionné !</h1><br>
                     <div class="row">
                         <div role="form" class="col-12 col-md-9 text-center formComment__box ">
+                        <h1>Commentez l'article sélectionné !</h1><br>
                             <div class="form-group">
         
                                 <ValidationProvider name="comment.content" rules="required|minmax:3,500">
@@ -25,7 +25,7 @@
                                         />
                                 </ValidationProvider>
                             </div>
-                            <div class="action">
+                            <div class="btn-comment">
                                 <button class="btn btn-success btn-post" aria-label="Poster le commentaire" type="submit" value="Submit" v-bind:disabled="invalid">
                                     <i class="fas fa-check"></i> 
                                     Envoyez un commentaire 
@@ -103,5 +103,10 @@ export default {
 <style>
     .main-comment{
         padding-top: 350px;
+    }
+
+    .btn-comment{
+        display: flex;
+        justify-content: space-around;
     }
 </style>

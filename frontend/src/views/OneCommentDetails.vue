@@ -12,12 +12,12 @@
                             />
                         </div>
 
-                        <div class="comment__btnBox">
+                        <div class="comment_btn">
                             <!--La section des boutons "delet" s'affiche que si le user est celui qui a posté le commentaire-->
                             <div v-if="owner && !deleted">
-                                <button @click="deleteOneComent" type= "button" class="btn btn-primary">
-                                    <i class="far fa-trash-alt"></i>
-                                </button>
+                                <button @click="deleteOneComent" type= "button" class="btn btn-danger">
+                                    <i class="far fa-trash-alt">Supprimer</i>
+                                </button><br><br>
                             </div>
 
                             <div>
@@ -26,18 +26,17 @@
                                         Retour
                                     </button>
                                 </router-link>
-                                <router-view />
+                                <router-view /><br><br>
+                                <UserIdentification
+                                    :logout="logout"
+                                    :isLoggedIn="isLoggedIn"
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <UserIdentification
-            :logout="logout"
-            :isLoggedIn="isLoggedIn"
-        />
     </main>
 </template>
 
@@ -112,5 +111,8 @@ export default {
 <style>
     .conteiner_comment{
         padding-top: 350px;
+    }
+    .comment_btn{
+        padding-top: 20px;
     }
 </style>
