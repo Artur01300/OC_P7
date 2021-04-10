@@ -8,10 +8,11 @@
         <!--Section affiche la liste complète des articles-->
         <div v-if="this.$route.name == 'articles-list'" class="card text-center">
             <div class="card-body">
-               
-                <span class="name">Article posté  par {{name}}, le : {{ new Date(create_at).toLocaleDateString()}}</span>
-                <h3 class="card-title name">Titre : {{ title }}</h3>
-                <span class="name">Déscrpitpon</span><br><br>
+               <i class="fas fa-cash-register fa-3x"></i>
+                <span class="name">Article posté  par {{name}}</span><br>
+                <p> le : {{ new Date(create_at).toLocaleDateString()}}</p>
+                <h3 class="card-title name">-- Titre : -- {{ title }}</h3>
+                <span class="name">-- Déscrpitpon : --</span><br><br>
                 <p class="card-subtitle border border-warning">Déscrpitpon : {{ content }}</p><br>
                 <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" class="img-fluid" width="600" height="400" alt=" Image sur l'article">
     
@@ -26,16 +27,16 @@
          <div v-else class="card text-center">
             <div class="card-header">
                 <ul class="list-group">
-                    <li class="list-group-ite">
+                    <li>
                         <!-- permet de voir les liste de commentaire d'un article -->
                         <a :href="'/ArticleDetails/' + id_article + '/comment/'">
-                            <i class="far fa-edit"></i>
-                            Envoyez un commentaire
+                           <span>Envoyez un commentaire</span>
+                           <i class="fas fa-comment fa-3x"></i>
                         </a>
                     </li>
                 </ul>
             </div>
-            <div class="card-body">
+            <div class="card-body card-body_text">
                 <p>Article posté le : {{ new Date(create_at).toLocaleDateString() }}</p>
                 <h2 class="card-title">{{ title }}</h2>
                 <p class="card-text">{{ content }}</p>
@@ -100,7 +101,7 @@ export default {
     .card{
         /* background-color: #11ffee00; */
         background-color: transparent;
-        color: rgb(207, 195, 195);
+        color:white;
         
     }
     .card p{
@@ -116,5 +117,18 @@ export default {
         background-color: white;
         color: black;
     }
+
+  .list-group span{
+    color: #273746 ;
+    font-size: 2em;
+    padding-right: 10px;
+  }
+
+ .fa-3x{
+    color: #58D68D ;
+ }
+ .fa-cash-register{
+     padding-right: 13px;
+ }
 
 </style>

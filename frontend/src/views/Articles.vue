@@ -111,6 +111,9 @@ export default {
     li{
         list-style: none;
     }
+    .container{
+        background: none;
+    }
 
     .articles_containter{
         position: fixed;

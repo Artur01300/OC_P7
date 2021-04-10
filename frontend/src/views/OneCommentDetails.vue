@@ -1,6 +1,6 @@
 <template>
    <main class="conteiner_comment">
-        <div class="jumbotron container">
+        <div class="container">
             <div class="row">
                 <div class="container col-12 col-md-10">
                     <div class='row'>

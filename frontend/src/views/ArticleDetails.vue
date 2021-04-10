@@ -26,6 +26,7 @@
                             <i class="far fa-trash-alt"></i>
                                 Supprimer
                         </button><br><br>
+
                         
                         <!--s'affiche quand le user clique sur le bouton "suppression"-->
                         <div v-if="confirmation">
@@ -33,6 +34,10 @@
                             <button type= "button" class="btn btn-success cancel-btn" @click="refreshPage">Annuler</button><br><br>
                         </div>
                     </div>
+                    <UserIdentification
+                        :logout="logout"
+                        :isLoggedIn="isLoggedIn" 
+                    />
                 </div>
                 <div v-if="currentArticle[0]" class="container col-10 col-md-9">
                     <div class='row'>
@@ -46,7 +51,7 @@
                                 :id_article="currentArticle[0].id_article"
                             /><br>
 
-                            <h3>{{ messageComments }}</h3><br>
+                            <h3 class="text_color">{{ messageComments }}</h3><br>
                         
                             <!--Boucle sur le tableau des commentaires-->
                             <div v-for="comment in comments" :key="comment.created_at">
@@ -108,11 +113,6 @@
                     </div>
                 </div>
             </div>
-
-            <UserIdentification
-                :logout="logout"
-                :isLoggedIn="isLoggedIn" 
-            />
         </div>
     </main>
 </template>
@@ -240,7 +240,6 @@ export default {
         padding-top: 200px;
     }
     .jumbotron{
-  
        background: rgba(0, 0, 0, 0.18);
     }
 
@@ -248,9 +247,13 @@ export default {
         font-size: 2em;
     }
 
-      .bottos-fix{
-        position: fixed;
-        z-index: 1;
+    .bottos-fix{
+    position: fixed;
+    z-index: 1;
+    }
+    
+    .text_color{
+        color: white;
     }
 
 </style>
