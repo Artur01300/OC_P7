@@ -72,10 +72,6 @@
                     <p v-if="messageUpdate" class="message_modify">
                         <strong>{{ messageUpdate }}</strong>
                     </p>
-
-                    <p v-if="confirmation" class="message_modify">
-                        Etes-vous sûr de supprimer ce article ?
-                    </p>
                 </div>
             </div>
 
@@ -184,7 +180,6 @@ export default {
             Authorization = this.token;
             ArticlesUrlDada.modifyTextArticle(this.$route.params.id_article, data, { Authorization }) 
                 .then(response => {
-                    console.log('response')
                     console.log(response.data);
                     this.messageUpdate = "L'article modifié avec succès !";
                     this.askForUpdate = false;

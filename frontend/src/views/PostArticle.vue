@@ -52,7 +52,7 @@
                         
                         <div class="post-btns">
                             <button class="btn btn-info" type="submit" value="Submit" v-bind:disabled="invalid"><i class="fas fa-check"></i> Valider ce post</button><br><br>
-                            <router-link to="/articles" class="btn-info" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Retour à la liste</button></router-link>
+                            <router-link to="/articles" class="btn-info" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Retour</button></router-link>
                             <router-view />
                         </div>
                     </div>
@@ -61,7 +61,7 @@
         </ValidationObserver>
         <div v-else id="afterMessage">
             <h3>Votre article a bien été posté !</h3><br>
-            <router-link to="/articles" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary">Retour à la liste</button></router-link><br><br>
+            <router-link to="/articles" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary">Retour</button></router-link><br><br>
             <router-view />
         </div>
         

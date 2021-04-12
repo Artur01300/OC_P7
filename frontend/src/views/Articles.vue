@@ -1,8 +1,8 @@
 <!-- pAGE d'accuil de forum (qui liste les article postées) -->
 
 <template>
-    <main>
-        <div class="container container_form form">
+    <main class="main">
+        <div class="container containerModify form">
 
             <div class="articles_containter">
                 <router-link to="/articles/creat" aria-label="Poster un nouvel article" class="btn_marge">
@@ -106,23 +106,39 @@ export default {
 </script>
 
 <style>
-
-
+    .main{
+        max-width: 800px;
+        margin: auto
+    }
     li{
         list-style: none;
     }
-    .container{
-        background: none;
+
+    .marge_container h1{
+        padding-top: 40px;
+        font-size: 2em;
+        font-weight: bolder;
+        color: #17a2b8;;
     }
 
     .articles_containter{
+        padding-top: 20px;
         position: fixed;
         z-index: 1;
         display: flex;
     }
 
-    .container_form{
+    .form button{
+        background-color: #138496;
+    }
+    .form button:hover, .form button:active, .form button:focus {
+        background: #17a2b8;
+    }
+
+    .containerModify{
         padding-top: 10em;
+        max-width: 400px;
+        background-color: white;
     }
     .btn_marge{
         padding-right: 1em;
@@ -132,19 +148,23 @@ export default {
         padding-top: 5em;
     }
 
-    @media screen and (max-width : 600px) and (max-width : 1024px) { 
+    @media screen and (max-width : 600px) and (max-width : 1024px) {
+       
         .articles_containter{
             width: 10%;
+            margin: auto;
         }
         .articles_containter span{
             font-size: 0.8em;
         }
         .articles_containter button{
-            width: 150px;
+            width: 100px;
+            font-size: 0.6em;
         }
 
         .marge_container h1{
-            font-size: 1.2em;
+            padding-top: 40px;
+            font-size: 1.9em;
         }
 
     }

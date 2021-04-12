@@ -90,4 +90,10 @@ export default {
     padding-top: 300px;
   }
 
+  @media screen and (max-width : 600px) and (max-width : 1024px) {
+    .containerForm{
+    padding-top: 200px;
+  }
+  }
+
 </style>

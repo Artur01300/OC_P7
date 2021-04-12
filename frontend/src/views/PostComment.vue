@@ -2,12 +2,12 @@
 
 <template>
     <main class="main-comment">
-        <div class="container text-center">
+        <div class="containerCenter text-center">
 
             <ValidationObserver v-slot="{ invalid, handleSubmit }">
                 <form v-if="!submitted" @submit.prevent="handleSubmit(postCommentDetail)">
                     <div class="row">
-                        <div role="form" class="col-12 col-md-9 text-center formComment__box ">
+                        <div role="form" class="col-12 col-md-9 text-center">
                         <h1>Commentez l'article sélectionné !</h1><br>
                             <div class="form-group">
         
@@ -28,13 +28,13 @@
                             <div class="btn-comment">
                                 <button class="btn btn-success btn-post" aria-label="Poster le commentaire" type="submit" value="Submit" v-bind:disabled="invalid">
                                     <i class="fas fa-check"></i> 
-                                    Envoyez un commentaire 
-                                </button>
+                                    Envoyez un commentaire
+                                </button><br>
 
                                 <router-link to="/articles" aria-label="Lien vers la liste d'articles">
                                     <button type= "button" class="btn btn-success"><i class="fas fa-times"></i>
                                         Annuler
-                                    </button>
+                                    </button><br><br>
                                 </router-link>
 
                                 <router-link to="/articles/" aria-label="Lien vers la liste d'articles">
@@ -105,8 +105,39 @@ export default {
         padding-top: 350px;
     }
 
+    .containerCenter{
+        max-width: 600px;
+        margin: auto;
+    }
     .btn-comment{
         display: flex;
         justify-content: space-around;
+    }
+
+    @media screen and (max-width : 600px) and (max-width : 1024px) {
+        .containerCenter{
+            max-width: 300px;
+
+        }
+        .main-comment{
+            padding-top: 190px;
+        }
+
+        form h1{
+            font-size: 1.6em;
+        }
+
+        .btn-comment .btn {
+            width: 100px;
+            margin: auto;
+            font-size: 0.7em;
+        }
+
+        .btn-comment{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
     }
 </style>

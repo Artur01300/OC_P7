@@ -42,8 +42,11 @@
         <h3>Détails de votre compte</h3>
         <p><strong>Pseudo :</strong> {{ name }}</p>
         <p><strong>Email:</strong> {{ email }}</p>
-        <b-button variant="danger" class="btn account__btn" @click="confirmDelete"><i class="far fa-trash-alt"></i><strong> Supprimer votre compte</strong></b-button>
-        <b-button variant="success" class="btn account__btn" @click="hideAccount"><i class="fas fa-arrow-left"></i><strong> Retour</strong></b-button>
+
+        <div class="btns-space">
+          <b-button variant="danger" class="btn account__btn" @click="confirmDelete"><i class="far fa-trash-alt"></i><strong> Supprimer votre compte</strong></b-button>
+          <b-button variant="success" class="btn account__btn" @click="hideAccount"><i class="fas fa-arrow-left"></i><strong> Retour</strong></b-button>
+        </div>
       </div>
       <!--Ecran qui demande confirmation pour la suppression du compte-->
       <div v-if="confirmation">
@@ -151,6 +154,12 @@ export default {
 </script>
 
 <style>
+  .btns-space{
+    display: flex;
+    justify-content: space-around;
+    width: 400px;
+    margin: auto;
+  }
 
   .confirmSuppress{
     display: flex;
@@ -164,6 +173,8 @@ export default {
 
   .container_form{
     padding-top: 200px;
+    max-width: 800px;
+    margin: auto;
   }
 
   .home_container{
