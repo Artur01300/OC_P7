@@ -58,7 +58,8 @@ export default {
                 content: "",
                 name: "",
                 created_at: "",
-                id_comment: ""
+                id_comment: "",
+                articles_id_article: ""
             },
             alreadyCommented: false,
             owner: false,
@@ -74,10 +75,10 @@ export default {
        getOneComment(Authorization) {
             Authorization = this.token;
            //requête GET
-            CommentsData.getOneCommentFromUser(this.$route.params.id_comment, { Authorization }) 
+            CommentsData.getOneCommentFromUser(this.$route.params.id_comment, { Authorization })
             .then(response => {
-                this.currentComment = JSON.parse(JSON.stringify(response.data.data[0]));
-                this.owner = response.data.owner 
+                this.currentComment = JSON.parse(JSON.stringify(response.data.responseData[0]));
+                this.owner = response.data.owner
             })
             .catch(error => console.log(error));
         },
@@ -89,7 +90,7 @@ export default {
                 console.log(response.data);
                 this.deleted = true;
                 alert('Comment supprimé !')
-                this.$router.push({ path: "/Articles/"});
+                this.$router.push({ path: '/ArticleDetails/'+this.currentComment.articles_id_article}); 
                
             })
             .catch(error => console.log(error));

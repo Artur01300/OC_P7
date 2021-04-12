@@ -194,7 +194,7 @@ export default {
 
         deleteUserArticle(Authorization) {
             Authorization = this.token;
-            ArticlesUrlDada.delateArticle(this.currentArticle[0].id_article, { Authorization })
+            ArticlesUrlDada.delateArticle(this.currentArticle[0].id_article, { Authorization }) 
             .then(response => {
                 console.log(response.data);
                 alert('Article supprimé')

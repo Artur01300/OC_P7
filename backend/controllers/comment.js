@@ -37,19 +37,6 @@ exports.deleteComment = (req, res, next) => {
     });
 };
 
-// exports.deleteComment = (req, res, next) => {
-//     let sql = "DELETE FROM groupomania.comment WHERE id_comment = ?";
-//     db.query(sql, [req.params.id_comment], function(err, data) {
-
-//         if (err) {
-//             console.log(err)
-//             return res.status(400).json({err});
-//         }
-//         res.status(200).json({ data, message: "Commentaire supprimé !"})
-//     });
-// };
-
-// pour admin pour supprimer ou voir tous les comment de users 
 exports.getAllComments = (req, res) => {
 
     let sql = "SELECT * FROM groupomania.v_get_one_comment_from_user WHERE articles_id_article = ?";
@@ -76,10 +63,12 @@ exports.getOneCommentFromUser = (req, res, next) => {
             console.log(err)
             return res.status(400).json({err});
         }
+        let responseData = [];
+        responseData[0] = {id_comment:data[0].id_comment, content:data[0].content, created_at:data[0].created_at, articles_id_article:data[0].articles_id_article}
         if (data[0].users_id_user == decodedToken.id_user || decodedToken.isAdmin) {
-            res.status(200).json({owner: true, data});
+            res.status(200).json({owner: true, responseData}); 
         }else{
-            res.status(200).json({owner: false, data});
+            res.status(200).json({owner: false, responseData});
         }
     });
 };

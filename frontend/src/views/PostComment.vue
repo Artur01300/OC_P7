@@ -91,7 +91,7 @@ export default {
                 
                 console.log(response.data);
                 alert('Votre commentaire est bien posté !')
-                this.$router.push({ path: "/articles" });
+                this.$router.push({ path: '/ArticleDetails/'+id_article });
             })
             .catch(error => console.log(error));
 

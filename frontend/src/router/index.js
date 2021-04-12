@@ -43,7 +43,7 @@ const routes = [
     component: PostArticle
   },
   {
-    path: '/ArticleDetails/:id_article',
+    path: '/ArticleDetails/:id_article', 
     name: 'one-article-details',// ??
     component: ArticleDetails
   },

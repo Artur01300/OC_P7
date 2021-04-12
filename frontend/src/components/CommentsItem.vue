@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--Section affiche un commentaire séléctioné-->
-        <div v-if="this.$route.name == 'oneCommentDetails'" class="container_form card_color containter_position text-center">
+        <div v-if="this.$route.name == 'OneCommentDetails'" class="container_form card_color containter_position text-center">
             <div class="card-header">
                 <p><i class="fas fa-comments"></i> Commentaire posté le : {{ new Date(created_at).toLocaleDateString() }} par {{ name }}</p>
             </div>
@@ -17,7 +17,7 @@
                     Commentaire posté par : <strong> {{ name }} </strong> le : {{new Date(created_at).toLocaleDateString()}}
                 </p>
                 <p class="card-text">{{ content }}</p>
-                <a class="btn btn-success card__btnDetails icon-text" :href="'/ArticleDetails/comment/' + id_comment" aria-label="Détails du commentaire">
+                <a v-if="id_comment" class="btn btn-success card__btnDetails icon-text" :href="'/ArticleDetails/comment/' + id_comment" aria-label="Détails du commentaire">
                     <i class="fas fa-info-circle"></i> 
                     Modifier
                 </a>
