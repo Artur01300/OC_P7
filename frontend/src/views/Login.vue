@@ -1,5 +1,5 @@
 <template>
-    <div class="container container_form">
+    <div class="container containerForm">
       <div v-if="!submitted" class="form">
         <ValidationObserver v-slot="{ invalid, handleSubmit }">
           <form class="form-signin" @submit.prevent="handleSubmit(loginSubmit)">
@@ -84,3 +84,10 @@ export default {
 
 </script>
 
+<style>
+
+  .containerForm{
+    padding-top: 300px;
+  }
+
+</style>

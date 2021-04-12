@@ -3,7 +3,7 @@
     <div class="introPage container_form">
       <section v-if="isLoggedIn" class="container home_container text-center"><br><br>
         <div>
-          <h1>Bienvenue sur le réseau social de votre entreprise !</h1><br>
+          <h1>Bienvenue sur le réseau social de votre entreprise !</h1>
         </div>
         <div class='container'>
           <div class="col-col-sm-5">

@@ -1,7 +1,7 @@
 <template>
    <div class="container  agileites_padding">
         <div class="main wrapper">
-            <h1>Inscrivez vous Forum</h1>
+            <h1>Inscrivez vous</h1>
             <div v-if="!submitted" class="main-agileinfo">
               <div class="agileits-top">
                 <!--Vee-Validate: ValidationObserver pour suspendre la soumission du formulaire à l'existence ou non d'erreurs-->
@@ -9,7 +9,7 @@
                   <!-- v-on:submit.preventl'évènement `submit` ne rechargera plus la page -->
                   <form @submit.prevent="handleSubmit(createUser)">
 
-                    <ValidationProvider name="user.name" rules="required|minmax:3,10">
+                    <ValidationProvider name="user.name" rules="required">
                       <div slot-scope="{ errors }">
                         <input type="text" placeholder="Name" require v-model="user.name"  name="name"><br>
                         <p class="error">{{ errors[0] }}</p>

@@ -30,7 +30,7 @@
                         
                         <!--s'affiche quand le user clique sur le bouton "suppression"-->
                         <div v-if="confirmation">
-                            <button type= "button" class="btn btn-danger" @click="deleteUserArticle">Supprimer</button><br><br>
+                            <button type= "button" class="btn btn-danger" @click="deleteUserArticle">Confirmer la suppression </button><br><br>
                             <button type= "button" class="btn btn-success cancel-btn" @click="refreshPage">Annuler</button><br><br>
                         </div>
                     </div>
@@ -197,6 +197,7 @@ export default {
             ArticlesUrlDada.delateArticle(this.currentArticle[0].id_article, { Authorization })
             .then(response => {
                 console.log(response.data);
+                alert('Article supprimé')
                 this.$router.push({ path: "/articles" });
             })
             .catch(error => console.log(error));

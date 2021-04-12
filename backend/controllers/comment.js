@@ -18,18 +18,36 @@ exports.createComment = (req, res) => {
     });
 };
 
-
 exports.deleteComment = (req, res, next) => {
+
+    const token = req.headers.authorization;
+    const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
+
     let sql = "DELETE FROM groupomania.comment WHERE id_comment = ?";
     db.query(sql, [req.params.id_comment], function(err, data) {
-
-        if (err) {
-            console.log(err)
-            return res.status(400).json({err});
+        if (req.params.id_comment || decodedToken.isAdmin) {
+            
+            if (err) {
+                console.log(err)
+                return res.status(400).json({err});
+            }
+            res.status(200).json({ data, message: "Commentaire supprimé !"})
         }
-        res.status(200).json({ data, message: "Commentaire supprimé !"})
+
     });
 };
+
+// exports.deleteComment = (req, res, next) => {
+//     let sql = "DELETE FROM groupomania.comment WHERE id_comment = ?";
+//     db.query(sql, [req.params.id_comment], function(err, data) {
+
+//         if (err) {
+//             console.log(err)
+//             return res.status(400).json({err});
+//         }
+//         res.status(200).json({ data, message: "Commentaire supprimé !"})
+//     });
+// };
 
 // pour admin pour supprimer ou voir tous les comment de users 
 exports.getAllComments = (req, res) => {
@@ -58,7 +76,7 @@ exports.getOneCommentFromUser = (req, res, next) => {
             console.log(err)
             return res.status(400).json({err});
         }
-        if (data[0].users_id_user == decodedToken.id_user) {
+        if (data[0].users_id_user == decodedToken.id_user || decodedToken.isAdmin) {
             res.status(200).json({owner: true, data});
         }else{
             res.status(200).json({owner: false, data});

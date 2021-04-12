@@ -1,8 +1,8 @@
 // const Article = require("../models/Article");
 const db = require("../services/mysql");
 const jwt = require('jsonwebtoken');
-
 const fs = require('fs');
+
 
 //quand j'ajoute un article il m'affiche null, pour quoi ?
 exports.createArticle = (req, res) => {
@@ -25,6 +25,7 @@ exports.createArticle = (req, res) => {
     }else{
         let sql = "INSERT INTO groupomania.articles(title, content, users_id_user) VALUES (?)";
         let values = [req.body.title, req.body.content, decodedToken.id_user,];
+    
     
         db.query(sql, [values], function(err, data){
             if(err){
@@ -96,7 +97,6 @@ exports.delateArticle = (req, res) => {
             }
         }
     });
-    
     db.query(sqlDeleteArticle, values, function(err, data) {
         if (err) {
             console.log(err)
@@ -104,6 +104,17 @@ exports.delateArticle = (req, res) => {
         }
         res.status(200).json({message: "Article supprimé !"});
     });
+
+    // if(decodedToken.id_user || decodedToken.isAdmin){
+
+    //     db.query(sqlDeleteArticle, values, function(err, data) {
+    //         if (err) {
+    //             console.log(err)
+    //             return res.status(500).json({err});
+    //         }
+    //         res.status(200).json({message: "Article supprimé !"});
+    //     });
+    // }
 }
 
 exports.delImageArticle = (req, res) => {
@@ -148,7 +159,7 @@ exports.getOneArticleFromUser = (req, res) => {
             console.log(err);
             return res.status(400).json({err});
         }
-        if (data[0].users_id_user == decodedToken.id_user){
+        if (data[0].users_id_user == decodedToken.id_user || decodedToken.isAdmin){
             res.status(200).json({owner: true, data})
         } else {
             res.status(200).json({owner: false, data})

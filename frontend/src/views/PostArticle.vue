@@ -60,8 +60,8 @@
             </form>
         </ValidationObserver>
         <div v-else id="afterMessage">
-            <h3>Votre article a bien été posté !</h3>
-            <router-link to="/articles" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary">Retour à la liste</button></router-link>
+            <h3>Votre article a bien été posté !</h3><br>
+            <router-link to="/articles" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary">Retour à la liste</button></router-link><br><br>
             <router-view />
         </div>
         
