@@ -4,20 +4,13 @@ const router = express.Router();
 // const auth = require("../middleware/auth");
 const articleCtrl = require("../controllers/article"); 
 const auth = require('../middleware/auth');
-
 const multer = require('../middleware/multer-config');
 
-//ne pas oublier le auth !!!
 router.post('/creat', auth, multer, articleCtrl.createArticle);//on poste un article dans reseau social
+router.get('/', auth, articleCtrl.getAllArticles);//affiche tout les articles
+router.get('/:id_article', auth, articleCtrl.getOneArticleFromUser);//Affiche uniquement un article de l'article de user
 router.put('/:id_article', auth, articleCtrl.modifyTextArticle);//modifie le text de l'article.
 router.delete('/:id_article', auth, articleCtrl.delateArticle);//Supprime l'article. 
 
-router.get('/:id_article', auth, articleCtrl.getOneArticleFromUser);
-
-router.get('/', auth, articleCtrl.getAllArticles);//affiche tout les articles
-// router.get('/articleUser/:id_user', auth, articleCtrl.getAllArticlesFromOneUser);//afficher uniquement tout les article d'un seul utilisateur
-
-router.post('/delImg', auth, articleCtrl.delImageArticle);//Suprime uniquement l'image de l'article.
-router.post('/addImg', auth, multer, articleCtrl.creatImageArticle);//Création uniquement l'image de l'article.
 
 module.exports = router;

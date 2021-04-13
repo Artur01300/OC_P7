@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
 
-//quand j'ajoute un article il m'affiche null, pour quoi ?
 exports.createArticle = (req, res) => {
-    
+
+    //Vérification users par le token
     const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
 
@@ -26,18 +26,15 @@ exports.createArticle = (req, res) => {
         let sql = "INSERT INTO groupomania.articles(title, content, users_id_user) VALUES (?)";
         let values = [req.body.title, req.body.content, decodedToken.id_user,];
     
-    
         db.query(sql, [values], function(err, data){
             if(err){
                 return res.status(400).json({err});
             }
             res.json({status: 201, data, message: 'Nouvelle article créé !'})
         });
-    }
+    };
 };
 
-
-//ajouter id d'article pour supprimerr uniquement un article et pas tout les article
 exports.modifyTextArticle = (req, res) => {
     const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
@@ -68,11 +65,6 @@ exports.creatImageArticle = (req, res) => {
         res.json({status: 201, data, message: 'Image ajouté !'})
     });
 }
-
-/*
-    Pour après:
-    -implémenter un admin pour supprimer l'article
-*/
 
 exports.delateArticle = (req, res) => {
     //Vérification users par le tocken
@@ -140,42 +132,13 @@ exports.delateArticle = (req, res) => {
     }
 }
 
-exports.delImageArticle = (req, res) => {
-    const token = req.headers.authorization;
-    const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
-
-    const sqlSelect = "SELECT * groupomania.articles.image from articles WHERE id_article = ? AND users_id_user = ?";
-    const sqlUpdate = "UPDATE groupomania.articles SET image = null WHERE id_article = ? AND users_id_user = ?";
-    let values = [req.body.id_article, decodedToken.id_user];
-
-    db.query(sqlSelect, values, function (err, result) {
-
-        //Récupération de l'image depuis front-end
-        let image = `images/${result[0].image}`
-        //Si il y a l'image, alors on supprime l'image et on met à jour le BDD
-    if (fs.existsSync(image)) {
-      
-        db.query(sqlUpdate, values, function (err, result){
-            
-            if(err){
-                console.log(err);
-                return res.status(404).json({err});
-            }
-        });
-        fs.unlinkSync(image);
-        return res.status(201).json({message: 'Image supprimé !'});
-        }else{
-            return res.status(400).json({message: 'Erreur suppression suppretion image !'});
-        }
-    });
-};
 
 exports.getOneArticleFromUser = (req, res) => {
     const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
-
+    
     let sql = "SELECT * FROM groupomania.articles WHERE id_article = ?";
-
+    
     db.query(sql, [req.params.id_article], function(err, data, fields){
         
         if (err) {
@@ -192,11 +155,11 @@ exports.getOneArticleFromUser = (req, res) => {
 
 exports.getAllArticles = (req, res, next) => {
     let sql = "SELECT name, title, content, image, create_at, id_article FROM groupomania.v_getonearticle";
-
+    
     db.query(sql, function (err, data) {
-    if (err) {
-        return res.status(400).json({err});
-    }
-    res.status(200).json({data})
-  });
+        if (err) {
+            return res.status(400).json({err});
+        }
+        res.status(200).json({data})
+    });
 };
