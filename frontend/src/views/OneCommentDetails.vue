@@ -6,7 +6,7 @@
                     <div class='row'>
                         <div v-if="!deleted" div class="col-12 col-md-9 comment__box">
                             <CommentsItem
-                                :name="currentComment.name"
+                      
                                 :content="currentComment.content"
                                 :created_at="currentComment.created_at"
                             />

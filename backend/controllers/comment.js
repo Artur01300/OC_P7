@@ -56,6 +56,7 @@ exports.getOneCommentFromUser = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
     
     let sql = "SELECT id_comment, users_id_user, content, created_at, articles_id_article FROM groupomania.comment WHERE id_comment = ?";
+   
     let values = [req.params.id_comment];
     db.query(sql, [values], function(err, data) {
         
@@ -63,8 +64,16 @@ exports.getOneCommentFromUser = (req, res, next) => {
             console.log(err)
             return res.status(400).json({err});
         }
+        //création un responseData pour ne pas envoyer l'id user au fronteand
         let responseData = [];
-        responseData[0] = {id_comment:data[0].id_comment, content:data[0].content, created_at:data[0].created_at, articles_id_article:data[0].articles_id_article}
+        responseData[0] = {
+            id_comment:data[0].id_comment, 
+            name:data[0].name, 
+            content:data[0].content, 
+            created_at:data[0].created_at, 
+            articles_id_article:data[0].articles_id_article
+        }
+
         if (data[0].users_id_user == decodedToken.id_user || decodedToken.isAdmin) {
             res.status(200).json({owner: true, responseData}); 
         }else{

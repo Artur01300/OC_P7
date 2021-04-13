@@ -1,22 +1,18 @@
 <template>
     <div>
-        <!--Section affiche un commentaire séléctioné-->
-        <div v-if="this.$route.name == 'OneCommentDetails'" class="container_form card_color containter_position text-center">
+        <!--Section affiche les commentaireq-->
+        <div v-if="this.$route.name == 'OneCommentDetails'" class="container_form card_color containter_position text-center"></div>
+        <div v-else class="card_color text-center">
             <div class="card-header">
-                <p><i class="fas fa-comments"></i> Commentaire posté le : {{ new Date(created_at).toLocaleDateString() }} par {{ name }}</p>
-            </div>
-            <div class="card-body card__body">
-                <p class="card-text">{{ content }}</p>
-            </div>
-        </div>
-        <!--Section s'affiche tout les commentaires-->
-        <div v-else class="card_color text-center">   
-            <div class="card-header">
-                <p v-if="content">
+                <span v-if="name">
                     <i class="fas fa-comments"></i>
-                    Commentaire posté par : <strong> {{ name }} </strong> le : {{new Date(created_at).toLocaleDateString()}}
-                </p>
-                <p class="card-text">{{ content }}</p>
+                    Commentaire posté par <strong> {{ name }} </strong>
+                </span><br>
+                <span v-if="!name">
+                    Commentaire posté
+                </span>
+                <span> Le {{new Date(created_at).toLocaleDateString()}}</span><br><br>
+                <p class="card-text border border-warning">{{ content }}</p><br>
                 <a v-if="id_comment" class="btn btn-warning icon-text" :href="'/ArticleDetails/comment/' + id_comment" aria-label="Détails du commentaire">
                     <i class="far fa-trash-alt"></i>
                     Supprimer
@@ -37,7 +33,7 @@ export default {
 		},
 		name: {
 			type: String,
-			required: false // fails ???
+			required: false
 		},
 		created_at: {
 			type: String,
@@ -45,7 +41,7 @@ export default {
 		},
         id_comment: {
             type: Number,
-            required: false // fails ????
+            required: false 
         }
 	}
 }
