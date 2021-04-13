@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 
 exports.createComment = (req, res) => {
 
+    //Vérification users par le token
     const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
 
