@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import Login from '../views/Login.vue'
+import Signup from '../views/Signup.vue'
 import Home from '../views/Home.vue'
 import Article from '../views/Articles.vue'
 import ArticleDetails from '../views/ArticleDetails.vue'
@@ -9,8 +11,6 @@ import PostComment from '../views/PostComment.vue'
 import OneCommentDetails from '../views/OneCommentDetails.vue'
 
 
-import Login from '../views/Login.vue'
-import Signup from '../views/Signup.vue'
 
 Vue.use(VueRouter)
 
@@ -44,7 +44,7 @@ const routes = [
   },
   {
     path: '/ArticleDetails/:id_article', 
-    name: 'one-article-details',// ??
+    name: 'one-article-details',
     component: ArticleDetails
   },
   {
@@ -66,4 +66,4 @@ const router =  new VueRouter({
 
 })
 
-export default router
+export default router;

@@ -9,7 +9,6 @@
                        Login 
                 </b-button>
             </router-link><br/>
-            <router-view />
         </div>
         <!--Section qui s'affiche si le user est connecté-->
         <div v-else>
@@ -35,4 +34,3 @@ export default {
     }
 }
 </script>
-

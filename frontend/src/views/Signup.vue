@@ -4,9 +4,9 @@
             <h1>Inscrivez vous</h1>
             <div v-if="!submitted" class="main-agileinfo">
               <div class="agileits-top">
-                <!--Vee-Validate: ValidationObserver pour suspendre la soumission du formulaire à l'existence ou non d'erreurs-->
+                <!--Vee-Validate: ValidationObserver pour suspendre la soumission du formulaire si il y a des erreurs-->
                 <ValidationObserver v-slot="{ invalid, handleSubmit }">
-                  <!-- v-on:submit.preventl'évènement `submit` ne rechargera plus la page -->
+                  <!-- Ici si le formulaire est valide alors on créer un utilisateur -->
                   <form @submit.prevent="handleSubmit(createUser)">
 
                     <ValidationProvider name="user.name" rules="required">
@@ -29,7 +29,7 @@
                         <p class="error">{{ errors[0] }}</p>
                       </div>
                     </ValidationProvider>
-
+                    <!-- si le formulaire n'est pas correct  on désactive l'input d'envoie du formulaire-->
                     <input id="signup-btn" type="submit" v-bind:disabled="invalid">
                     
                   </form>
@@ -66,10 +66,10 @@ export default {
     }
   },
   methods: {
-    //Utilisation de Vuex pour déterminer les rôles
+    //Utilisation mapMutations de Vuex pour enrégistrer le token
     ...mapMutations([
-       'setToken'
-     ]),
+      'setToken'
+    ]),
 
     createUser(){
       let data = {
@@ -96,9 +96,7 @@ export default {
 </script>
 
 <style>
-
-.agileites_padding{
-  padding-top: 200px;
-}
-
+  .agileites_padding{
+    padding-top: 200px;
+  }
 </style>

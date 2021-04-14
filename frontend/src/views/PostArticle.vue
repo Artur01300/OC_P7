@@ -1,17 +1,25 @@
-<!--PAGE D'AJOUT D'UN NOUVEL ARTICLE-->
+<!--Dans cette page on ajoute un nouvel article-->
 
 <template>
     <main class="formArticle">
-        <!--Utilisation de Vee-Validate : ValidationObserver pour suspendre la soumission du formulaire à l'existence ou non d'erreurs-->
-            <ValidationObserver v-slot="{ invalid, handleSubmit }" v-if="!submitted" >    
+
+        <!--Importation du Identification-->
+        <UserIdentification
+            :logout="logout"
+            :isLoggedIn="isLoggedIn" 
+        />
+     
+        <!--Utilisation de Vee-Validate : ValidationObserver pour suspendre la soumission du formulaire à l'existence d'une erreurs-->
+            <ValidationObserver v-slot="{ invalid, handleSubmit }" v-if="!submitted">
+                <!--handleSubmit empêche automatiquement la soumission native à tout moment(vérifie avant et près il envoie au backend-->  
                 <form class="container text-center form" @submit.prevent="handleSubmit(saveArticle)">
                 <h2>Pour poster un nouvel article, merci de remplir les champs suivants :</h2><br>
                 <div class="row">
-                    <div class="col-10 col-md-12">
+                    <div class="articleModify col-12 col-md-6">
                         <div class="form-group">
                        
                             <!--Utilisation de Vee-Validate : ValidationProvider, pour tester la validité des données-->
-                            <ValidationProvider name="article.title" rules="required|minmax:3,2000"><!--Définition des règles de validité de l'input-->
+                            <ValidationProvider name="article.title" rules="required"><!--Définition des règles de validité de l'input-->
                                 <div slot-scope="{ errors }">
                                     <input 
                                        type="text" 
@@ -26,7 +34,7 @@
                             </ValidationProvider>
                         </div>
                         <div class="form-group">
-                            <ValidationProvider name="article.content" rules="minmax:3,2000">
+                            <ValidationProvider name="article.content"  rules="required">
                                 <div slot-scope="{ errors }">
                                     <textarea 
                                         type="textarea" 
@@ -41,7 +49,7 @@
                             </ValidationProvider>
                         </div>
                         <div class="form-group">
-                            <ValidationProvider name="article.image"  rules="minmax:11,200">
+                            <ValidationProvider name="article.image">
                                 <div slot-scope="{ errors }">
                                     <!-- v-on écoute les évènements du DOM -->
                                     <input type="file" class="btn-info" id="image" ref="image" v-on:change="handleFileUpload()" accept="image/*"/>
@@ -50,27 +58,31 @@
                             </ValidationProvider>
                         </div>
                         
-                        <div class="post-btns">
-                            <button class="btn btn-info" type="submit" value="Submit" v-bind:disabled="invalid"><i class="fas fa-check"></i> Valider ce post</button><br><br>
-                            <router-link to="/articles" class="btn-info" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Retour</button></router-link>
-                            <router-view />
+                        <div>
+                            <button class="btn btn-info" type="submit" value="Submit" v-bind:disabled="invalid">
+                                <i class="fas fa-check"></i>
+                                Valider ce post
+                            </button><br><br>
+
+                            <router-link to="/articles" class="btn-info" aria-label="Lien vers la liste d'articles">
+                                <button type= "button" class="btn btn-primary">
+                                    <i class="fas fa-arrow-left"></i>
+                                    Retour
+                                </button>
+                            </router-link>
                         </div>
                     </div>
                 </div>
             </form>
         </ValidationObserver>
-        <div v-else id="afterMessage">
+        <div v-else>
             <h3>Votre article a bien été posté !</h3><br>
-            <router-link to="/articles" aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary">Retour</button></router-link><br><br>
-            <router-view />
+            <router-link to="/articles" aria-label="Lien vers la liste d'articles">
+                <button type= "button" class="btn btn-primary">
+                    Retour
+                </button>
+            </router-link><br><br>
         </div>
-        
-        <!--Importation du Identification-->
-        <UserIdentification
-            :logout="logout"
-            :isLoggedIn="isLoggedIn" 
-        />
-           
     </main>
 </template>
 
@@ -99,7 +111,6 @@ export default {
         };
     },
      computed: {
-         //Utilisation de Vuex pour déterminer les rôles et les autorisations du user (toutes ces informations étant conservées dans le store Vuex)
         ...mapGetters(['isLoggedIn']),
         ...mapState({ token: "token"})
     },
@@ -123,7 +134,6 @@ export default {
             formData.append('image', this.article.image);
             formData.append('title', this.article.title);
             formData.append('content', this.article.content);
-            // formData.append('users_id_user', this.token);
 
             Authorization = this.token;
             ArticlesUrlDada.createArticle(formData, {Authorization})
@@ -134,7 +144,6 @@ export default {
             .catch(error => console.log(error));
         },
 
-        
         // Fonction de déconnection
         logout() {
             this.$store.commit("logout");
@@ -147,9 +156,12 @@ export default {
 
 <style>
 
-.formArticle{
-    padding-top: 250px;
-}
 
+.formArticle{
+    padding-top: 180px;
+}
+.articleModify{
+    margin: auto;
+}
 </style>
 

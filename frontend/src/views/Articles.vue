@@ -1,4 +1,4 @@
-<!-- pAGE d'accuil de forum (qui liste les article postées) -->
+<!-- page d'accuil de forum -->
 
 <template>
     <main class="main">
@@ -12,15 +12,15 @@
                             Poster un nouvel article
                         </span>
                     </button>
+                </router-link>
 
-                    </router-link>
-                    <CallToLogin v-if="!isLoggedIn" />
+                <CallToLogin v-if="!isLoggedIn" />
 
-                <!--Importation du Identification-->
-                    <UserIdentification
-                        :logout="logout"
-                        :isLoggedIn="isLoggedIn"
-                    />
+                <!--Si on est connecté on affiche le bouton de déconéxion si non on affiche le bouton de login-->
+                <UserIdentification
+                    :logout="logout"
+                    :isLoggedIn="isLoggedIn"
+                />
 
             </div>
             
@@ -29,16 +29,16 @@
                     <div class='row marge_container'>
                         <ul class="col-12 col-lg-12">
                            <h1>Plateforme de partage d'articles</h1><br><br>
-                            <li v-for="article in articles" :key="article.title">
+                            <li v-for="article in articles" :key="article.id_user">
                                 <!--Importation du ArticlesItem-->
                                 <ArticlesItem 
-                                :id_user="article.id_user"
-                                :title="article.title"
-                                :content="article.content"
-                                :image ="article.image"
-                                :name="article.name"
-                                :create_at="article.create_at" 
-                                :id_article="article.id_article"
+                                    :id_user="article.id_user"
+                                    :title="article.title"
+                                    :content="article.content"
+                                    :image ="article.image"
+                                    :name="article.name"
+                                    :create_at="article.create_at" 
+                                    :id_article="article.id_article"
                                 />
                             </li>
                         </ul>
@@ -46,8 +46,6 @@
                 </div>
                 <p v-if="articles.length == 0">{{ message }}</p>
             </div>
-            <!--Importation du CallToLogin -->
-       
         </div> 
     </main>
 </template>
@@ -57,7 +55,6 @@
 import UserIdentification from "../components/UserIdentification"
 import CallToLogin from "../components/CallToLogin"
 import ArticlesItem from "../components/ArticlesItem"
-
 import ArticlesUrlDada from "../service/ArticlesUrlDada"
 import { mapGetters, mapState } from 'vuex'
         
@@ -70,21 +67,17 @@ export default {
         return {
             articles:[],
             activeArticle: null,
-            message: "Il n'y a aucun article posté sur la plateforme à ce jour.",
-            search:""
+            message: "Il n'y a aucun article posté sur la plateforme à ce jour."
         }
     },
    computed: {
-       //Utilisation de Vuex
         ...mapGetters(['isLoggedIn']),
         ...mapState({ token: "token"}),
     },
     methods: {
-        
-  
         getAll() {
             //requête GET par Axios
-            ArticlesUrlDada.getAllArticles({ Authorization: this.token})
+            ArticlesUrlDada.getAllArticles({Authorization: this.token})
             .then(response => {
             this.articles = JSON.parse(JSON.stringify(response.data.data));
             })

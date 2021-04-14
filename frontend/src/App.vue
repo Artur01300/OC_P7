@@ -28,9 +28,9 @@
         </div>
       </header>
     </div>
-
+    <!-- Le comosant (router-view) gènére un emplacement pour la page d'accueil, c'est à dire routerr-view aura comme page par défaut -->
     <router-view/>
-
+    
   </div>
 </template>
 

@@ -9,7 +9,7 @@
             <label for="inputEmail" class="sr-only">Email address</label>
             <ValidationProvider name="user.email" rules="required|email">
               <div slot-scope="{ errors }">
-                <input  v-model="email" type="email" class="form-control" placeholder="Email address" required autofocus>
+                <input v-model="email" type="email" class="form-control" placeholder="Email address" required autofocus>
                 <p class="error">{{ errors[0] }}</p>
               </div>
             </ValidationProvider>
@@ -49,21 +49,23 @@ export default {
       email: '',
       password: '',
       submitted: false,
-      errorMessage: ""
+      errorMessage: ''
     }
   },
   methods: {
-    // utilisant la fonction utilitaire mapMutations qui attache les méthodes du composant aux appels de store
+    /*
+      utilisant la fonction mapMutations me permet d'attacher les méthodes du composant(setToken) aux appels de store,
+      c'est à dire j'enrégiste le tocken dans le sotre de Vuex
+    */
     ...mapMutations(['setToken']),
   
     loginSubmit(){
-      var data = {
+      let data = {
         email: this.email,
         password: this.password
       }
       UserUrlData.login(data)
         .then(response => {
-        // this.setId_user(response.data.id_user);
         this.setToken(response.data.token);
         this.submitted = true;
         this.$router.push('/home');
@@ -74,8 +76,6 @@ export default {
           this.errorMessage = "Adresse e-mail ou mot de passe invalide !";
         } else if (error.response.status === 429) {
           this.errorMessage = "Vous avez dépassé le nombre maximal de tentatives, merci de réessayer ultérieurement.";
-        } else if (error.response.status === 404) {
-          this.errorMessage = "Cet email est invalide ou ne correspond à aucun utilisateur connu.";
         }
       })
     }

@@ -11,8 +11,6 @@
               <button class="btn btn-primary">Accès au Forum Groupomania</button>
             </router-link><br><br>
           </div>
-
-          <router-view />
         </div>
       </section>
 

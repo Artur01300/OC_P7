@@ -25,8 +25,7 @@
                                     <button type= "button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> 
                                         Retour
                                     </button>
-                                </router-link>
-                                <router-view /><br><br>
+                                </router-link><br><br>
                                 <UserIdentification
                                     :logout="logout"
                                     :isLoggedIn="isLoggedIn"

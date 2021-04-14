@@ -47,10 +47,6 @@
                     </div>
                 </form>
             </ValidationObserver>
-            <div v-if="submitted" >
-                <router-link to='/ArticleDetails/' + id_article aria-label="Lien vers la liste d'articles"><button type= "button" class="btn btn-primary">BACK TO ARTICLE</button></router-link>
-                <router-view />
-            </div>
         </div>
     </main>
 </template>

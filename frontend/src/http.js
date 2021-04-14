@@ -1,4 +1,4 @@
-//CONFIGURATION D'AXIOS QUI FACILITE LES REQUETES AU BACKEND
+//Configuration du axios
 
 import axios from 'axios';
 

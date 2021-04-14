@@ -83,7 +83,6 @@ exports.deltAccount = (req, res) => {
   const token = req.headers.authorization;
   const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
   
-  console.log('decodetocken test', decodedToken)
   let sql = "UPDATE groupomania.users SET state = 1  WHERE id_user = ?";
   db.query(sql, decodedToken.id_user, function (err, data) {
     if (err) {
