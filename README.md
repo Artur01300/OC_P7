@@ -30,10 +30,8 @@ Pour le token d'authentification:
 
 Le projet a été généré avec [Angular CLI](https://github.com/angular/angular-cli) version 11.0.4.
 
-Pour faire fonctionner le projet, vous devez installer node-sass à part.
 
-Pour accéder aux sauces: **créer un compte**, mettre un **mot de passe fort** (minimum 8 caractères avec des **majuscules**, **minuscules**,
-**deux chiffres** et **un symbole**).
+Pour **créer un compte**, mettre un **mot de passe** (minimum 6 caractères macimum 10).
 
 
 ## Technologies à utilisés
@@ -47,7 +45,8 @@ Pour accéder aux sauces: **créer un compte**, mettre un **mot de passe fort** 
 
 1. Cloner le projet.
 2. Installez @angular/cli globalement 
-3. Exécutez npm install pour le backend et forntend.
-4. Exécutez npm start pour le back-end.
-5. Exécution de l’API sur http://localhost:3000.
-6. Exécutez ng serve pour le front-end sur http://localhost:4200/.
+3. Exécutez npm install.
+4. Exécutez nodemon serve pour le back-end.
+5. Exécutez npm run serve pour le front-end.
+6. Le front-end visible sur http://localhost:8080.
+7. Le back-end sisible sur le port 3000.
