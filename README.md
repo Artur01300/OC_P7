@@ -48,5 +48,5 @@ Pour **créer un compte**, mettre un **mot de passe** (minimum 6 caractères mac
 3. Exécutez npm install.
 4. Exécutez nodemon serve pour le back-end.
 5. Exécutez npm run serve pour le front-end.
-6. Le front-end visible sur http://localhost:8080.
-7. Le back-end sisible sur le port 3000.
+6. Le front-end est visible sur http://localhost:8080.
+7. Le back-end est visible sur le port 3000.
