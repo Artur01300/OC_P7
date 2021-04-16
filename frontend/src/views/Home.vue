@@ -126,7 +126,7 @@ export default {
     UserUrlData.deltAccount({Authorization: this.token}) 
       .then(response => {
         console.log(response.data);
-        alert('Votre compt a bien éé supprimé !')
+        alert('Votre compt a bien été supprimé !')
         this.isLoggedIn = false;
         this.logout();
         this.refreshPage();

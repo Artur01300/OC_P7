@@ -1,7 +1,6 @@
 <template>
-
-    <div class="UserIdentificationFlex">
-        <!--Section qui s'affiche si le user n'est pas connecté-->
+    <div>
+        <!--Section s'affiche si le user n'est pas connecté-->
         <div v-if="!isLoggedIn">
             <router-link to="/" >
                 <b-button variant="success" type= "button" >
@@ -10,9 +9,12 @@
                 </b-button>
             </router-link><br/>
         </div>
-        <!--Section qui s'affiche si le user est connecté-->
+        <!--Section s'affiche si le user est connecté-->
         <div v-else>
-            <b-button variant="success" type="button" @click="logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</b-button><br><br>
+            <b-button variant="success" type="button" @click="logout">
+                <i class="fas fa-sign-out-alt"></i> 
+                Déconnexion
+            </b-button><br><br>
         </div>
     </div>
 </template>

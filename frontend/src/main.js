@@ -32,6 +32,10 @@ extend('minmax', {
 })
 
 Vue.use(BootstrapVue)
+
+/* Cette syntaxe est utilisée pour le système de plugins Vue.
+    Cette méthode permet d'ajouter une fonctionnalité globale à notre instance de Vue.
+*/
 Vue.use(Vuex)
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationProvider', ValidationObserver)

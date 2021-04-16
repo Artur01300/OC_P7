@@ -5,7 +5,7 @@
           <form class="form-signin" @submit.prevent="handleSubmit(loginSubmit)">
             <h2 class="form-signin-heading">Connectez-vous...</h2>
 
-            <!-- v-model crée une liaison de données sur les champs de formulaire -->
+            <!-- je récupère les valeur des chmps de formulaire grâca à v-model=valeur -->
             <label for="inputEmail" class="sr-only">Email address</label>
             <ValidationProvider name="user.email" rules="required|email">
               <div slot-scope="{ errors }">

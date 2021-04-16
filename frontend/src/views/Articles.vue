@@ -29,6 +29,9 @@
                     <div class='row marge_container'>
                         <ul class="col-12 col-lg-12">
                            <h1>Plateforme de partage d'articles</h1><br><br>
+                           <!-- attribut unique key(article.id_user) ajouté pour suivre l'identité de chaque entrecroisement,
+                                afin que les éléments puissent être réutilisés 
+                            -->
                             <li v-for="article in articles" :key="article.id_user">
                                 <!--Importation du ArticlesItem-->
                                 <ArticlesItem 
@@ -63,18 +66,17 @@ export default {
     components: {
         ArticlesItem, CallToLogin, UserIdentification, 
 	},
-    data () {
+    data () {//j'effectue des calcules et je retourne les résultat
         return {
             articles:[],
-            activeArticle: null,
             message: "Il n'y a aucun article posté sur la plateforme à ce jour."
         }
     },
-   computed: {
+   computed: {//j'ai défini des valeurs réutilisables qu'ils sont liés avec propirété data
         ...mapGetters(['isLoggedIn']),
         ...mapState({ token: "token"}),
     },
-    methods: {
+    methods: {//ici je définie mes fonction pour afficher tous mes article postés
         getAll() {
             //requête GET par Axios
             ArticlesUrlDada.getAllArticles({Authorization: this.token})
@@ -90,7 +92,10 @@ export default {
             localStorage.clear();
         }
     },
-    //Déclenchement de la récupération d'articles avant le rendu de la page 
+    /*
+        Le hook beforeMount s'exécute juste avant l’apparition des articles sur la page.
+        c'est à dir, je récupère les données depuis serveur et après j'affiche les résultats dans le forntand
+    */
     beforeMount() {
         this.getAll();
     }

@@ -222,7 +222,6 @@ export default {
     beforeMount() {
         this.getOneArticle(this.$route.params.id_article, this.token);
         this.getAllComments();
-        // this.askForUpdate = false;
     }
 }
 </script>

@@ -15,7 +15,6 @@ import OneCommentDetails from '../views/OneCommentDetails.vue'
 Vue.use(VueRouter)
 
 const routes = [
-
   {
     path: '/',
     name: 'Login',
@@ -56,14 +55,14 @@ const routes = [
     path: '/ArticleDetails/comment/:id_comment',
     name: 'oneCommentDetails',
     component: OneCommentDetails
-}   
-]
+  }   
+];
 
 const router =  new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 
-})
+});
 
 export default router;

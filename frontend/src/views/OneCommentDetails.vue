@@ -1,25 +1,26 @@
+<!--Affichage d'un commantaire-->
 <template>
    <main class="conteiner_comment">
         <div class="container">
             <div class="row">
                 <div class="container col-12 col-md-10">
                     <div class='row'>
+                        <!-- Si il y a un/des commentaire on affiche la carte avec tous les commantaire -->
                         <div v-if="!deleted" div class="col-12 col-md-9 comment__box">
                             <CommentsItem
-                      
                                 :content="currentComment.content"
                                 :created_at="currentComment.created_at"
                             />
                         </div>
 
-                        <div class="comment_btn">
-                            <!--La section des boutons "delet" s'affiche que si le user est celui qui a posté le commentaire-->
+                        <div class="comment_btn  col-12 col-md-9">
+                            <!--La section des boutons "delete" s'affiche que si le user est celui qui a posté le commentaire-->
                             <div v-if="owner && !deleted">
                                 <button @click="deleteOneComent" type= "button" class="btn btn-danger">
                                     <i class="far fa-trash-alt">Supprimer</i>
                                 </button><br><br>
                             </div>
-
+                            <span v-else class="msgIfNotOwner">Ce commentaire vous n'appartien pas pour le supprimer</span>
                             <div>
                                 <router-link to="/articles/" aria-label="Lien vers la liste d'articles">
                                     <button type= "button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> 
@@ -89,8 +90,7 @@ export default {
                 console.log(response.data);
                 this.deleted = true;
                 alert('Comment supprimé !')
-                this.$router.push({ path: '/ArticleDetails/'+this.currentComment.articles_id_article}); 
-               
+                this.$router.push({ path: '/ArticleDetails/' + this.currentComment.articles_id_article});
             })
             .catch(error => console.log(error));
         },
@@ -114,5 +114,10 @@ export default {
     }
     .comment_btn{
         padding-top: 20px;
+    }
+
+    .msgIfNotOwner{
+        color: yellow;
+        font-size: 1.3em;
     }
 </style>

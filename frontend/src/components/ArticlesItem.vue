@@ -10,7 +10,7 @@
             <div class="card-body">
                <i class="fas fa-cash-register fa-3x"></i>
                 <span class="name">Article posté  par : {{name}}</span><br>
-                <span> Le : {{ new Date(create_at).toLocaleDateString()}}</span>
+                <span> Le : {{new Date(create_at).toLocaleDateString()}}</span>
                 <h3 class="card-title name">Titre : {{ title }}</h3><br>
                 
                 <p class="card-subtitle border border-warning">Déscrpitpon : {{ content }}</p><br>
@@ -37,9 +37,9 @@
                 </ul>
             </div>
             <div class="card-body card-body_text">
-                <p>Article posté le : {{ new Date(create_at).toLocaleDateString() }}</p>
-                <h2 class="card-title">{{ title }}</h2>
-                <p class="card-text">{{ content }}</p>
+                <p>Article posté le : {{new Date(create_at).toLocaleDateString()}}</p>
+                <h2 class="card-title">{{title}}</h2>
+                <p class="card-text">{{content}}</p>
                 <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" class="img-fluid" width="600" height="400" alt=" Image sur l'article">
             </div>
         </div>
