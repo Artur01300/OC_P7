@@ -3,12 +3,17 @@ const bodyParser = require('body-parser');
 
 const path = require('path');//donne accès au chemin de note systeme de fichiers
 
+//Helmet aide à sécuriser l'applications Express en définissant divers en-têtes HTTP. 
+const helmet = require('helmet');
+
 //Importation de router pour enrégistrer ensuit toutes les demandes effectuées vers /api/forum. 
 const articleRoutes = require('./routes/article');
 const userRoutes = require('./routes/user');
 const commentRoutes = require('./routes/comment');
 
 const app = express();
+
+app.use(helmet());//Pour sécuriser l'app
 
 
 app.use((req, res, next) => {

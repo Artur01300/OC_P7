@@ -70,7 +70,6 @@ export default {
     ...mapMutations([
       'setToken'
     ]),
-
     createUser(){
       let data = {
         name: this.user.name,
