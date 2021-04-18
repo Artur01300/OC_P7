@@ -28,7 +28,7 @@ Pour le token d'authentification:
 
 ## Le front-end
 
-Le projet a été généré avec [Angular CLI](https://github.com/angular/angular-cli) version 11.0.4.
+Le projet a été généré avec [Angular CLI](https://github.com/angular/angular-cli) version 11.0.6.
 
 
 Pour **créer un compte**, mettre un **mot de passe** (minimum 6 caractères macimum 10).
