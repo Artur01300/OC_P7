@@ -36,10 +36,12 @@ Pour **créer un compte**, mettre un **mot de passe** (minimum 6 caractères mac
 
 ## Technologies à utilisés
 
-* framework : Express ;
 * serveur : NodeJS ;
+* framework : Express ;
 * base de données : MysSQL;
+* Angular CLI
 
+Pour **La base de donnée MYSQL** vous pouvez utiliser le modele **Groupomania_models.mwb** que je vous ai mis dans le dossier backend/services,
 
 ## Procédure
 
