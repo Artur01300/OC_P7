@@ -14,6 +14,7 @@
                 <h3 class="card-title name">Titre : {{ title }}</h3><br>
                 
                 <p class="card-subtitle border border-warning">Déscrpitpon : {{ content }}</p><br>
+                <!-- v-bind génère l'url dynamiquement -->
                 <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" class="img-fluid" width="600" height="400" alt=" Image sur l'article">
     
             </div>
@@ -52,7 +53,6 @@
 export default {
 	name: "ArticlesItem",
 	props: {
-        
 		title: {
 			type: String,
 			required: true

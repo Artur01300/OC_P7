@@ -138,7 +138,7 @@ export default {
             Authorization = this.token;
             ArticlesUrlDada.createArticle(formData, {Authorization})
             .then(response => {
-                console.log(response);
+                console.log(response.data.message);
                 this.submitted = true;
             })
             .catch(error => console.log(error));

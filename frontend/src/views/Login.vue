@@ -22,7 +22,7 @@
                 </div>
              </ValidationProvider>
 
-            <button class="btn btn-primary btn-block btn-sm" type="submit" v-bind:disabled="invalid">Conncetion</button>
+            <button class="btn btn-primary btn-block btn-sm" type="submit" v-bind:disabled="invalid">Connexion</button>
             <p class="message">Vous n'êtes pas inscrit ? <router-link to="/signup">Create an account</router-link></p>
         </form>
         <p>{{ errorMessage }}</p>

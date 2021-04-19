@@ -58,7 +58,6 @@
   </main>
 </template>
 
-
 <script>
 
 import UserIdentification from "../components/UserIdentification"
@@ -139,7 +138,6 @@ export default {
     },
     //Fonction de rafraîchissement de la page
     refreshPage() {
-      // this.$router.push({ path: "/" });
       this.hideAccount();
       this.confirmation = false;
     },

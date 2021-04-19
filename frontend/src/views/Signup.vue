@@ -7,7 +7,7 @@
                 <!--Vee-Validate: ValidationObserver pour suspendre la soumission du formulaire si il y a des erreurs-->
                 <ValidationObserver v-slot="{ handleSubmit }"><!--v-slot déclanche la validation-->
                   <!-- Ici si le formulaire est valide alors on créer un utilisateur -->
-                  <form @submit.prevent="handleSubmit(createUser)"><!--soumition de formulaire sans redirection-->
+                  <form @submit.prevent="handleSubmit(createUser)"><!--envoie les données de manière asynchrone-->
 
                     <ValidationProvider name="user.name" rules="required">
                       <div slot-scope="{ errors }">
@@ -25,7 +25,7 @@
 
                     <ValidationProvider name="user.password" rules="required|minmax:3,10">
                       <div slot-scope="{ errors }">
-                        <input type="password" placeholder="Password" minlength="6" maxlength="10" required v-model="user.password"><br>
+                        <input type="password" placeholder="Password" minlength="7" maxlength="20" required v-model="user.password"><br>
                         <p class="error">{{ errors[0] }}</p>
                       </div>
                     </ValidationProvider>
@@ -87,6 +87,9 @@ export default {
       .catch(error => {
         if(error.response.status === 500){
           alert('Cette adresse e-mail exite déjà !')
+        }
+        if (error.response.status === 406){
+          alert('Le mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 caractère spécial, une longeur d\'un moins 7 caractères')
         }
       });
     }

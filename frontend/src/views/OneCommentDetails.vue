@@ -15,7 +15,7 @@
 
                         <div class="comment_btn  col-12 col-md-9">
                             <!--La section des boutons "delete" s'affiche que si le user est celui qui a posté le commentaire-->
-                            <div v-if="owner && !deleted">
+                            <div v-if="owner">
                                 <button @click="deleteOneComent" type= "button" class="btn btn-danger">
                                     <i class="far fa-trash-alt">Supprimer</i>
                                 </button><br><br>
@@ -87,7 +87,7 @@ export default {
             Authorization = this.token;
             CommentsData.deleteComment(this.$route.params.id_comment, { Authorization })
             .then(response => {
-                console.log(response.data);
+                console.log(response.data.message);
                 this.deleted = true;
                 alert('Comment supprimé !')
                 this.$router.push({ path: '/ArticleDetails/' + this.currentComment.articles_id_article});

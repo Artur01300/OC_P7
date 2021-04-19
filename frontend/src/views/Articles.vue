@@ -94,7 +94,7 @@ export default {
     },
     /*
         Le hook beforeMount s'exécute juste avant l’apparition des articles sur la page.
-        c'est à dir, je récupère les données depuis serveur et après j'affiche les résultats dans le forntand
+        c'est à dir, je récupère les données depuis serveur et après j'affiche les résultats dans le forntand de manière asynchrone
     */
     beforeMount() {
         this.getAll();

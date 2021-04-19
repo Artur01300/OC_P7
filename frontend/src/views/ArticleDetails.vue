@@ -108,7 +108,6 @@
                             </ul><br>
                         </div>
                     </div><br><br>
-
                 </div>
             </div>
         </div>
@@ -138,7 +137,7 @@ export default {
             owner: false,
             askForUpdate: "",
             confirmation: false,
-            messageUpdate: "",
+            messageUpdate: ""
         }
     },
     computed: {
@@ -158,17 +157,17 @@ export default {
             .catch(error => console.log(error));
         },
 
-         showUpdate() {  
+        showUpdate() {  
             return (this.askForUpdate = true);
         },
 
-         confirmDelete() {
+        confirmDelete() {
             return (this.confirmation = true);
         },
 
-         refreshPage() {
-          this.getOneArticle(this.$route.params.id_article);
-          this.confirmation = false;
+        refreshPage() {
+            this.getOneArticle(this.$route.params.id_article);
+            this.confirmation = false;
         },
 
         updateArticle(data, Authorization) {
