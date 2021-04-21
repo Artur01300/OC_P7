@@ -51,8 +51,4 @@ Pour **La base de donnée MYSQL** vous pouvez utiliser le modele **Groupomania_m
 4. Exécutez nodemon serve pour le back-end.
 5. Exécutez npm run serve pour le front-end.
 6. Le front-end est visible sur http://localhost:8080.
-<<<<<<< HEAD
 7. Le back-end est visible sur le port 3000.
-=======
-7. Le back-end est visible sur le port 3000.
->>>>>>> 7c83c9d9bbf096657a035cf56d3d259dde72d8b8
