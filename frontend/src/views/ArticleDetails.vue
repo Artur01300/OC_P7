@@ -103,6 +103,7 @@
                                         :content="comment.content"
                                         :created_at="comment.created_at"
                                         :id_comment="comment.id_comment"
+                                        :owner="comment.owner"
                                     />
                                 </li>
                             </ul><br>
@@ -152,7 +153,6 @@ export default {
             .then(response => {
                 this.currentArticle = JSON.parse(JSON.stringify(response.data.data));
                 this.owner = response.data.owner
-        
             })
             .catch(error => console.log(error));
         },
@@ -205,7 +205,7 @@ export default {
         CommentsData.getAllComments(this.$route.params.id_article, {Authorization: this.token})
             
             .then(response => {
-                this.comments = JSON.parse(JSON.stringify(response.data.data));
+                this.comments = JSON.parse(JSON.stringify(response.data.responseData));
 
                 //S'il n'y a aucun article disponible on affichage un message
                 if (this.comments.length !== 0) {

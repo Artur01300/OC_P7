@@ -28,11 +28,11 @@
                             <div class="btn-comment">
                                 <button class="btn btn-success btn-post" aria-label="Poster le commentaire" type="submit" value="Submit" v-bind:disabled="invalid">
                                     <i class="fas fa-check"></i> 
-                                    Envoyez un commentaire
+                                    Envoyez
                                 </button><br>
 
                                 <router-link to="/articles" aria-label="Lien vers la liste d'articles">
-                                    <button type= "button" class="btn btn-success"><i class="fas fa-times"></i>
+                                    <button type= "button" class="btn btn-warning"><i class="fas fa-times"></i>
                                         Annuler
                                     </button><br><br>
                                 </router-link>
@@ -109,6 +109,9 @@ export default {
         display: flex;
         justify-content: space-around;
     }
+    .btn-post{
+        height: 40px;
+    }
 
     @media screen and (max-width : 600px) and (max-width : 1024px) {
         .containerCenter{
@@ -134,6 +137,5 @@ export default {
             flex-direction: column;
             justify-content: space-around;
         }
-
     }
 </style>

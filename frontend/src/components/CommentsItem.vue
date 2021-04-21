@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!--Section affiche les commentaireq-->
+        <!--Section affiche les commentaires-->
         <div v-if="this.$route.name == 'OneCommentDetails'" class="container_form card_color containter_position text-center"></div>
         <div v-else class="card_color text-center">
             <div class="card-header">
@@ -13,7 +13,7 @@
                 </span>
                 <span> Le {{new Date(created_at).toLocaleDateString()}}</span><br><br>
                 <p class="card-text border border-warning">{{ content }}</p><br>
-                <a v-if="id_comment" class="btn btn-warning icon-text" :href="'/ArticleDetails/comment/' + id_comment" aria-label="Détails du commentaire">
+                <a v-if="owner" class="btn btn-warning icon-text" :href="'/ArticleDetails/comment/' + id_comment" aria-label="Détails du commentaire">
                     <i class="far fa-trash-alt"></i>
                     Supprimer
                 </a>
@@ -42,6 +42,10 @@ export default {
         id_comment: {
             type: Number,
             required: false 
+        },
+        owner: {
+            type: Boolean,
+            required: false
         }
 	}
 }

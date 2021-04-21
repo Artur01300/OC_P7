@@ -19,8 +19,6 @@ class ArticlesUrlDada {
     delateArticle(id_article, headers){
         return http.delete(`/api/article/${id_article}`, {headers}); 
     }
-
-
 }
 
 export default new ArticlesUrlDada();

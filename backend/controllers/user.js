@@ -12,9 +12,9 @@ exports.createAccount = (req, res, next) => {
   const passwordRegex = /^(?=.{7,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/;
   const password = req.body.password;
 
-  //test() vérifie s'il y a une correspondance entre un texte et une expression rationnelle. 
+  //test() vérifie s'il y a une correspondance entre un password et passwordRegex. 
   if (!passwordRegex.test(password)) {
-    return res.status(406).json('Current password does not match');
+    return res.status(406).json('Current password does not meet the requirments');
   }
 
   bcrypt
@@ -64,14 +64,6 @@ exports.login = (req, res, next) => {
     .catch(error => res.status(500).json({error}));
   });
 };
-
-/*
-Pour après:
-  -implémenter un d'avatar pour user
-  -implémnter un admin pour supprimer l'outilisateur
-*/
-
-//
 
 exports.getOneUser = (req, res, next) => {
   
