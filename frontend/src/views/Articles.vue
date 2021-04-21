@@ -21,7 +21,6 @@
                     :logout="logout"
                     :isLoggedIn="isLoggedIn"
                 />
-
             </div>
             
             <div>

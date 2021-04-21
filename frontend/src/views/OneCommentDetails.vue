@@ -6,7 +6,7 @@
                 <div class="container col-12 col-md-10">
                     <div class='row'>
                         <!-- Si il y a un/des commentaire on affiche la carte avec tous les commantaire -->
-                        <div v-if="!deleted" div class="col-12 col-md-9 comment__box">
+                        <div v-if="!deleted" div class="col-12 col-md-9">
                             <CommentsItem
                                 :content="currentComment.content"
                                 :created_at="currentComment.created_at"

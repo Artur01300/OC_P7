@@ -18,12 +18,12 @@
                     
                     <div v-if="owner" class="action valid">
 
-                        <button type= "button" class="btn btn-primary " @click="showUpdate">
+                        <button type= "button" class="btn btn-primary" @click="showUpdate">
                             <i class="far fa-edit"></i>
                             Modifier
                         </button><br/><br>
 
-                        <button type= "button" class="btn btn-primary btn-warning " @click="confirmDelete">
+                        <button type= "button" class="btn btn-primary btn-warning" @click="confirmDelete">
                             <i class="far fa-trash-alt"></i>
                                 Supprimer
                         </button><br><br>
@@ -57,7 +57,7 @@
                         <!--Formulaire s'affiche quand le user clique sur le bouton "modifier"-->
                         <div v-if="askForUpdate" class="col-12 col-lg-10">
                             <div role="form" class="formUpdate">
-                                <div class="mainModifiycontainter">
+                                <div>
                                     <div class="form-group">
                                         <label for="title">Titre</label>
                                         <input 

@@ -16,7 +16,7 @@
 
       <!--Si le user n'est pas connecté, les liens vers les plateformes ne sont pas disponibles-->
       <section v-else class="container text-center">
-        <h1 class="intro__title">Pour accéder à votre réseau social de l'entreprise vous devez vous connecter !</h1><br><br>
+        <h1>Pour accéder à votre réseau social de l'entreprise vous devez vous connecter !</h1><br><br>
       </section>
 
         <!--Importation du  CallToLogin-->
@@ -42,8 +42,8 @@
         <p><strong>Email:</strong> {{ email }}</p>
 
         <div class="btns-space">
-          <b-button variant="danger" class="btn account__btn" @click="confirmDelete"><i class="far fa-trash-alt"></i><strong> Supprimer votre compte</strong></b-button>
-          <b-button variant="success" class="btn account__btn" @click="hideAccount"><i class="fas fa-arrow-left"></i><strong> Retour</strong></b-button>
+          <b-button variant="danger" class="btn" @click="confirmDelete"><i class="far fa-trash-alt"></i><strong> Supprimer votre compte</strong></b-button>
+          <b-button variant="success" class="btn" @click="hideAccount"><i class="fas fa-arrow-left"></i><strong> Retour</strong></b-button>
         </div>
       </div>
       <!--Ecran qui demande confirmation pour la suppression du compte-->

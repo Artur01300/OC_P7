@@ -1,6 +1,6 @@
 const db = require("../services/mysql");
 // fonction constructeur
-const User = function (user) {
+const User = (user) => {
   this.name = user.name;
   this.email = user.email;
   this.password = user.password;

@@ -10,7 +10,7 @@ exports.createComment = (req, res) => {
     let sql = "INSERT INTO groupomania.comment(content, users_id_user, articles_id_article) VALUES (?)";
     let values = [req.body.content, decodedToken.id_user, req.params.id_article];
 
-    db.query(sql, [values], function(err) {
+    db.query(sql, [values], (err) => {
         if (err) {
             console.log(err)
             return res.status(400).json({err});
@@ -25,7 +25,7 @@ exports.deleteComment = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
 
     let sql = "DELETE FROM groupomania.comment WHERE id_comment = ?";
-    db.query(sql, [req.params.id_comment], function(err, data) {
+    db.query(sql, [req.params.id_comment], (err, data) =>{
         if (req.params.id_comment || decodedToken.isAdmin) {
             
             if (err) {
@@ -46,29 +46,29 @@ exports.getAllComments = (req, res) => {
     let sql = "SELECT * FROM groupomania.v_get_one_comment_from_user WHERE articles_id_article = ?";
     let values = [req.params.id_article];  
 
-    db.query(sql, [values], function(err, data) {
+    db.query(sql, [values], (err, data) =>{
         //création un responseData pour ne pas envoyer l'id user au fronteand
         let responseData = [];
 
         data.forEach(element => {
             /*
-                Pour chaque commentaire on vérifie si le user est le owner de ces commentaire ou l'admin, si owner est true dans,
+                Pour chaque commentaire on vérifie si le user est le owner de ces commentaires ou l'admin, si owner est true, dans
                 le frontend on affiche le bouton de suppréssion si non on le cache
             */
-            let ownerVar
+            let creatOwner;
             if (element.users_id_user == decodedToken.id_user || decodedToken.isAdmin) {
-                ownerVar = true
+                creatOwner = true
             }else{
-                ownerVar = false
-            }
+                creatOwner = false
+            };
             //Je push dans le responseData pour ne pas envoyer l'id user au fronteand
             responseData.push({
-                owner: ownerVar,
-                name:element.name,
-                content:element.content,
-                created_at:element.created_at,
-                id_comment:element.id_comment,
-                articles_id_article:element.articles_id_article})
+                owner: creatOwner,
+                name: element.name,
+                content: element.content,
+                created_at: element.created_at,
+                id_comment: element.id_comment,
+                articles_id_article: element.articles_id_article})
             });
             if (err) {
                 console.log(err)
@@ -85,8 +85,7 @@ exports.getOneCommentFromUser = (req, res, next) => {
     let sql = "SELECT id_comment, users_id_user, content, created_at, articles_id_article FROM groupomania.comment WHERE id_comment = ?";
    
     let values = [req.params.id_comment];
-    db.query(sql, [values], function(err, data) {
-        
+    db.query(sql, [values], (err, data) => {
         if (err) {
             console.log(err)
             return res.status(400).json({err});

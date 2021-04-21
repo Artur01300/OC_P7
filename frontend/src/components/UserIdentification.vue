@@ -5,7 +5,7 @@
             <router-link to="/" >
                 <b-button variant="success" type= "button" >
                     <i class="fas fa-user-plus"></i> 
-                       Login 
+                    Login 
                 </b-button>
             </router-link><br/>
         </div>

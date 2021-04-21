@@ -15,7 +15,7 @@ exports.createArticle = (req, res) => {
         let sql = "INSERT INTO groupomania.articles(title, content, users_id_user, image) VALUES (?)";
         let values = [req.body.title, req.body.content, decodedToken.id_user, req.file.filename];
     
-        db.query(sql, [values], function(err, data){
+        db.query(sql, [values], (err, data) =>{
             if(err){
                 return res.status(400).json({err});
             }
@@ -26,7 +26,7 @@ exports.createArticle = (req, res) => {
         let sql = "INSERT INTO groupomania.articles(title, content, users_id_user) VALUES (?)";
         let values = [req.body.title, req.body.content, decodedToken.id_user,];
     
-        db.query(sql, [values], function(err, data){
+        db.query(sql, [values], (err, data) =>{
             if(err){
                 return res.status(400).json({err});
             }
@@ -42,7 +42,7 @@ exports.modifyTextArticle = (req, res) => {
     if(decodedToken.id_user){
         const sql = "UPDATE groupomania.articles SET content = ?, title = ?  WHERE id_article = ?";
         let values = [req.body.content, req.body.title, req.params.id_article];
-        db.query(sql, values, function (err, result) {
+        db.query(sql, values, (err, result) =>{
             if (err) throw err;
 
             console.log(result.affectedRows + " record(s) updated");
@@ -56,7 +56,7 @@ exports.creatImageArticle = (req, res) => {
     let sql = "UPDATE groupomania.articles SET image = ? WHERE articles.id_article = ? AND articles.users_id_user = ?";
 
     let values = [req.file.filename, req.body.id_article, req.body.users_id_user];
-    db.query(sql, values, function(err, data){
+    db.query(sql, values, (err, data) => {
         console.log('LOG 67 ',err)
         if(err){
             console.log('LOG 69 ',err)
@@ -84,7 +84,7 @@ exports.delateArticle = (req, res) => {
 
     //On vérifie si c'est l'admin, alors on supprimer l'article
     if (decodedToken.isAdmin){
-        db.query(sqlADMINSelectFile, valuesADMIN, function (err, result){
+        db.query(sqlADMINSelectFile, valuesADMIN, (err, result) =>{
 
             if (err) {
                 console.log(err)
@@ -98,7 +98,7 @@ exports.delateArticle = (req, res) => {
                 }
             }
         });
-        db.query(sqlADMINDeleteArticle, valuesADMIN, function(err, data) {
+        db.query(sqlADMINDeleteArticle, valuesADMIN, (err, data) =>{
 
             if (err) {
                 console.log(err)
@@ -108,7 +108,7 @@ exports.delateArticle = (req, res) => {
         });
     } else {
         //si c'est le user, alors on supprime l'article
-        db.query(sqlSelectFile, values, function (err, result){
+        db.query(sqlSelectFile, values, (err, result) =>{
             if (err) {
                 console.log(err)
                 return res.status(500).json({err});
@@ -121,7 +121,7 @@ exports.delateArticle = (req, res) => {
                 }
             }
         });
-        db.query(sqlDeleteArticle, values, function(err, data) {
+        db.query(sqlDeleteArticle, values, (err, data) => {
 
             if (err) {
                 console.log(err)
@@ -139,7 +139,7 @@ exports.getOneArticleFromUser = (req, res) => {
     
     let sql = "SELECT * FROM groupomania.articles WHERE id_article = ?";
     
-    db.query(sql, [req.params.id_article], function(err, data, fields){
+    db.query(sql, [req.params.id_article], (err, data, fields) =>{
         
         if (err) {
             console.log(err);
@@ -156,7 +156,7 @@ exports.getOneArticleFromUser = (req, res) => {
 exports.getAllArticles = (req, res, next) => {
     let sql = "SELECT name, title, content, image, create_at, id_article FROM groupomania.v_getonearticle";
     
-    db.query(sql, function (err, data) {
+    db.query(sql, (err, data) => {
         if (err) {
             return res.status(400).json({err});
         }

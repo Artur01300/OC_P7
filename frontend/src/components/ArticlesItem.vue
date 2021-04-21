@@ -37,7 +37,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="card-body card-body_text">
+            <div class="card-body">
                 <p>Article posté le : {{new Date(create_at).toLocaleDateString()}}</p>
                 <h2 class="card-title">{{title}}</h2>
                 <p class="card-text">{{content}}</p>

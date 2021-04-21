@@ -40,7 +40,7 @@ exports.createAccount = (req, res, next) => {
 
 exports.login = (req, res, next) => {
   let sql = "SELECT * FROM groupomania.users WHERE email = ?";
-  db.query(sql, [req.body.email], function(err, data, result){
+  db.query(sql, [req.body.email], (err, data, result) =>{
     //console.error(err);
     if(data.length === 0){//si on n'a pas trouver les user on envoie le 401 pour dire non autorisé
       return res.status(401).json({error: 'Utilisateur non trouvé !'});
@@ -71,7 +71,7 @@ exports.getOneUser = (req, res, next) => {
   const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
 
   let sql = "SELECT users.id_user, users.name, users.email FROM groupomania.users where users.id_user = ?";
-  db.query(sql, decodedToken.id_user, function (err, data, filds){
+  db.query(sql, decodedToken.id_user, (err, data, filds) => {
     if(err){
       return res.status(404).json({err});
     }
@@ -86,7 +86,7 @@ exports.deltAccount = (req, res) => {
   const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
   
   let sql = "UPDATE groupomania.users SET state = 1  WHERE id_user = ?";
-  db.query(sql, decodedToken.id_user, function (err, data) {
+  db.query(sql, decodedToken.id_user, (err, data) =>{
     if (err) {
       console.log(err)
       return res.status(400).json({err: "suppression est échoué"});
