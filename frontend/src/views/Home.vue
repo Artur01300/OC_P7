@@ -25,9 +25,9 @@
       <div> 
         <!--Importation du Identification-->
         <UserIdentification
-        :logout="logout"
-        :isLoggedIn="isLoggedIn"
-          />
+          :logout="logout"
+          :isLoggedIn="isLoggedIn"
+        />
         <div class="info">
             <!--Si le user est connecté et non-administrateur, l'icône de son compte s'afficher-->
             <button v-if="isLoggedIn" class="btn btn-primary" @click="showAccount"><i class="fas fa-user"></i> Votre compte</button><br><br>
@@ -108,11 +108,9 @@ export default {
     },
 
     // Fonction de récupération des données du user courant via une requête Axios GET
-
     showUser() {
      UserUrlData.getCurrentUser({Authorization: this.token})
       .then(response => {
-      //   console.log(response)
         this.userInformation = JSON.parse(JSON.stringify(response.data.data[0]));
         this.name = this.userInformation.name,
         this.email = this.userInformation.email
@@ -142,7 +140,7 @@ export default {
       this.confirmation = false;
     },
 	},
-  // Déclenchement de la récupération des données du user au moment du rendu de la page 
+  //Déclenchement de la récupération des données du user au moment du rendu de la page 
   mounted() {
     this.showUser(this.token);
   },

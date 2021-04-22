@@ -34,7 +34,6 @@ exports.deleteComment = (req, res, next) => {
             }
             res.status(200).json({ data, message: "Commentaire supprimé !"})
         }
-
     });
 };
 
@@ -43,8 +42,8 @@ exports.getAllComments = (req, res) => {
     const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
 
-    let sql = "SELECT * FROM groupomania.v_get_one_comment_from_user WHERE articles_id_article = ?";
-    let values = [req.params.id_article];  
+    let sql = "SELECT * FROM groupomania.v_get_one_comment_from_user WHERE articles_id_article = ? ORDER BY created_at DESC";
+    let values = [req.params.id_article];
 
     db.query(sql, [values], (err, data) =>{
         //création un responseData pour ne pas envoyer l'id user au fronteand

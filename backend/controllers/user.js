@@ -41,7 +41,6 @@ exports.createAccount = (req, res, next) => {
 exports.login = (req, res, next) => {
   let sql = "SELECT * FROM groupomania.users WHERE email = ?";
   db.query(sql, [req.body.email], (err, data, result) =>{
-    //console.error(err);
     if(data.length === 0){//si on n'a pas trouver les user on envoie le 401 pour dire non autorisé
       return res.status(401).json({error: 'Utilisateur non trouvé !'});
     }
@@ -49,16 +48,16 @@ exports.login = (req, res, next) => {
     bcrypt.compare(req.body.password, data[0].password)
     .then(valid =>{
       if(!valid){//il reçoit le boolean, c'est-à-dire, si le mot de passe n'est pas valable
-          return res.status(401).json({error: 'Mot de passe incorrect !'});
+        return res.status(401).json({error: 'Mot de passe incorrect !'});
       }
       //si on arrive ici alors la comparaison est true. dans ce cas-là on renvoie la bonne connexion et l'objet json qui contient id d'user dans la base
       //et on envoie la token
       res.status(200).json({
         token: jwt.sign(
           {id_user:data[0].id_user, isAdmin: data[0].isAdmin, name:data[0].name},
-            `${process.env.DB_TOKEN}`,
-            {expiresIn: '24h'}
-          )
+          `${process.env.DB_TOKEN}`,
+          {expiresIn: '24h'}
+        )
       });
     })
     .catch(error => res.status(500).json({error}));

@@ -52,20 +52,6 @@ exports.modifyTextArticle = (req, res) => {
 
 };
 
-exports.creatImageArticle = (req, res) => {
-    let sql = "UPDATE groupomania.articles SET image = ? WHERE articles.id_article = ? AND articles.users_id_user = ?";
-
-    let values = [req.file.filename, req.body.id_article, req.body.users_id_user];
-    db.query(sql, values, (err, data) => {
-        console.log('LOG 67 ',err)
-        if(err){
-            console.log('LOG 69 ',err)
-            return res.status(400).json({err});
-        }
-        res.json({status: 201, data, message: 'Image ajouté !'})
-    });
-}
-
 exports.delateArticle = (req, res) => {
     //Vérification users par le tocken
     const token = req.headers.authorization;
@@ -132,7 +118,6 @@ exports.delateArticle = (req, res) => {
     }
 }
 
-
 exports.getOneArticleFromUser = (req, res) => {
     const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
@@ -154,8 +139,7 @@ exports.getOneArticleFromUser = (req, res) => {
 }
 
 exports.getAllArticles = (req, res, next) => {
-    let sql = "SELECT name, title, content, image, create_at, id_article FROM groupomania.v_getonearticle";
-    
+    let sql = "SELECT name, title, content, image, create_at, id_article FROM groupomania.v_getonearticle ORDER BY create_at DESC";
     db.query(sql, (err, data) => {
         if (err) {
             return res.status(400).json({err});

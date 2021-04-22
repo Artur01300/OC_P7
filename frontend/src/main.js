@@ -62,6 +62,7 @@ const store = new Vuex.Store({
         }
     },
     actions: {},
+    //Le rôle de notre getter est de séparer les données applicatives de la logique applicative et de veiller à ne pas divulguer d'informations sensibles.
     getters: {
         isLoggedIn(state) {
             return !!state.token;
