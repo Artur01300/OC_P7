@@ -31,8 +31,13 @@
                         
                         <!--s'affiche quand le user clique sur le bouton "suppression"-->
                         <div v-if="confirmation">
-                            <button type= "button" class="btn btn-danger" @click="deleteUserArticle">Confirmer la suppression </button><br><br>
-                            <button type= "button" class="btn btn-success cancel-btn" @click="refreshPage">Annuler</button><br><br>
+                            <button type= "button" class="btn btn-danger" @click="deleteUserArticle">
+                                Confirmer la suppression
+                            </button><br><br>
+                            
+                            <button type= "button" class="btn btn-success cancel-btn" @click="refreshPage">
+                                Annuler
+                            </button><br><br>
                         </div>
                     </div>
                     <UserIdentification
@@ -142,14 +147,6 @@ export default {
             messageUpdate: ""
         }
     },
-    
-    beforeCreate() { console.log('Je ne suis pas encore  créé') },
-    created() { console.log('Je suis créé !') },
-    // beforeMount() { console.log('Je vais bientôt être monté sur le DOM!') },
-    mounted() { console.log('Je suis monté sur le DOM!') },
-    beforeDestroy() { console.log('Je suis sur le point de disparaître du DOM !') },
-    destroyed() { console.log('Je suis supprimé') },
-
     computed: {
         ...mapGetters(['isLoggedIn']),
         ...mapState({ token: "token"})

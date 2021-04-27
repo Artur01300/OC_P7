@@ -31,7 +31,7 @@ Pour le token d'authentification:
 Le projet a été généré avec [Angular CLI](https://github.com/angular/angular-cli) version 11.0.6.
 
 
-Pour **créer un compte**, mettre un **mot de passe** (minimum 6 caractères macimum 10).
+Pour **créer un compte**, mettre un **mot de passe** (minimum 7 caractères macimum 20, avec un majuscule, un minuscule, un chiffre et un symbole).
 
 
 ## Technologies à utilisés
@@ -40,8 +40,6 @@ Pour **créer un compte**, mettre un **mot de passe** (minimum 6 caractères mac
 * framework : Express ;
 * base de données : MysSQL;
 * Angular CLI
-
-Pour **La base de donnée MYSQL** vous pouvez utiliser le modele **Groupomania_models.mwb** que je vous ai mis dans le dossier backend/services,
 
 ## Procédure
 

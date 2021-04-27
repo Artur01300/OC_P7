@@ -17,7 +17,7 @@
                             <!--La section des boutons "delete" s'affiche que si le user est celui qui a posté le commentaire-->
                             <div v-if="owner">
                                 <button @click="deleteOneComent" type= "button" class="btn btn-danger">
-                                    <i class="far fa-trash-alt">Supprimer</i>
+                                    <i class="far fa-trash-alt"> Supprimer</i>
                                 </button><br><br>
                             </div>
                             <span v-else class="msgIfNotOwner">Ce commentaire vous n'appartien pas pour le supprimer</span>

@@ -33,7 +33,7 @@ export default {
 		},
 		name: {
 			type: String,
-			required: false
+			required: null
 		},
 		created_at: {
 			type: String,
@@ -41,11 +41,11 @@ export default {
 		},
         id_comment: {
             type: Number,
-            required: false 
+            required: null
         },
         owner: {
             type: Boolean,
-            required: false
+            required: null
         }
 	}
 }

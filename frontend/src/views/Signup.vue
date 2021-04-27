@@ -86,7 +86,7 @@ export default {
       })
       .catch(error => {
         if(error.response.status === 500){
-          alert('Cette adresse e-mail exite déjà !')
+          alert('Vous ne pouvez pas utiliser cette adresse e-mail !')
         }
         if (error.response.status === 406){
           alert('Le mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 caractère spécial, une longeur d\'un moins 7 caractères')

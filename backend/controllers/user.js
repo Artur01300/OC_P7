@@ -41,6 +41,10 @@ exports.createAccount = (req, res, next) => {
 exports.login = (req, res, next) => {
   let sql = "SELECT * FROM groupomania.users WHERE email = ?";
   db.query(sql, [req.body.email], (err, data, result) =>{
+    //Si user est supprimé son compte, il peut pas se connécter à nouveau
+    if(data[0].state === 1){
+      return res.status(405).json({error: 'Utilisateur non autorisé !'});
+    }
     if(data.length === 0){//si on n'a pas trouver les user on envoie le 401 pour dire non autorisé
       return res.status(401).json({error: 'Utilisateur non trouvé !'});
     }
@@ -77,8 +81,6 @@ exports.getOneUser = (req, res, next) => {
     res.json({status: 200, data, message: "User affiché !"})
   });
 };
-
-//Problème de suppression d'un user
 
 exports.deltAccount = (req, res) => {
   const token = req.headers.authorization;

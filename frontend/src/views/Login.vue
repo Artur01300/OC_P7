@@ -74,7 +74,11 @@ export default {
         console.log(error);
         if (error.response.status === 401) {
           this.errorMessage = "Adresse e-mail ou mot de passe invalide !";
-        } else if (error.response.status === 429) {
+        }
+        else if(error.response.status === 405){//Si user est supprimé son compte, il peut pas se connécter à nouveau
+          alert('Utilisateur non autorisé !')
+        }
+        else if (error.response.status === 429) {
           this.errorMessage = "Vous avez dépassé le nombre maximal de tentatives, merci de réessayer ultérieurement.";
         }
       })

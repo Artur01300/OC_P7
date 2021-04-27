@@ -67,6 +67,11 @@ const store = new Vuex.Store({
         isLoggedIn(state) {
             return !!state.token;
         }
+        // if (state.tiken) {
+        //     return true;
+        //  } else {
+        //    return false;
+        //  }
     }
 })
 

@@ -34,7 +34,7 @@
                             </ValidationProvider>
                         </div>
                         <div class="form-group">
-                            <ValidationProvider name="article.content"  rules="required">
+                            <ValidationProvider name="article.content">
                                 <div slot-scope="{ errors }">
                                     <textarea 
                                         type="textarea" 
