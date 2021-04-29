@@ -31,7 +31,6 @@
                     </ValidationProvider>
                     <!-- si le formulaire n'est pas correct alors on désactive l'input d'envoie du formulaire-->
                     <input id="signup-btn" type="submit">
-                    
                   </form>
                 </ValidationObserver>
               </div>

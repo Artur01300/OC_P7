@@ -4,7 +4,7 @@
     <main class="main-comment">
         <div class="containerCenter text-center">
 
-            <ValidationObserver v-slot="{ invalid, handleSubmit }">
+            <ValidationObserver v-slot="{ handleSubmit }">
                 <form v-if="!submitted" @submit.prevent="handleSubmit(postCommentDetail)">
                     <div class="row">
                         <div role="form" class="col-12 col-md-9 text-center">
@@ -26,21 +26,16 @@
                                 </ValidationProvider>
                             </div>
                             <div class="btn-comment">
-                                <button class="btn btn-success btn-post" aria-label="Poster le commentaire" type="submit" value="Submit" v-bind:disabled="invalid">
+                                <button class="btn btn-success btn-post" aria-label="Poster le commentaire" type="submit" value="Submit">
                                     <i class="fas fa-check"></i> 
                                     Envoyez
                                 </button><br>
 
                                 <router-link to="/articles" aria-label="Lien vers la liste d'articles">
-                                    <button type= "button" class="btn btn-warning"><i class="fas fa-times"></i>
+                                    <button type= "button" class="btn btn-warning">
+                                        <i class="fas fa-times"></i>
                                         Annuler
                                     </button><br><br>
-                                </router-link>
-
-                                <router-link to="/articles/" aria-label="Lien vers la liste d'articles">
-                                    <button type= "button" class="btn btn-primary">
-                                        Retour
-                                    </button>
                                 </router-link>
                             </div>
                         </div>

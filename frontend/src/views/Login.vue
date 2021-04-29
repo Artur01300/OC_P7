@@ -1,28 +1,28 @@
 <template>
     <div class="container containerForm">
       <div v-if="!submitted" class="form">
-        <ValidationObserver v-slot="{ invalid, handleSubmit }">
+        <ValidationObserver v-slot="{ handleSubmit }">
           <form class="form-signin" @submit.prevent="handleSubmit(loginSubmit)">
             <h2 class="form-signin-heading">Connectez-vous...</h2>
 
             <!-- je récupère les valeur des chmps de formulaire grâca à v-model=valeur -->
             <label for="inputEmail" class="sr-only">Email address</label>
             <ValidationProvider name="user.email" rules="required|email">
-              <div slot-scope="{ errors }">
+              <div class="paddForm" slot-scope="{ errors }">
                 <input v-model="email" type="email" class="form-control" placeholder="Email address" required autofocus>
                 <p class="error">{{ errors[0] }}</p>
               </div>
             </ValidationProvider>
 
             <label for="password" class="sr-only">Mot de passe</label>
-             <ValidationProvider name="user.password" rules="required|minmax:3,10">
-                <div slot-scope="{ errors }">
+             <ValidationProvider name="user.password" rules="required|minmax:7,30">
+                <div class="paddForm" slot-scope="{ errors }">
                   <input v-model="password" type="password" class="form-control" placeholder="Password" required>
                   <p class="error">{{ errors[0] }}</p>
                 </div>
              </ValidationProvider>
-
-            <button class="btn btn-primary btn-block btn-sm" type="submit" v-bind:disabled="invalid">Connexion</button>
+             
+            <button class="btn btn-primary btn-block" type="submit">Connexion</button>
             <p class="message">Vous n'êtes pas inscrit ? <router-link to="/signup">Create an account</router-link></p>
         </form>
         <p>{{ errorMessage }}</p>
@@ -76,7 +76,7 @@ export default {
           this.errorMessage = "Adresse e-mail ou mot de passe invalide !";
         }
         else if(error.response.status === 405){//Si user est supprimé son compte, il peut pas se connécter à nouveau
-          alert('Utilisateur non autorisé !')
+          alert('Utilisateur non autorisé !');
         }
         else if (error.response.status === 429) {
           this.errorMessage = "Vous avez dépassé le nombre maximal de tentatives, merci de réessayer ultérieurement.";
@@ -93,11 +93,14 @@ export default {
   .containerForm{
     padding-top: 300px;
   }
-
-  @media screen and (max-width : 600px) and (max-width : 1024px) {
-    .containerForm{
-    padding-top: 200px;
+  .paddForm{
+    padding-left: 10px;
   }
+
+    @media screen and (max-width : 600px) and (max-width : 1024px) {
+      .containerForm{
+      padding-top: 200px;
+    }
   }
 
 </style>

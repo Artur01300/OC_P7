@@ -1,3 +1,4 @@
+//Configuration des requetes Axios pour users
 import http from "../http";
 
 class UserUrlData {

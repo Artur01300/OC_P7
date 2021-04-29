@@ -1,5 +1,4 @@
 <!--Dans cette page on ajoute un nouvel article-->
-
 <template>
     <main class="formArticle">
 
@@ -61,7 +60,7 @@
                         <div>
                             <button class="btn btn-info" type="submit" value="Submit" v-bind:disabled="invalid">
                                 <i class="fas fa-check"></i>
-                                Valider ce post
+                                Poster
                             </button><br><br>
 
                             <router-link to="/articles" class="btn-info" aria-label="Lien vers la liste d'articles">
@@ -123,7 +122,7 @@ export default {
             const MAX_HEIGHT = 1200000;
 
             if (imageSize > MAX_HEIGHT){
-                alert('La taile de l\'image ne doit pas dépassé le 1.2 Mo !');
+                alert('La taile de l\'image ne doit pas dépasser le 1.2 Mo !');
                 this.$router.push({ path: "/articles/" });
             }
         },

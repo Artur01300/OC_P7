@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+
 import vuexPersistedstate from 'vuex-persistedstate'
 import Vuex from 'vuex'
 
@@ -18,18 +19,20 @@ import { ValidationObserver } from "vee-validate"
 extend("required", {
     ...required,
     message: "Remplire ce champ SVP !"
-})
+});
+
 extend("email", {
     ...email,
     message: "Cet E-mail n'est pas valide !"
-})
+});
+
 extend('minmax', {
     validate(value, { min, max }) {
         return value.length >= min && value.length <= max;
     },
     params: ['min', 'max'],
-    message: "Le mot de passe doit contenir au moins 7 caractères !"
-})
+    message: "Le mot de passe doit contenir minimums 7 caractères maximum 20"
+});
 
 Vue.use(BootstrapVue)
 
@@ -48,6 +51,9 @@ Vue.component('ValidationProvider', ValidationObserver)
 */
 Vue.config.productionTip = false;
 
+/*
+    création d'un data globale pour récupérer le token dans n'importe quelle page
+*/
 const store = new Vuex.Store({
     plugins: [vuexPersistedstate()],
     state: {
@@ -63,21 +69,16 @@ const store = new Vuex.Store({
     },
     actions: {},
     //Le rôle de notre getter est de séparer les données applicatives de la logique applicative et de veiller à ne pas divulguer d'informations sensibles.
+    //J'ai créé une fonction qui parmet de vérifier si user est connecter ou pas
     getters: {
-        isLoggedIn(state) {
+        isLoggedIn(state) {//si il y a le token il envoie le true, sinon il envoie le false
             return !!state.token;
         }
-        // if (state.tiken) {
-        //     return true;
-        //  } else {
-        //    return false;
-        //  }
     }
-})
+});
 
 new Vue({
     router,
     store: store,
     render: h => h(App)
-}).$mount('#app')
-
+}).$mount('#app');

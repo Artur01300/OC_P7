@@ -1,3 +1,4 @@
+//Configuration des requetes Axios pour articles
 import http from "../http";
 
 class ArticlesUrlDada {

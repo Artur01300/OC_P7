@@ -1,3 +1,4 @@
+//Configuration des requetes Axios pour comments
 import http from "../http";
 
 class CommentsData {

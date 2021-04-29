@@ -135,7 +135,6 @@ export default {
     components: {
         ArticlesItem, CommentsItem, UserIdentification
 	},
-
     data() {
         return {
             currentArticle: [],

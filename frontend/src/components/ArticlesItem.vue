@@ -21,7 +21,7 @@
             <!-- href="'/articles/articleId' associer avec index.js:  path: '/articles/articleId:id' -->
             <a class="btn btn-info col-12 col-lg-12" :href="'/ArticleDetails/' + id_article">
                 <i class="fas fa-hand-point-up"></i>
-                Cliquez : Voire en détaille sur cet article
+                Voir en plus
             </a><br>
         </div>
         <!--Section affiche un article en particulier-->
