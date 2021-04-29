@@ -14,8 +14,6 @@
                     </button>
                 </router-link>
 
-                <CallToLogin v-if="!isLoggedIn" />
-
                 <!--Si on est connecté on affiche le bouton de déconéxion si non on affiche le bouton de login-->
                 <UserIdentification
                     :logout="logout"
@@ -55,7 +53,6 @@
 <script>
 
 import UserIdentification from "../components/UserIdentification"
-import CallToLogin from "../components/CallToLogin"
 import ArticlesItem from "../components/ArticlesItem"
 import ArticlesUrlDada from "../service/ArticlesUrlDada"
 import { mapGetters, mapState } from 'vuex'
@@ -63,7 +60,7 @@ import { mapGetters, mapState } from 'vuex'
 export default {
     name: "Articles",
     components: {
-        ArticlesItem, CallToLogin, UserIdentification, 
+        ArticlesItem, UserIdentification, 
 	},
     data () {//j'effectue des calcules et je retourne les résultat
         return {

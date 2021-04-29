@@ -89,7 +89,7 @@ export default {
             .then(response => {
                 console.log(response.data.message);
                 this.deleted = true;
-                alert('Comment supprimé !')
+                alert('Commentaire supprimé !')
                 this.$router.push({ path: '/ArticleDetails/' + this.currentComment.articles_id_article});
             })
             .catch(error => console.log(error));

@@ -18,16 +18,4 @@ User.signup = (newUser, result) => {
   });
 };
 
-// User.login = (email, result) => {
-//   db.query("SELECT * FROM groupomania.users WHERE email = ?", email, (err, res) => {
-//     if (err) {
-//       result(err, null);
-//       return;
-//     } else {
-//       result (null, res);
-//       return;
-//     }
-//   });
-// };
-
 module.exports = User;

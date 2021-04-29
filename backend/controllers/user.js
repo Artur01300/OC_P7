@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 
 
 exports.createAccount = (req, res, next) => {
-  //Le mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 caractère spécial, une longeur d'un moins 7
+  //Le mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 caractère spécial, une longeur d'un moins 7 caractères
   const passwordRegex = /^(?=.{7,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/;
   const password = req.body.password;
 

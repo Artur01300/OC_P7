@@ -42,7 +42,7 @@
                     </div>
                     <UserIdentification
                         :logout="logout"
-                        :isLoggedIn="isLoggedIn" 
+                        :isLoggedIn="isLoggedIn"
                     />
                 </div>
 

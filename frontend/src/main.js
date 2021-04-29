@@ -36,13 +36,14 @@ extend('minmax', {
 
 Vue.use(BootstrapVue)
 
-/* 
-    Cette syntaxe est utilisée pour le système de plugins Vue.
-    Cette méthode permet d'ajouter une fonctionnalité globale à notre instance de Vue.
+/*
+    Cette méthode permet d'ajouter une fonctionnalité globale à notre instance de Vue et 
+    après on peut utiliser dans nos modèles généralement.
 */
 Vue.use(Vuex)
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationProvider', ValidationObserver)
+
 
 /*
     Dans l'environnement de développement(=true), Vue fournira de nombreux avertissements pour vous aider à gérer les erreurs et les pièges courants.
@@ -55,11 +56,13 @@ Vue.config.productionTip = false;
     création d'un data globale pour récupérer le token dans n'importe quelle page
 */
 const store = new Vuex.Store({
+    //Pour que la session de user persiste
     plugins: [vuexPersistedstate()],
     state: {
         token: null
     },
     mutations: {
+        //j'enrégiste le tocken dans le sotre de Vuex
         setToken(state, token) {
             state.token = token;
         },
@@ -77,6 +80,7 @@ const store = new Vuex.Store({
     }
 });
 
+// Nouvelle instance de vue
 new Vue({
     router,
     store: store,

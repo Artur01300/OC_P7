@@ -19,9 +19,6 @@
         <h1>Pour accéder à votre réseau social de l'entreprise vous devez vous connecter !</h1><br><br>
       </section>
 
-        <!--Importation du  CallToLogin-->
-      <CallToLogin v-if="loginCalled" />
-
       <div> 
         <!--Importation du Identification-->
         <UserIdentification
@@ -42,8 +39,10 @@
         <p><strong>Email:</strong> {{ email }}</p>
 
         <div class="btns-space">
-          <b-button variant="danger" class="btn" @click="confirmDelete"><i class="far fa-trash-alt"></i><strong> Supprimer votre compte</strong></b-button>
-          <b-button variant="success" class="btn" @click="hideAccount"><i class="fas fa-arrow-left"></i><strong> Retour</strong></b-button>
+          <b-button variant="danger" class="btn" @click="confirmDelete">
+            <i class="far fa-trash-alt"></i>
+            <strong> Supprimer votre compte</strong>
+          </b-button>
         </div>
       </div>
       <!--Ecran qui demande confirmation pour la suppression du compte-->
@@ -61,15 +60,13 @@
 <script>
 
 import UserIdentification from "../components/UserIdentification"
-import CallToLogin from "../components/CallToLogin"
 import UserUrlData from "../service/UserUrlData"
 import { mapGetters, mapState } from 'vuex'  
     
 export default {
 	name: "Home",
-	components: {
-  CallToLogin, UserIdentification
-	},
+	components: {UserIdentification},
+
 	data() {
   return {
       loginCalled: false,
@@ -85,12 +82,6 @@ export default {
     ...mapState({ token: "token"})
 	},
 	methods: {
-    //Fonction d'appel du component CallToLogin
-    CallToLogin() {
-      if (this.isLoggedIn == false) {
-        this.loginCalled = true;
-      }
-    },
   
     //Fonction de déconnexion
     logout() {
@@ -123,8 +114,7 @@ export default {
     UserUrlData.deltAccount({Authorization: this.token}) 
       .then(response => {
         console.log(response.data);
-        alert('Votre compte a bien été supprimé !')
-        this.isLoggedIn = false;
+        alert('Votre compte a bien été supprimé !');
         this.logout();
         this.refreshPage();
       })

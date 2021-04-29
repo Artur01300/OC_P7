@@ -1,4 +1,4 @@
-//Configuration du axios
+//Création de la base d'URL avec Axios
 
 import axios from 'axios';
 

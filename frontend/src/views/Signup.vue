@@ -1,7 +1,7 @@
 <template>
-   <div class="container  agileites_padding">
+   <div class="container agileites_padding">
         <div class="main wrapper">
-            <h1>Inscrivez vous</h1>
+            <h1 class="sinipH1">Inscrivez vous</h1>
             <div class="main-agileinfo">
               <div class="agileits-top">
                 <!--Vee-Validate: ValidationObserver pour suspendre la soumission du formulaire si il y a des erreurs-->
@@ -9,9 +9,13 @@
                   <!-- Ici si le formulaire est valide alors on créer un utilisateur -->
                   <form @submit.prevent="handleSubmit(createUser)"><!--envoie les données de manière asynchrone-->
 
+                    <!-- 
+                      ValidationProvider recherche ses propres enfants pour les entrées pour les valider après,
+                      donc le v-model agit comme un indice pour le ValidationProvider 
+                    -->
                     <ValidationProvider name="user.name" rules="required">
                       <div slot-scope="{ errors }">
-                        <input type="text" placeholder="Name" require v-model="user.name"  name="name"><br>
+                        <input type="text" placeholder="Name" require v-model="user.name" name="name"><br>
                         <p class="error">{{ errors[0] }}</p>
                       </div>
                     </ValidationProvider>
@@ -66,9 +70,7 @@ export default {
   },
   methods: {
     //Utilisation mapMutations de Vuex pour enrégistrer le token
-    ...mapMutations([
-      'setToken'
-    ]),
+    ...mapMutations(['setToken']),
     createUser(){
       let data = {
         name: this.user.name,
@@ -85,10 +87,10 @@ export default {
       })
       .catch(error => {
         if(error.response.status === 500){
-          alert('Vous ne pouvez pas utiliser cette adresse e-mail !')
+          alert('Vous ne pouvez pas utiliser cette adresse e-mail !');
         }
         if (error.response.status === 406){
-          alert('Le mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 caractère spécial, une longeur d\'un moins 7 caractères')
+          alert('Le mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 caractère spécial, une longeur d\'un moins 7 caractères');
         }
       });
     }
@@ -100,5 +102,15 @@ export default {
 <style>
   .agileites_padding{
     padding-top: 200px;
+  }
+
+  @media screen and (max-width : 600px) and (max-width : 1024px) {
+    .agileites_padding{
+      padding-top: 90px;
+    }
+    .sinipH1{
+      font-size: 1.2em;
+      padding-top: 35px;
+    }
   }
 </style>

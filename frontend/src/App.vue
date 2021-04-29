@@ -1,3 +1,4 @@
+<!--App.vue est la page (le base) de l'application-->
 <template>
   <div id="app">
     
@@ -28,7 +29,7 @@
         </div>
       </header>
     </div>
-    <!-- Le comosant (router-view) gènére un emplacement pour la page d'accueil, c'est à dire routerr-view aura comme page par défaut -->
+    <!-- router-view relier nos composants aux routes  -->
     <router-view/>
     
   </div>

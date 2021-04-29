@@ -13,7 +13,7 @@
                 <span> Le : {{new Date(create_at).toLocaleDateString()}}</span>
                 <h3 class="card-title name">Titre : {{ title }}</h3><br>
                 
-                <p class="card-subtitle border border-warning">Déscrpitpon : {{ content }}</p><br>
+                <p class="card-subtitle border border-warning" v-if="content">Déscrpitpon : {{ content }}</p><br>
                 <!-- v-bind génère l'url dynamiquement -->
                 <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" class="img-fluid" width="600" height="400" alt=" Image sur l'article">
     
@@ -21,7 +21,7 @@
             <!-- href="'/articles/articleId' associer avec index.js:  path: '/articles/articleId:id' -->
             <a class="btn btn-info col-12 col-lg-12" :href="'/ArticleDetails/' + id_article">
                 <i class="fas fa-hand-point-up"></i>
-                Voir en plus
+                Voir plus
             </a><br>
         </div>
         <!--Section affiche un article en particulier-->
