@@ -66,7 +66,7 @@ import { mapGetters, mapState } from 'vuex'
 export default {
 	name: "Home",
 	components: {UserIdentification},
-
+  
 	data() {
   return {
       loginCalled: false,
@@ -113,7 +113,7 @@ export default {
     suppressUser() {
     UserUrlData.deltAccount({Authorization: this.token}) 
       .then(response => {
-        console.log(response.data);
+        console.log(response.data.message);
         alert('Votre compte a bien été supprimé !');
         this.logout();
         this.refreshPage();

@@ -6,14 +6,13 @@
 
             <div class="articles_containter">
                 <router-link to="/articles/creat" aria-label="Poster un nouvel article" class="btn_marge">
-                    <button type= "button" class="btn btn-info btn-add">
+                    <button v-if="!articles.length == 0" type= "button" class="btn btn-info btn-add">
                         <i class="far fa-plus-square"></i>
                         <span>
                             Poster un nouvel article
                         </span>
                     </button>
                 </router-link>
-
                 <!--Si on est connecté on affiche le bouton de déconéxion si non on affiche le bouton de login-->
                 <UserIdentification
                     :logout="logout"
@@ -64,6 +63,7 @@ export default {
 	},
     data () {//j'effectue des calcules et je retourne les résultat
         return {
+            loginCalled: false,
             articles:[],
             message: "Il n'y a aucun article posté sur la plateforme à ce jour."
         }

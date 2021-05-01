@@ -11,7 +11,7 @@
                 <span v-if="!name">
                     Commentaire posté
                 </span>
-                <span> Le {{new Date(created_at).toLocaleDateString()}}</span><br><br>
+                <span v-if="created_at"> Le {{new Date(created_at).toLocaleDateString()}}</span><br><br>
                 <p class="card-text border border-warning">{{ content }}</p><br>
                 <a v-if="owner" class="btn btn-warning icon-text" :href="'/ArticleDetails/comment/' + id_comment" aria-label="Détails du commentaire">
                     <i class="far fa-trash-alt"></i>

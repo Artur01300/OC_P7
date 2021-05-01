@@ -6,7 +6,7 @@
                 <div class="container col-12 col-md-10">
                     <div class='row'>
                         <!-- Si il y a un/des commentaire on affiche la carte avec tous les commantaire -->
-                        <div v-if="!deleted" div class="col-12 col-md-9">
+                        <div class="col-12 col-md-9">
                             <CommentsItem
                                 :content="currentComment.content"
                                 :created_at="currentComment.created_at"
@@ -20,18 +20,17 @@
                                     <i class="far fa-trash-alt"> Supprimer</i>
                                 </button><br><br>
                             </div>
-                            <span v-else class="msgIfNotOwner">Ce commentaire vous n'appartien pas pour le supprimer</span>
-                            <div>
+                            <div v-if="owner">
                                 <router-link to="/articles/" aria-label="Lien vers la liste d'articles">
                                     <button type= "button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> 
                                         Retour
                                     </button>
                                 </router-link><br><br>
-                                <UserIdentification
-                                    :logout="logout"
-                                    :isLoggedIn="isLoggedIn"
-                                />
                             </div>
+                            <UserIdentification
+                                :logout="logout"
+                                :isLoggedIn="isLoggedIn"
+                            />
                         </div>
                     </div>
                 </div>
@@ -53,7 +52,6 @@ export default {
     },
     data () {
         return {
-            deleted: null,
             currentComment: {
                 content: "",
                 name: "",
@@ -88,7 +86,6 @@ export default {
             CommentsData.deleteComment(this.$route.params.id_comment, { Authorization })
             .then(response => {
                 console.log(response.data.message);
-                this.deleted = true;
                 alert('Commentaire supprimé !')
                 this.$router.push({ path: '/ArticleDetails/' + this.currentComment.articles_id_article});
             })

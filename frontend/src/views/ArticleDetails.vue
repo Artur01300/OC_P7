@@ -5,7 +5,7 @@
         <div class="container home_container">
             <div id="header">
                 <!-- s'affiche dans la page http://localhost:8080/articles/articleId124 -->
-                <h1>Détails d'un article séléctionné</h1>
+                <h1 v-if="owner">Détails d'un article séléctionné</h1>
             </div>
             <div class="row">
                 <div class="button-fix col-sm col-lg-2">
