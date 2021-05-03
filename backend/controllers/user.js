@@ -42,10 +42,11 @@ exports.createAccount = (req, res, next) => {
   });
 };
 
+
 exports.login = (req, res, next) => {
-  let sql = "SELECT * FROM groupomania.users WHERE email = ?";
-  db.query(sql, [req.body.email], (err, data, result) =>{
+  User.loginModel(req.body.email, (err, data) => {
     //si on n'a pas trouver les user(si address email n'est pas correct) on envoie le 401 pour dire non trouvé
+
     if(data.length === 0){
       return res.status(401).json({error: 'Utilisateur non trouvé !'});
     }
@@ -75,13 +76,12 @@ exports.login = (req, res, next) => {
   });
 };
 
-exports.getOneUser = (req, res, next) => {
-  
+exports.getOneUser = (req, res) => {
   const token = req.headers.authorization;
   const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
-
-  let sql = "SELECT users.name, users.email FROM groupomania.users where users.id_user = ?";
-  db.query(sql, decodedToken.id_user, (err, data, filds) => {
+  
+  User.getOneUserModel(decodedToken.id_user, (err, data) => {
+    console.log('datadfgsdfgdsg')
     if(err){
       return res.status(404).json({err});
     }
@@ -93,12 +93,10 @@ exports.deltAccount = (req, res) => {
   const token = req.headers.authorization;
   const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
   
-  let sql = "UPDATE groupomania.users SET state = 1  WHERE id_user = ?";
-  db.query(sql, decodedToken.id_user, (err, data) =>{
+  User.deltAccountModel(decodedToken.id_user, (err, data) => {
     if (err) {
-      console.log(err)
       return res.status(400).json({err: "suppression est échoué"});
-    }
+    };
     res.json({status: 200, data, message: "Votre compte a bien été supprimé !"});
   });
 };
