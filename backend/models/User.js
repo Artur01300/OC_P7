@@ -1,4 +1,5 @@
 const db = require("../services/mysql");
+
 // fonction constructeur
 const User = function (user) {
   this.name = user.name;
@@ -13,8 +14,7 @@ User.signup = (newUser, result) => {
       result(err, null);
       return;
     };
-    console.log("Le compte est créé !");
-    result(null, {id: res.insertId, ...newUser });//...newUser: pour récupèrer touts les infos de User
+    result(null, newUser);//...newUser: pour récupèrer touts les infos de User
   });
 };
 

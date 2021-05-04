@@ -20,7 +20,7 @@
                 />
             </div>
             
-            <div>
+            <div v-if="isLoggedIn">
                 <div class="container">
                     <div class='row marge_container'>
                         <ul class="col-12 col-lg-12">

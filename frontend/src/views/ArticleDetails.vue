@@ -9,7 +9,7 @@
             </div>
             <div class="row">
                 <div class="button-fix col-sm col-lg-2">
-                    <router-link to="/articles" aria-label="Lien vers la liste d'article">
+                    <router-link to="/articles" aria-label="Lien vers la liste d'article" v-if="isLoggedIn">
                         <button type= "button" class="btn btn-primary" id="arrow-only" aria-label="Lien vers la page d'accueil">
                             <i class="fas fa-arrow-left"></i>
                             Retour

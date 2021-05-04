@@ -86,7 +86,7 @@ export default {
             CommentsData.deleteComment(this.$route.params.id_comment, { Authorization })
             .then(response => {
                 console.log(response.data.message);
-                alert('Commentaire supprimé !')
+                alert('Commentaire supprimé !');
                 this.$router.push({ path: '/ArticleDetails/' + this.currentComment.articles_id_article});
             })
             .catch(error => console.log(error));

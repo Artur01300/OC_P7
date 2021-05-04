@@ -3,7 +3,7 @@
         <!--Section s'affiche si le user n'est pas connecté-->
         <div v-if="!isLoggedIn">
             <router-link to="/" >
-                <b-button variant="success" type= "button" >
+                <b-button variant="success" type= "button">
                     <i class="fas fa-user-plus"></i> 
                     Login 
                 </b-button>

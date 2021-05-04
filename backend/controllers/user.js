@@ -1,10 +1,7 @@
-var db = require("../services/mysql");
 const User = require('../models/User');
-
-require('dotenv').config();
-
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 
 exports.createAccount = (req, res, next) => {
@@ -27,7 +24,6 @@ exports.createAccount = (req, res, next) => {
     password: hash,
   });
 
-  // Sauvgard de user dans db
   User.signup(user, (err, data) => {
     /*
       si l'adresse d-mail est idantique alors user n'est pas autorisé pour l'inscription, 
@@ -37,7 +33,7 @@ exports.createAccount = (req, res, next) => {
       res.status(500).send({
       message: err.message + "|" + " Cette adresse e-mail est déjà utilisée !",
     });
-    else res.send(data);
+    else res.json({status: 200, data});
     });
   });
 };
@@ -81,7 +77,6 @@ exports.getOneUser = (req, res) => {
   const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
   
   User.getOneUserModel(decodedToken.id_user, (err, data) => {
-    console.log('datadfgsdfgdsg')
     if(err){
       return res.status(404).json({err});
     }

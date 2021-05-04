@@ -10,9 +10,9 @@
      
         <!--Utilisation de Vee-Validate : ValidationObserver pour suspendre la soumission du formulaire à l'existence d'une erreurs-->
             <ValidationObserver v-slot="{ invalid, handleSubmit }" v-if="!submitted">
-                <!--handleSubmit empêche automatiquement la soumission native à tout moment(vérifie avant et près il envoie au backend-->  
-                <form class="container text-center form" @submit.prevent="handleSubmit(saveArticle)">
-                <h2>Pour poster un nouvel article, merci de remplir les champs suivants :</h2><br>
+                <!--handleSubmit empêche automatiquement la soumission native à tout moment(vérifie avant et prèt il envoie au backend-->  
+                <form  v-if="isLoggedIn" class="container text-center form" @submit.prevent="handleSubmit(saveArticle)">
+                <h2 v-if="isLoggedIn">Pour poster un nouvel article, merci de remplir les champs suivants :</h2><br>
                 <div class="row">
                     <div class="articleModify col-12 col-md-6">
                         <div class="form-group">
