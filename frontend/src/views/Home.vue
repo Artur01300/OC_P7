@@ -26,8 +26,8 @@
           :isLoggedIn="isLoggedIn"
         />
         <div class="info">
-            <!--Si le user est connecté et non-administrateur, l'icône de son compte s'afficher-->
-            <button v-if="isLoggedIn" class="btn btn-primary" @click="showAccount"><i class="fas fa-user"></i> Votre compte</button><br><br>
+          <!--Si le user est connecté et non-administrateur, l'icône de son compte s'afficher-->
+          <button v-if="isLoggedIn" class="btn btn-primary" @click="showAccount"><i class="fas fa-user"></i> Votre compte</button><br><br>
         </div>
       </div>
 
@@ -120,14 +120,14 @@ export default {
       })
       .catch(error => console.log(error));
     },
-    //Fonction d'affichage de la demande de confirmation de suppression
+    //Fonction d'affichage le bouton de la confirmation(supprimer)
     confirmDelete() {
       return (this.confirmation = true);
     },
     //Fonction de rafraîchissement de la page
     refreshPage() {
       this.hideAccount();
-      this.confirmation = false;
+      this.confirmation = false;//je cache le bouton de confirmation(supprimer)
     },
 	},
   //Déclenchement de la récupération des données du user au moment du rendu de la page 

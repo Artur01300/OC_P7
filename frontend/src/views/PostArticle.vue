@@ -34,26 +34,21 @@
                         </div>
                         <div class="form-group">
                             <ValidationProvider name="article.content">
-                                <div slot-scope="{ errors }">
-                                    <textarea 
-                                        type="textarea" 
-                                        rows="5"
-                                        cols="30"
-                                        class="form-control"
-                                        v-model="article.content"
-                                        name="content"
-                                        id="content"/>
-                                    <p class="error">{{ errors[0] }}</p>
-                                </div>
+                                <textarea 
+                                    type="textarea" 
+                                    rows="5"
+                                    cols="30"
+                                    class="form-control"
+                                    v-model="article.content"
+                                    name="content"
+                                    id="content"
+                                />
                             </ValidationProvider>
                         </div>
                         <div class="form-group">
                             <ValidationProvider name="article.image">
-                                <div slot-scope="{ errors }">
-                                    <!-- v-on écoute les évènements du DOM -->
-                                    <input type="file" class="btn-info" id="image" ref="image" v-on:change="handleFileUpload()" accept="image/*"/>
-                                    <p class="error">{{ errors[0] }}</p>
-                                </div>
+                                <!-- v-on écoute les évènements du DOM -->
+                                <input type="file" class="btn-info" id="image" ref="image" v-on:change="handleFileUpload()" accept="image/*"/>
                             </ValidationProvider>
                         </div>
                         

@@ -6,7 +6,7 @@
 
             <div class="articles_containter">
                 <router-link to="/articles/creat" aria-label="Poster un nouvel article" class="btn_marge">
-                    <button v-if="!articles.length == 0" type= "button" class="btn btn-info btn-add">
+                    <button v-if="isLoggedIn" type= "button" class="btn btn-info btn-add">
                         <i class="far fa-plus-square"></i>
                         <span>
                             Poster un nouvel article

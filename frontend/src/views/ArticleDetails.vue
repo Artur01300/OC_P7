@@ -5,7 +5,7 @@
         <div class="container home_container">
             <div id="header">
                 <!-- s'affiche dans la page http://localhost:8080/articles/articleId124 -->
-                <h1 v-if="owner">Détails d'un article séléctionné</h1>
+                <h1 v-if="isLoggedIn">Détails d'un article séléctionné</h1><br>
             </div>
             <div class="row">
                 <div class="button-fix col-sm col-lg-2">
@@ -17,7 +17,7 @@
                     </router-link>
                     
                     <div v-if="owner" class="action valid">
-
+                        <!-- showUpdate: pour afficher le formulair de modification de l'article-->
                         <button type= "button" class="btn btn-primary" @click="showUpdate">
                             <i class="far fa-edit"></i>
                             Modifier
@@ -25,16 +25,16 @@
 
                         <button type= "button" class="btn btn-primary btn-warning" @click="confirmDelete">
                             <i class="far fa-trash-alt"></i>
-                                Supprimer
+                            Supprimer
                         </button><br><br>
 
                         
-                        <!--s'affiche quand le user clique sur le bouton "suppression"-->
+                        <!--confirmation: pour afficher le bouton de cofirmation de suppression de l'article-->
                         <div v-if="confirmation">
                             <button type= "button" class="btn btn-danger" @click="deleteUserArticle">
                                 Confirmer la suppression
                             </button><br><br>
-                            
+                            <!--refreshPage: pour le bouton 'Annuler', une fois cliquer sur annuler le btn de confirmer la suppression est cacher-->
                             <button type= "button" class="btn btn-success cancel-btn" @click="refreshPage">
                                 Annuler
                             </button><br><br>
@@ -153,7 +153,7 @@ export default {
     methods: {
         getOneArticle(id_article, Authorization) {
         Authorization = this.token;
-           
+        //Axios
         ArticlesUrlDada.getOneArticleFromUser(id_article, {Authorization})
             .then(response => {
                 this.currentArticle = JSON.parse(JSON.stringify(response.data.data));
@@ -161,15 +161,15 @@ export default {
             })
             .catch(error => console.log(error));
         },
-
+        //pour afficher le formulair de modification de l'article
         showUpdate() {  
             return (this.askForUpdate = true);
         },
-
+        //pour afficher le bouton de cofirmation de suppression de l'article
         confirmDelete() {
             return (this.confirmation = true);
         },
-
+        //refreshPage: pour le bouton 'Annuler', une fois cliquer sur annuler le btn de confirmer la suppression est cacher
         refreshPage() {
             this.getOneArticle(this.$route.params.id_article);
             this.confirmation = false;
@@ -181,6 +181,7 @@ export default {
                 content: this.currentArticle[0].content,
             };
             Authorization = this.token;
+            //Axios
             ArticlesUrlDada.modifyTextArticle(this.$route.params.id_article, data, { Authorization }) 
                 .then(response => {
                     console.log(response.data);
@@ -195,7 +196,8 @@ export default {
             ArticlesUrlDada.delateArticle(this.currentArticle[0].id_article, { Authorization }) 
             .then(response => {
                 console.log(response.data);
-                alert('Article supprimé')
+                // alert('Article supprimé');
+                alert(this.messageComments = 'Article supprimé')
                 this.$router.push({ path: "/articles" });
             })
             .catch(error => console.log(error));
