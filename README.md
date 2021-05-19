@@ -1,17 +1,17 @@
 ### Groupomania
 
-Le projet consiste à construire un réseau social interne pour les employés de Groupomania. Le but de cet outil est de faciliter les interactions entre collègues. Le département RH de Groupomania a laissé libre cours à son imagination pour les fonctionnalités du réseau et a imaginé plusieurs briques pour favoriser les échanges entre collègues.
+C'est un réseau social interne pour les employés de Groupomania. Le but de cet outil est de faciliter les interactions entre collègues.
 
 ## Exigences
 
-* la présentation des fonctionnalités doit être simple
-* la création d’un compte doit être simple et possible depuis un téléphone mobile
-* le profil doit contenir très peu d’informations pour que sa complétion soit rapide
-* la suppression du compte doit être possible
-* l’accès à un forum où les salariés publient des contenus multimédias doit être présent
-* l’accès à un forum où les salariés publient des textes doit être présent
-* les utilisateurs doivent pouvoir facilement repérer les dernières participations des employés
-* le ou la chargé-e de communication Groupomania doit pouvoir modérer les interactions entre salariés
+* la présentation des fonctionnalités est simple
+* la création d’un compte est simple et possible depuis un téléphone mobile
+* le profil conten très peu d’informations pour que sa complétion soit rapide
+* la suppression du compte est possible
+* l’accès à un forum où les salariés publient des contenus multimédias est présent
+* l’accès à un forum où les salariés publient des textes doit est présent
+* les utilisateurs pouvent facilement repérer les dernières participations des employés
+* le ou la chargé-e de communication Groupomania peut modérer les interactions entre salariés
 
 
 ## Le back-end
