@@ -38,7 +38,7 @@ Pour **créer un compte**, mettre un **mot de passe** (minimum 7 caractères max
 
 * serveur : NodeJS ;
 * framework : Express ;
-* base de données : MysSQL;
+* base de données : MySQL;
 * Angular CLI
 
 ## Procédure
