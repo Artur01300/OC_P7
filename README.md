@@ -40,7 +40,7 @@ Pour **créer un compte**, mettre un **mot de passe** (minimum 7 caractères max
 * framework : Express ;
 * base de données : MySQL;
 * Angular CLI
-*Vue.js
+* Vue.js
 
 ## Procédure
 
