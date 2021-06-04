@@ -34,12 +34,13 @@ Le projet a été généré avec [Angular CLI](https://github.com/angular/angula
 Pour **créer un compte**, mettre un **mot de passe** (minimum 7 caractères maximum 20, avec un majuscule, un minuscule, un chiffre et un symbole).
 
 
-## Technologies à utiliser
+## Technologies utilisés
 
 * serveur : NodeJS ;
 * framework : Express ;
 * base de données : MySQL;
 * Angular CLI
+*Vue.js
 
 ## Procédure
 
