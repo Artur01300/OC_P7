@@ -18,7 +18,7 @@
                     Supprimer
                 </a>
             </div>
-        </div> 
+        </div>
     </div>
 </template>
 

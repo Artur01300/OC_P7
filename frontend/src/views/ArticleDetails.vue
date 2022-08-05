@@ -8,7 +8,12 @@
                 <h1 v-if="isLoggedIn">Détails d'un article séléctionné</h1><br>
             </div>
             <div class="row">
-                <div class="button-fix col-sm col-lg-2">
+                <div v-if="isDeleted" style="position: fixed; top:0; left:0; right:0; bottom:0; background-color: rgba(0,0,0,0.5); width:100vw; height: 100vh; z-index:99;">
+                    <div style="padding:30px; width: 50%; background-color: white; border-radius: 30px">
+                        ce message est supprimé
+                    </div>
+                </div>
+                <div class="button-fix col-sm col-lg-2" v-else>
                     <router-link to="/articles" aria-label="Lien vers la liste d'article" v-if="isLoggedIn">
                         <button type= "button" class="btn btn-primary" id="arrow-only" aria-label="Lien vers la page d'accueil">
                             <i class="fas fa-arrow-left"></i>
@@ -143,7 +148,8 @@ export default {
             owner: false,
             askForUpdate: "",
             confirmation: false,
-            messageUpdate: ""
+            messageUpdate: "",
+            isDeleted: false
         }
     },
     computed: {
@@ -197,8 +203,8 @@ export default {
             .then(response => {
                 console.log(response.data);
                 // alert('Article supprimé');
-                alert(this.messageComments = 'Article supprimé')
-                this.$router.push({ path: "/articles" });
+                this.isDeleted = true;
+                // this.$router.push({ path: "/articles" });
             })
             .catch(error => console.log(error));
         },

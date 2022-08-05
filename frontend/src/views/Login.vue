@@ -89,7 +89,6 @@ export default {
 </script>
 
 <style>
-
   .containerForm{
     padding-top: 300px;
   }

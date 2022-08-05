@@ -1,10 +1,10 @@
 <template>
   <main>
     <div class="introPage container_form">
+      <div class="mainPageTitle">
+        <h1>Bienvenue sur le réseau social de votre entreprise !</h1>
+      </div>
       <section v-if="isLoggedIn" class="container home_container text-center"><br><br>
-        <div>
-          <h1>Bienvenue sur le réseau social de votre entreprise !</h1>
-        </div>
         <div class='container'>
           <div class="col-col-sm-5">
             <router-link to="/articles" aria-label="Lien vers la plateforme d'articles">
@@ -157,12 +157,7 @@ export default {
 
   .container_form{
     padding-top: 200px;
-    max-width: 800px;
     margin: auto;
-  }
-
-  .home_container{
-    background: rgba(0, 0, 0, 0.18);;
   }
   .card_color {
     background-color: none;
@@ -197,7 +192,6 @@ export default {
     padding: 8% 0 0;
     margin: auto;
   }
-
   .form {
     position: relative;
     z-index: 1;
