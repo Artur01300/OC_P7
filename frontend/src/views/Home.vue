@@ -19,40 +19,55 @@
         <h1>Pour accéder à votre réseau social de l'entreprise vous devez vous connecter !</h1><br><br>
       </section>
 
-      <div> 
-        <!--Importation du Identification-->
-        <UserIdentification
-          :logout="logout"
-          :isLoggedIn="isLoggedIn"
-        />
-        <div class="info">
-          <!--Si le user est connecté et non-administrateur, l'icône de son compte s'afficher-->
-          <button v-if="isLoggedIn" class="btn btn-primary" @click="showAccount"><i class="fas fa-user"></i> Votre compte</button><br><br>
-        </div>
-      </div>
 
-      <!--Ecran qui détaille les données du compte-->
-      <div v-if="accountAsked">
-        
-        <h3>Détails de votre compte</h3>
-        <p><strong>Pseudo :</strong> {{ name }}</p>
-        <p><strong>Email:</strong> {{ email }}</p>
+      <button v-on:click="btnScratchAction()" v-if="seenVoirPLus" class="btnScratch">Voir Plus</button>
+      <transition name="fade">
+        <div v-if="btnScratch" class="mainScratch">
+          <div>
 
-        <div class="btns-space">
-          <b-button variant="danger" class="btn" @click="confirmDelete">
-            <i class="far fa-trash-alt"></i>
-            <strong> Supprimer votre compte</strong>
-          </b-button>
+            <!--Ecran qui détaille les données du compte-->
+            <div v-if="accountAsked">
+              
+              <h3>Détails de votre compte</h3>
+              <p><strong>Pseudo :</strong> {{ name }}</p>
+              <p><strong>Email:</strong> {{ email }}</p>
+
+              <div class="btns-space" v-if="seenAvoidDelBdn">
+                <b-button variant="danger" class="btn" @click="confirmDelete()">
+                  <i class="far fa-trash-alt"></i>
+                </b-button>
+                <b-button variant="success" class="btn" @click="refreshPage">
+                  <i class="fa fa-rotate-left"></i>
+                </b-button>
+              </div>
+            </div>
+            <!--Ecran qui demande confirmation pour la suppression du compte-->
+            <div v-if="confirmation">
+              <p>Etes-vous sûr de vouloir supprimer votre compte ? Toute suppression est définitive.</p>
+              <div class="confirmSuppress">
+                <b-button variant="danger" type= "button" @click="suppressUser">Supprimer</b-button>
+                <b-button variant="success" type= "button" @click="refreshPage">Annuler</b-button>
+              </div>
+            </div>
+          </div>
+
+          <div class="scratchContainer w-1/3" v-if="seenDeconnection">
+            <!--Importation du Identification-->
+            <UserIdentification
+              :logout="logout"
+              :isLoggedIn="isLoggedIn"
+            />
+
+            <div class="info">
+            <!--Si le user est connecté et non-administrateur, l'icône de son compte s'afficher-->
+              <button v-if="isLoggedIn" class="btn btn-primary" @click="showAccount()"><i class="fas fa-user"></i> Votre compte</button><br><br>
+            </div>
+          </div>
+          
+          <button v-on:click="btnScratchAction()" v-if="seenX" class="btnScratch btnScratch-secend">X</button>
         </div>
-      </div>
-      <!--Ecran qui demande confirmation pour la suppression du compte-->
-      <div v-if="confirmation">
-        <p>Etes-vous sûr de vouloir supprimer votre compte ? Toute suppression est définitive.</p>
-        <div class="confirmSuppress">
-          <b-button variant="danger" type= "button" @click="suppressUser">Supprimer</b-button>
-          <b-button variant="success" type= "button" @click="refreshPage">Annuler</b-button>
-        </div>
-      </div>
+      </transition>
+
     </div> 
   </main>
 </template>
@@ -73,7 +88,12 @@ export default {
       accountAsked: false,
       email: "",
       name: "",
-      confirmation: false
+      confirmation: false,
+      btnScratch: false,
+      seenVoirPLus: true,
+      seenDeconnection : true,
+      seenX: true,
+      seenAvoidDelBdn: true
     }
   },
 	computed: {
@@ -82,7 +102,16 @@ export default {
     ...mapState({ token: "token"})
 	},
 	methods: {
-  
+    btnScratchAction(){
+      if (this.btnScratch == true){
+        this.btnScratch = false
+        this.seenVoirPLus = true
+      }
+      else{
+        this.btnScratch = true
+        this.seenVoirPLus = false
+      }
+    },
     //Fonction de déconnexion
     logout() {
       this.$store.commit("logout");
@@ -91,11 +120,16 @@ export default {
     },
     //Fonction d'affichage des données du user courant
     showAccount() {
-      this.accountAsked = true
+      this.accountAsked = true;
+      this.seen = false;
+      this.seenDeconnection = false;
+      this.seenX = false
     },
     //Fonction de masquage des données du compte
     hideAccount() {
-      this.accountAsked = false
+      this.accountAsked = false;
+      this.seenDeconnection = true;
+      this.seenX = true
     },
 
     // Fonction de récupération des données du user courant via une requête Axios GET
@@ -122,11 +156,13 @@ export default {
     },
     //Fonction d'affichage le bouton de la confirmation(supprimer)
     confirmDelete() {
-      return (this.confirmation = true);
+      this.confirmation = true;
+      this.seenAvoidDelBdn = false
     },
     //Fonction de rafraîchissement de la page
     refreshPage() {
       this.hideAccount();
+      this.seenAvoidDelBdn = true;
       this.confirmation = false;//je cache le bouton de confirmation(supprimer)
     },
 	},
@@ -138,376 +174,421 @@ export default {
 </script>
 
 <style>
-  .btns-space{
-    display: flex;
-    justify-content: space-around;
-    width: 400px;
-    margin: auto;
-  }
+/* Btn Scratch */
+.btnScratch{
+  display: inline-block;
+  position: fixed;
+  padding: 5px 12px;
+  font-size: 1em;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #3d5f3e;
+  border: none;
+  border-radius: 10px;
+}
+.btnScratch:hover {background-color: #3e8e41}
 
-  .confirmSuppress{
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly
-  }
+.btnScratch:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.mainScratch{
+  background-color: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.scratchContainer{
+  background-color: white;
+  border-radius: 10px;
+  width: 25vw; 
+  height: 15vh;
+}
+.btnScratch-secend{
+  position: relative;
+  margin-left: -70px;
+  margin-bottom: 60px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+/* fin Btn scratch */
 
-  .header-main {
-    padding-bottom: 150px;
-  }
+.btns-space{
+  display: flex;
+  justify-content: space-around;
+  width: 400px;
+  margin: auto;
+}
 
-  .container_form{
-    padding-top: 200px;
-    margin: auto;
-  }
-  .card_color {
-    background-color: none;
-  }
-  .logo-header {
-    height: 80px;
-    width: 100vw;
-    padding: 20px 0px 20px 0px;
-    position: fixed;
-    box-shadow: -5px -5px 15px #ffffff, 5px 5px 15px #335080;
-    display: flex;
-    align-items: center;
-  }
-  .main-principale {
-    padding-top: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.confirmSuppress{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly
+}
 
-  * {
-    margin: 0;
-    padding: 0;
-  }
+.header-main {
+  padding-bottom: 150px;
+}
 
-  .containter-form {
-    box-shadow: -5px -5px 15px #d1c3ec, 5px 5px 15px #445f8a;
-  }
+.container_form{
+  padding-top: 200px;
+  margin: auto;
+}
+.card_color {
+  background-color: none;
+}
+.logo-header {
+  height: 80px;
+  width: 100vw;
+  padding: 20px 0px 20px 0px;
+  position: fixed;
+  box-shadow: -5px -5px 15px #ffffff, 5px 5px 15px #335080;
+  display: flex;
+  align-items: center;
+}
+.main-principale {
+  padding-top: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .login-page {
-    width: 360px;
-    padding: 8% 0 0;
-    margin: auto;
-  }
-  .form {
-    position: relative;
-    z-index: 1;
-    background: rgba(0, 0, 0, 0.18);
-    max-width: 360px;
-    margin: 0 auto 100px;
-    padding: 45px;
-    text-align: center;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-  }
+.containter-form {
+  box-shadow: -5px -5px 15px #d1c3ec, 5px 5px 15px #445f8a;
+}
 
-  .form input {
-    outline: 0;
-    width: 100%;
-    border: 0;
-    margin: 0 0 15px;
-    padding: 15px;
-    box-sizing: border-box;
-    font-size: 14px;
-  }
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+.form {
+  position: relative;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.18);
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
 
-  .form button {
-    text-transform: uppercase;
-    outline: 0;
-    background: #4CAF50;
-    width: 100%;
-    border: 0;
-    padding: 15px;
-    color: #FFFFFF;
-    font-size: 14px;
-    -webkit-transition: all 0.3 ease;
-    transition: all 0.3 ease;
-    cursor: pointer;
-  }
+.form input {
+  outline: 0;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
 
-  .form button:hover, .form button:active, .form button:focus {
-    background: #43A047;
-  }
+.form button {
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
 
-  .form .message {
-    margin: 15px 0 0;
-    color: #f3e7e7;
-    font-size: 12px;
-  }
+.form button:hover, .form button:active, .form button:focus {
+  background: #43A047;
+}
 
-  .form .message a {
-    color: #afeeb1;
-    text-decoration: none;
-  }
+.form .message {
+  margin: 15px 0 0;
+  color: #f3e7e7;
+  font-size: 12px;
+}
 
-  .form .register-form {
-    display: none;
-  }
+.form .message a {
+  color: #afeeb1;
+  text-decoration: none;
+}
 
-  .like-dislikes {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-  }
+.form .register-form {
+  display: none;
+}
 
-  .central-meta {
-    background: #fdfdfd none repeat scroll 0 0;
-    border: 1px solid #ede9e9;
-    border-radius: 3px;
-    display: inline-block;
-    width: 100%;
-    margin-bottom: 20px;
-    padding: 25px;
-  }
+.like-dislikes {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
 
-  .new-postbox {
-    display: inline-block;
-    width: 100%;
-  }
+.central-meta {
+  background: #fdfdfd none repeat scroll 0 0;
+  border: 1px solid #ede9e9;
+  border-radius: 3px;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 25px;
+}
 
-  .new-postbox > figure {
-    display: inline-block;
-    margin-bottom: 0;
-    vertical-align: top;
-    width: 10.4%;
-  }
+.new-postbox {
+  display: inline-block;
+  width: 100%;
+}
 
-  .newpst-input {
-    display: inline-block;
-    margin-left: 10px;
-    vertical-align: top;
-    width: 85.5%;
-  }
+.new-postbox > figure {
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: top;
+  width: 10.4%;
+}
 
-  .newpst-input > form {
-    display: inline-block;
-    width: 100%;
-  }
+.newpst-input {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: top;
+  width: 85.5%;
+}
 
-  .newpst-input textarea {
-    float: left;
-    width: 100%;
-  }
+.newpst-input > form {
+  display: inline-block;
+  width: 100%;
+}
 
-  .attachments {
-    border: 1px solid #eee;
-    display: block;
-    padding: 10px;
-    text-align: right;
-    border-top: 0;
-    background: #fff;
-  }
+.newpst-input textarea {
+  float: left;
+  width: 100%;
+}
 
-  .attachments > ul {
-    list-style: outside none none;
-    margin-bottom: 0;
-    padding-left: 0;
-  }
+.attachments {
+  border: 1px solid #eee;
+  display: block;
+  padding: 10px;
+  text-align: right;
+  border-top: 0;
+  background: #fff;
+}
 
-  .attachments li {
-    display: inline-block;
-    margin-left: 5px;
-  }
+.attachments > ul {
+  list-style: outside none none;
+  margin-bottom: 0;
+  padding-left: 0;
+}
 
-  .clear {
-    clear: both;
-  }
+.attachments li {
+  display: inline-block;
+  margin-left: 5px;
+}
 
-  body {
-    background: linear-gradient(to top, #66a144, #d5f0c6);
-    background-size: cover;
-    background-attachment: fixed;
-  }
+.clear {
+  clear: both;
+}
 
-  h1 {
-    font-size: 3em;
-    text-align: center;
-    color: #fff;
-    font-weight: 100;
-    text-transform: capitalize;
-    letter-spacing: 4px;
-  }
+body {
+  background: linear-gradient(to top, #66a144, #d5f0c6);
+  background-size: cover;
+  background-attachment: fixed;
+}
 
-  .main {
-    padding: 3em 0 1em;
-  }
+h1 {
+  font-size: 3em;
+  text-align: center;
+  color: #fff;
+  font-weight: 100;
+  text-transform: capitalize;
+  letter-spacing: 4px;
+}
 
+.main {
+  padding: 3em 0 1em;
+}
+
+.main-agileinfo {
+  width: 35%;
+  margin: 3em auto;
+  background: rgba(0, 0, 0, 0.18);
+  background-size: cover;
+}
+
+.agileits-top {
+  padding: 3em;
+}
+
+input[type=text], input[type=email], input[type=password] {
+  font-size: 0.9em;
+  color: #fff;
+  font-weight: 100;
+  width: 94.5%;
+  display: block;
+  border: none;
+  padding: 0.8em;
+  border: solid 1px rgba(255, 255, 255, 0.37);
+  -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #fff 4%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #fff 4%);
+  background-position: -800px 0;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+}
+
+input.email, input.text.w3lpass {
+  margin: 2em 0;
+}
+
+::-webkit-input-placeholder {
+  color: #fff;
+  font-weight: 100;
+}
+
+input[type=submit] {
+  font-size: 0.9em;
+  color: #fff;
+  background: #76b852;
+  outline: none;
+  border: 1px solid #76b852;
+  cursor: pointer;
+  padding: 0.9em;
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 2em 0;
+  letter-spacing: 4px;
+}
+
+.agileits-top p a {
+  color: #fff;
+  -webkit-transition: 0.5s all;
+  -moz-transition: 0.5s all;
+  transition: 0.5s all;
+  font-weight: 400;
+}
+
+@media (max-width: 568px) {
   .main-agileinfo {
-    width: 35%;
-    margin: 3em auto;
-    background: rgba(0, 0, 0, 0.18);
-    background-size: cover;
+    width: 75%;
+  }
+}
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.8em;
+    letter-spacing: 3px;
   }
 
   .agileits-top {
-    padding: 3em;
+    padding: 1.8em;
   }
 
   input[type=text], input[type=email], input[type=password] {
+    width: 91%;
+  }
+
+  .agileits-top p {
     font-size: 0.9em;
-    color: #fff;
-    font-weight: 100;
-    width: 94.5%;
+  }
+}
+@media (max-width: 414px) {
+  h1 {
+    font-size: 1.8em;
+    letter-spacing: 2px;
+  }
+
+  .main-agileinfo {
+    width: 85%;
+    margin: 1.5em auto;
+  }
+
+  .text:focus, .text:valid {
+    background-position: 0 0px;
+  }
+
+  .wthree-text ul li, .wthree-text ul li:nth-child(2) {
     display: block;
-    border: none;
-    padding: 0.8em;
-    border: solid 1px rgba(255, 255, 255, 0.37);
-    -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
-    transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
-    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #fff 4%);
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #fff 4%);
-    background-position: -800px 0;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    color: #fff;
-    font-family: "Roboto", sans-serif;
+    float: none;
   }
 
-  input.email, input.text.w3lpass {
-    margin: 2em 0;
-  }
-
-  ::-webkit-input-placeholder {
-    color: #fff;
-    font-weight: 100;
+  .wthree-text ul li:nth-child(2) {
+    margin-top: 1.5em;
   }
 
   input[type=submit] {
-    font-size: 0.9em;
-    color: #fff;
-    background: #76b852;
-    outline: none;
-    border: 1px solid #76b852;
-    cursor: pointer;
-    padding: 0.9em;
-    -webkit-appearance: none;
-    width: 100%;
-    margin: 2em 0;
-    letter-spacing: 4px;
+    margin: 2em 0 1.5em;
+    letter-spacing: 3px;
   }
 
-  .agileits-top p a {
-    color: #fff;
-    -webkit-transition: 0.5s all;
-    -moz-transition: 0.5s all;
-    transition: 0.5s all;
-    font-weight: 400;
+  input[type=submit] {
+    margin: 2em 0 1.5em;
   }
 
-  @media (max-width: 568px) {
-    .main-agileinfo {
-      width: 75%;
-    }
+  .colorlibcopy-agile {
+    margin: 1em 0 1em;
   }
-  @media (max-width: 480px) {
-    h1 {
-      font-size: 1.8em;
-      letter-spacing: 3px;
-    }
-
-    .agileits-top {
-      padding: 1.8em;
-    }
-
-    input[type=text], input[type=email], input[type=password] {
-      width: 91%;
-    }
-
-    .agileits-top p {
-      font-size: 0.9em;
-    }
+}
+@media (max-width: 384px) {
+  .main-agileinfo {
+    width: 88%;
   }
-  @media (max-width: 414px) {
-    h1 {
-      font-size: 1.8em;
-      letter-spacing: 2px;
-    }
-
-    .main-agileinfo {
-      width: 85%;
-      margin: 1.5em auto;
-    }
-
-    .text:focus, .text:valid {
-      background-position: 0 0px;
-    }
-
-    .wthree-text ul li, .wthree-text ul li:nth-child(2) {
-      display: block;
-      float: none;
-    }
-
-    .wthree-text ul li:nth-child(2) {
-      margin-top: 1.5em;
-    }
-
-    input[type=submit] {
-      margin: 2em 0 1.5em;
-      letter-spacing: 3px;
-    }
-
-    input[type=submit] {
-      margin: 2em 0 1.5em;
-    }
-
-    .colorlibcopy-agile {
-      margin: 1em 0 1em;
-    }
+}
+@media (max-width: 375px) {
+  .agileits-top p {
+    letter-spacing: 0px;
   }
-  @media (max-width: 384px) {
-    .main-agileinfo {
-      width: 88%;
-    }
+}
+@media (max-width: 320px) {
+  .main-w3layouts {
+    padding: 1.5em 0 0;
   }
-  @media (max-width: 375px) {
-    .agileits-top p {
-      letter-spacing: 0px;
-    }
+
+  .agileits-top {
+    padding: 1.2em;
   }
-  @media (max-width: 320px) {
-    .main-w3layouts {
-      padding: 1.5em 0 0;
-    }
 
-    .agileits-top {
-      padding: 1.2em;
-    }
-
-    input[type=text], input[type=email], input[type=password] {
-      width: 89.5%;
-      font-size: 0.85em;
-    }
-
-    h1 {
-      font-size: 1.7em;
-      letter-spacing: 0px;
-    }
-
-    .main-agileinfo {
-      width: 92%;
-      margin: 1em auto;
-    }
-
-    .text:focus, .text:valid {
-      background-position: 0 0px;
-    }
-
-    input[type=submit] {
-      margin: 1.5em 0;
-      padding: 0.8em;
-      font-size: 0.85em;
-    }
-
-    .wthree-text label {
-      font-size: 0.85em;
-    }
-
-    .main-w3layouts {
-      padding: 1em 0 0;
-    }
+  input[type=text], input[type=email], input[type=password] {
+    width: 89.5%;
+    font-size: 0.85em;
   }
+
+  h1 {
+    font-size: 1.7em;
+    letter-spacing: 0px;
+  }
+
+  .main-agileinfo {
+    width: 92%;
+    margin: 1em auto;
+  }
+
+  .text:focus, .text:valid {
+    background-position: 0 0px;
+  }
+
+  input[type=submit] {
+    margin: 1.5em 0;
+    padding: 0.8em;
+    font-size: 0.85em;
+  }
+
+  .wthree-text label {
+    font-size: 0.85em;
+  }
+
+  .main-w3layouts {
+    padding: 1em 0 0;
+  }
+}
 
 </style>
