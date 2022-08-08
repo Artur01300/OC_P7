@@ -25,7 +25,8 @@ export default {
     name: 'UserIdentification',
     props: {
         logout: {
-            type: Function,
+            // désactivé le 08/08/22
+            // type: Function, 
             required: true
         },
         isLoggedIn: {

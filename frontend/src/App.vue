@@ -23,6 +23,7 @@
         <div id="nav" v-if="isLoggedIn">
           <!-- router-link se charge de la navigation -->
           <router-link to="/home">Home</router-link>
+          
         </div>
       </header>
     </div>
@@ -42,6 +43,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -58,6 +61,15 @@ export default {
   box-shadow: 0 2px 4px -3px rgba(51, 51, 51, 0.2);
 }
 
+.logo-header {
+  height: 80px;
+  width: 100vw;
+  padding: 20px 0px 20px 0px;
+  position: fixed;
+  box-shadow: -5px -5px 15px #ffffff, 5px 5px 15px #335080;
+  display: flex;
+  align-items: center;
+}
 #nav {
   padding: 30px;
   overflow: hidden;
