@@ -86,7 +86,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
     .home_container{
         background: rgba(0, 0, 0, 0.1);

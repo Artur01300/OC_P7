@@ -16,4 +16,5 @@ class UserUrlData {
     }
 }
 
+
 export default new UserUrlData();

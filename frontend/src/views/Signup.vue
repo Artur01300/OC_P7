@@ -83,7 +83,7 @@ export default {
         this.setToken(response.data.token);
         alert('Bienvenu(e) À Votre Réseau Social De L\'entreprise')
         this.submitted = true;
-        this.$router.push('/');
+        this.$router.push('/articles');
       })
       .catch(error => {
         if(error.response.status === 500){

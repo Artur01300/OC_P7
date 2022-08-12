@@ -4,9 +4,13 @@
 
         <!--Importation du Identification-->
         <UserIdentification
-            :logout="logout"
             :isLoggedIn="isLoggedIn" 
         />
+
+        <!-- <UserIdentification
+            :logout="logout"
+            :isLoggedIn="isLoggedIn" 
+        /> -->
      
         <!--Utilisation de Vee-Validate : ValidationObserver pour suspendre la soumission du formulaire à l'existence d'une erreurs-->
             <ValidationObserver v-slot="{ invalid, handleSubmit }" v-if="!submitted">

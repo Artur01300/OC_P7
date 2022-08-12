@@ -3,41 +3,35 @@
     <div class="introPage container_form">
       <div class="btnScratchContainer" v-on:click="btnScratchAction()" v-if="seenVoirPLus">
           <div class="avatarContainer">
-              <img class="avatarImg" src="img/id-Image.webp" alt="">
-            </div>
+            <img class="avatarImg" src="img/id-Image.webp" alt="">
+          </div>
           <button class="btnScratch">Voir Plus</button>
       </div>
-       
       <transition name="fade">
         <div v-if="btnScratch" class="mainScratch">
-          <div>
+          <!--Ecran qui détaille les données du compte-->
+          <div class="accountAsked" v-if="accountAsked">
+            <h3>Détails de votre compte</h3>
+            <p><strong>Pseudo :</strong> {{ name }}</p>
+            <p><strong>Email:</strong> {{ email }}</p>
 
-            <!--Ecran qui détaille les données du compte-->
-            <div v-if="accountAsked">
-              
-              <h3>Détails de votre compte</h3>
-              <p><strong>Pseudo :</strong> {{ name }}</p>
-              <p><strong>Email:</strong> {{ email }}</p>
-
-              <div class="btns-space" v-if="seenAvoidDelBdn">
-                <b-button variant="danger" class="btn" @click="confirmDelete()">
-                  <i class="far fa-trash-alt"></i>
-                </b-button>
-                <b-button variant="success" class="btn" @click="refreshPage">
-                  <i class="fa fa-rotate-left"></i>
-                </b-button>
-              </div>
-            </div>
-            <!--Ecran qui demande confirmation pour la suppression du compte-->
-            <div v-if="confirmation">
-              <p>Etes-vous sûr de vouloir supprimer votre compte ? Toute suppression est définitive.</p>
-              <div class="confirmSuppress">
-                <b-button variant="danger" type= "button" @click="suppressUser">Supprimer</b-button>
-                <b-button variant="success" type= "button" @click="refreshPage">Annuler</b-button>
-              </div>
+            <div class="btns-space" v-if="seenAvoidDelBdn">
+              <b-button variant="danger" class="btn" @click="confirmDelete()">
+                <i class="far fa-trash-alt"></i>
+              </b-button>
+              <b-button variant="success" class="btn" @click="refreshPage">
+                <i class="fa fa-rotate-left"></i>
+              </b-button>
             </div>
           </div>
-
+          <!--Ecran qui demande confirmation pour la suppression du compte-->
+          <div v-if="confirmation">
+            <p>Etes-vous sûr de vouloir supprimer votre compte ? Toute suppression est définitive.</p>
+            <div class="confirmSuppress">
+              <b-button variant="danger" type= "button" @click="suppressUser">Supprimer</b-button>
+              <b-button variant="success" type= "button" @click="refreshPage">Annuler</b-button>
+            </div>
+          </div>
           <div class="scratchContainer w-1/3" v-if="seenDeconnection">
             <div class="avatarContainer">
               <img class="avatarImg" src="img/id-Image.webp" alt="">
@@ -47,18 +41,14 @@
               :logout="logout"
               :isLoggedIn="isLoggedIn"
             />
-
             <div class="info">
               <!--Si le user est connecté et non-administrateur, l'icône de son compte s'afficher-->
               <button v-if="isLoggedIn" class="btn bg-info" @click="showAccount()"><i class="fas fa-user"></i> Votre compte</button><br><br>
             </div>
-
             <button v-on:click="btnScratchAction()" v-if="seenX" class="btnScratch-secend">X</button>
           </div>
-          
         </div>
       </transition>
-
     </div> 
   </main>
 </template>
@@ -70,7 +60,7 @@ import UserUrlData from "../service/UserUrlData";
 import { mapGetters, mapState } from 'vuex';
     
 export default {
-	name: "Home",
+	// name: "Home",
 	components: {UserIdentification},
   
 	data() {
@@ -173,11 +163,12 @@ export default {
   right: 5%;
   width: 200px;
   height: 150px;
-  background-color: #3d5f3e;
+  background-color: #bbaa13;
   padding: 1em;
+  
 }
 .btnScratch{
-  background-color: #9ecfa0;
+  background-color: #0e6d11;
   padding: 5px 12px;
   font-size: 1em;
   cursor: pointer;
@@ -196,14 +187,20 @@ export default {
   transform: translateY(4px);
 }
 .mainScratch{
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 91.5vh;
   width: 100%;
-  margin-top: -180px;
+  margin-top: -50px;
+}
+
+.accountAsked{
+  background-color: rgb(245, 235, 235);
+  padding: 1em;
+  border-radius: 10px;
 }
 .scratchContainer{
   width: 25vw; 
@@ -250,7 +247,7 @@ export default {
   margin: auto;
 }
 body {
-  background: linear-gradient(to top, #66a144, #d5f0c6);
+  background: linear-gradient(to top, #f0f3ee, #d1f3be);
   background-size: cover;
   background-attachment: fixed;
 }

@@ -1,22 +1,24 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
-import Login from '../views/Login.vue'
-import Signup from '../views/Signup.vue'
-import Home from '../views/Home.vue'
-import Article from '../views/Articles.vue'
-import ArticleDetails from '../views/ArticleDetails.vue'
-import PostArticle from '../views/PostArticle.vue'
-import PostComment from '../views/PostComment.vue'
-import OneCommentDetails from '../views/OneCommentDetails.vue'
-
-
+import Article from '../views/Articles.vue';
+import Login from '../views/Login.vue';
+import Signup from '../views/Signup.vue';
+import ArticleDetails from '../views/ArticleDetails.vue';
+import PostArticle from '../views/PostArticle.vue';
+import PostComment from '../views/PostComment.vue';
+import OneCommentDetails from '../views/OneCommentDetails.vue';
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
+  {//lier à Articlsitem.vue. affiche tous les articles postés
     path: '/',
+    name: 'articles-list',
+    component: Article
+  },
+  {
+    path: '/login',
     name: 'Login',
     component: Login
   },
@@ -24,18 +26,7 @@ const routes = [
     path: '/signup',
     name: 'Signup',
     component: Signup
-  },
-  {
-    path: '/home',
-    name: 'Home',
-    component: Home
-  },
-  
-  {//lier à Articlsitem.vue. affiche tous les articles postés
-    path: '/articles',
-    name: 'articles-list',
-    component: Article
-  },
+  },  
   {//Poste article
     path: '/articles/creat',
     name: 'post-article',

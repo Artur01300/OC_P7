@@ -2,8 +2,7 @@
 
 <template>
     <main class="main">
-        <div class="container containerModify form">
-
+        <div v-if="isLoggedIn" class="container containerModify form">
             <div class="articles_containter">
                 <router-link to="/articles/creat" aria-label="Poster un nouvel article" class="btn_marge">
                     <button v-if="isLoggedIn" type= "button" class="btn btn-info btn-add">
@@ -13,18 +12,12 @@
                         </span>
                     </button>
                 </router-link>
-                <!--Si on est connecté on affiche le bouton de déconéxion si non on affiche le bouton de login-->
-                <UserIdentification
-                    :logout="logout"
-                    :isLoggedIn="isLoggedIn"
-                />
             </div>
-            
             <div v-if="isLoggedIn">
                 <div class="container">
+                    
                     <div class='row marge_container'>
                         <ul class="col-12 col-lg-12">
-                           <h1>Plateforme de partage d'articles</h1><br><br>
                            <!-- attribut unique key(article.id_user) ajouté pour suivre l'identité de chaque entrecroisement,
                                 afin que les éléments puissent être réutilisés 
                             -->
@@ -46,24 +39,27 @@
                 <p v-if="articles.length == 0">{{ message }}</p>
             </div>
         </div> 
+        <div v-if="!isLoggedIn">
+            <Login />
+        </div>
     </main>
 </template>
 
 <script>
 
-import UserIdentification from "../components/UserIdentification"
-import ArticlesItem from "../components/ArticlesItem"
-import ArticlesUrlDada from "../service/ArticlesUrlDada"
-import { mapGetters, mapState } from 'vuex'
+import ArticlesItem from "../components/ArticlesItem";
+import ArticlesUrlDada from "../service/ArticlesUrlDada";
+import { mapGetters, mapState } from 'vuex';
+import Login from "../components/UsersLogin.vue";
         
 export default {
     name: "Articles",
     components: {
-        ArticlesItem, UserIdentification, 
+        ArticlesItem, Login
 	},
     data () {//j'effectue des calcules et je retourne les résultat
         return {
-            loginCalled: false,
+            // loginCalled: false,
             articles:[],
             message: "Il n'y a aucun article posté sur la plateforme à ce jour."
         }
