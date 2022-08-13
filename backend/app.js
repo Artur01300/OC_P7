@@ -10,6 +10,8 @@ const helmet = require('helmet');
 const articleRoutes = require('./routes/article');
 const userRoutes = require('./routes/user');
 const commentRoutes = require('./routes/comment');
+const avatarRoutes = require('./routes/avatars');
+
 
 const app = express();
 
@@ -32,6 +34,8 @@ app.use(bodyParser.json());//Il va trensformer le core de la requette en l'objet
 app.use('/api/article', articleRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/api/comment', commentRoutes);
+app.use('/api/avatars', avatarRoutes);
+
 
 
 module.exports = app;
