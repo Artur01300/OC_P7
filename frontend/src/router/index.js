@@ -13,12 +13,12 @@ Vue.use(VueRouter)
 
 const routes = [
   {//lier à Articlsitem.vue. affiche tous les articles postés
-    path: '/',
+    path: '/articles',
     name: 'articles-list',
     component: Article
   },
   {
-    path: '/login',
+    path: '/',
     name: 'Login',
     component: Login
   },

@@ -6,23 +6,26 @@
 <template>
     <div class="home_container">
         <!--Section affiche la liste complète des articles-->
-        <div v-if="this.$route.name == 'articles-list'" class="card text-center">
+        <div v-if="this.$route.name == 'articles-list'" class=" home_container-radius card text-center">
+
             <div class="card-body">
-               <i class="fas fa-cash-register fa-3x"></i>
-                <span class="name">Article posté  par : {{name}}</span><br>
+                <a class="btn col-12 col-lg-12" :href="'/ArticleDetails/' + id_article">
+               
+                <span class="name">{{name}}</span><br>
                 <span> Le : {{new Date(create_at).toLocaleDateString()}}</span>
-                <h3 class="card-title name">Titre : {{ title }}</h3><br>
+                <h3 class="card-title name">{{ title }}</h3>
                 
                 <p class="card-subtitle border border-warning" v-if="content">Déscrpitpon : {{ content }}</p><br>
                 <!-- v-bind génère l'url dynamiquement -->
-                <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" class="img-fluid" width="600" height="400" alt=" Image sur l'article">
-    
+                <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" class="img-fluid" width="600" height="400" :alt="title">
+            </a>
             </div>
+               
             <!-- href="'/articles/articleId' associer avec index.js:  path: '/articles/articleId:id' -->
-            <a class="btn btn-info col-12 col-lg-12" :href="'/ArticleDetails/' + id_article">
+            <!-- <a class="btn btn-info col-12 col-lg-12" :href="'/ArticleDetails/' + id_article">
                 <i class="fas fa-hand-point-up"></i>
                 Voir plus
-            </a><br>
+            </a><br> -->
         </div>
         <!--Section affiche un article en particulier-->
          <div v-else class="card text-center">
@@ -31,7 +34,7 @@
                     <li>
                         <!-- permet de voir les liste de commentaire d'un article -->
                         <a :href="'/ArticleDetails/' + id_article + '/comment/'">
-                           <span>Envoyez un commentaire</span>
+                           <span>Commenter</span>
                            <i class="fas fa-comment fa-3x"></i>
                         </a>
                     </li>
@@ -89,7 +92,11 @@ export default {
 <style>
 
     .home_container{
-        background: rgba(0, 0, 0, 0.1);
+        /* margin-bottom: 10px; */
+        margin: 15px;
+    }
+    .home_container-radius{
+        border-radius: 10px !important;
     }
     .name{
         color: black;
@@ -123,14 +130,14 @@ export default {
     padding-right: 10px;
   }
 
- .fa-3x{
+ /* .fa-3x{
     color: #58D68D ;
  }
  a span{
     color: #58D68D !important;
- }
+ } */
  .fa-cash-register{
-     padding-right: 13px;
+    padding-right: 13px;
  }
 
 </style>

@@ -2,7 +2,7 @@
 
 <template>
     <main class="main">
-        <div v-if="isLoggedIn" class="container containerModify form">
+        <div v-if="isLoggedIn" class="container">
             <div class="articles_containter">
                 <router-link to="/articles/creat" aria-label="Poster un nouvel article" class="btn_marge">
                     <button v-if="isLoggedIn" type= "button" class="btn btn-info btn-add">
@@ -53,7 +53,7 @@ import { mapGetters, mapState } from 'vuex';
 import Login from "../components/UsersLogin.vue";
         
 export default {
-    name: "Articles",
+    name: "articles-list",
     components: {
         ArticlesItem, Login
 	},
@@ -88,7 +88,7 @@ export default {
         Le hook beforeMount s'exécute juste avant l’apparition des articles sur la page.
         c'est à dir, je récupère les données depuis serveur et après j'affiche les résultats dans le forntand de manière asynchrone
     */
-    beforeMount() {
+    beforeMount(){
         this.getAll();
     }
 };
@@ -96,26 +96,24 @@ export default {
 </script>
 
 <style>
-    .main{
-        max-width: 800px;
-        margin: auto
-    }
+ 
     li{
         list-style: none;
     }
 
-    .marge_container h1{
+    /* .marge_container h1{
         padding-top: 40px;
         font-size: 2em;
         font-weight: bolder;
         color: #17a2b8;;
-    }
+    } */
 
     .articles_containter{
         padding-top: 20px;
         position: fixed;
         z-index: 1;
         display: flex;
+        border-radius: 40px;
     }
 
     .form button{
@@ -125,11 +123,11 @@ export default {
         background: #17a2b8;
     }
 
-    .containerModify{
+    /* .containerModify{
         padding-top: 10em;
         max-width: 400px;
         background-color: white;
-    }
+    } */
     .btn_marge{
         padding-right: 1em;
     }
@@ -137,6 +135,10 @@ export default {
     .marge_container{
         padding-top: 5em;
     }
+
+    /* .containerModify{
+        background-color: #17a2b8;
+    } */
 
     @media screen and (max-width : 600px) and (max-width : 1024px) {
        

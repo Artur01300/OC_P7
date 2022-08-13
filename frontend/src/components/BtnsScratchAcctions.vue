@@ -159,7 +159,7 @@ export default {
 
 .btnScratchContainer{
   position: fixed;
-  top: 20%;
+  top: 16%;
   right: 5%;
   width: 200px;
   height: 150px;

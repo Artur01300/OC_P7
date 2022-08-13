@@ -39,6 +39,7 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate';
 
 
 export default {
+    name: "articles-list",
   components: {
     ValidationProvider, ValidationObserver
   },
@@ -70,7 +71,7 @@ export default {
         .then(response => {
         this.setToken(response.data.token);
         this.submitted = true;
-        this.$router.push('/');
+        this.$router.push('/articles');
       })
       .catch(error => {
         console.log(error);
