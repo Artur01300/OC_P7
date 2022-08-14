@@ -2,26 +2,33 @@
 const db = require("../services/mysql");
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
+const { parse } = require("path");
 
 
 exports.createArticle = (req, res) => {
 
+    
+    // pour PostMan
+    // let tokenSplice = token.slice(7);
+    // const decodedToken = jwt.verify(tokenSplice, process.env.DB_TOKEN);
+    
     //Vérification users par le token
     const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
+
 
     if(req.file){
 
         let sql = "INSERT INTO groupomania.articles(title, content, users_id_user, image) VALUES (?)";
         let values = [req.body.title, req.body.content, decodedToken.id_user, req.file.filename];
-    
+        
         db.query(sql, [values], (err, data) =>{
             if(err){
                 return res.status(400).json({err});
             }
             res.json({status: 201, data, message: 'Nouvelle article créé !'})
         });
-
+        
     }else{
         let sql = "INSERT INTO groupomania.articles(title, content, users_id_user) VALUES (?)";
         let values = [req.body.title, req.body.content, decodedToken.id_user,];

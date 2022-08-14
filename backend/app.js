@@ -37,5 +37,4 @@ app.use('/api/comment', commentRoutes);
 app.use('/api/avatars', avatarRoutes);
 
 
-
 module.exports = app;

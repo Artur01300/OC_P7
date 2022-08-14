@@ -36,7 +36,7 @@
                         </ul>
                     </div>
                 </div>
-                <p v-if="articles.length == 0">{{ message }}</p>
+                <!-- <p v-if="articles.length == 0">{{ message }}</p> -->
             </div>
         </div> 
         <div v-if="!isLoggedIn">
@@ -61,7 +61,7 @@ export default {
         return {
             // loginCalled: false,
             articles:[],
-            message: "Il n'y a aucun article posté sur la plateforme à ce jour."
+            // message: "Il n'y a aucun article posté sur la plateforme à ce jour."
         }
     },
    computed: {//j'ai défini des valeurs réutilisables qu'ils sont liés avec propirété data
@@ -130,6 +130,7 @@ export default {
     } */
     .btn_marge{
         padding-right: 1em;
+        padding-top: 5em;
     }
 
     .marge_container{

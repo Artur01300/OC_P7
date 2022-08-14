@@ -7,6 +7,6 @@ const multer = require('../middleware/multer-config');
 const rateLimit = require('../middleware/limitRepeatedRequests');
 
 
-router.post('/creatAvatar', auth, rateLimit, multer, avatarCtrl.createAvatar);
+router.post('/creatAvatar', rateLimit, multer, avatarCtrl.createAvatar);
 
 module.exports = router;
