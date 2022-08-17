@@ -20,3 +20,24 @@ exports.createAvatar = (req, res) =>{
     });
     res.json({status: 201, message: 'Avatar créé !'});
 }
+
+exports.getOneAvatar = (req, res) => {
+    const token = req.headers.authorization;
+    const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
+
+    let sql = "SELECT * FROM groupomania.avatar WHERE users_id_user = ?";
+    db.query(sql, [decodedToken.id_user], (err) => {
+        if(err){
+            return res.status(400).json({err});
+        }
+    });
+    res.json({status: 201, message: 'Get Avatar'});
+}
+
+
+// getAllAvatars
+
+// modifyUserAvatar
+
+// delUserAvatar
+
