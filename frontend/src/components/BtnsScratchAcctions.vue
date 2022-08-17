@@ -11,9 +11,14 @@
         <div v-if="btnScratch" class="mainScratch">
           <!--Ecran qui détaille les données du compte-->
           <div class="accountAsked" v-if="accountAsked">
-            <h3>Détails de votre compte</h3>
-            <p><strong>Pseudo :</strong> {{ name }}</p>
-            <p><strong>Email:</strong> {{ email }}</p>
+           <div class="avatarContainer">
+             <!-- <input type="file" class="btn-info" id="image" ref="image" v-on:change="AvatarImgUpload()" accept="image/*"/> -->
+              <a href="/avatar">
+                <img class="avatarImg" src="img/id-Image.webp" alt="">
+              </a>
+            </div>
+            <p>{{ name }}</p>
+            <p>{{ email }}</p>
 
             <div class="btns-space" v-if="seenAvoidDelBdn">
               <b-button variant="danger" class="btn" @click="confirmDelete()">
@@ -34,7 +39,9 @@
           </div>
           <div class="scratchContainer w-1/3" v-if="seenDeconnection">
             <div class="avatarContainer">
-              <img class="avatarImg" src="img/id-Image.webp" alt="">
+              <a href="/avatar">
+                <img class="avatarImg" src="img/id-Image.webp" alt="">
+              </a>
             </div>
             <!--Importation du Identification-->
             <UserIdentification

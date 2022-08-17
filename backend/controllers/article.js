@@ -2,7 +2,6 @@
 const db = require("../services/mysql");
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
-const { parse } = require("path");
 
 
 exports.createArticle = (req, res) => {

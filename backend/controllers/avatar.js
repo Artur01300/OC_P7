@@ -10,14 +10,13 @@ exports.createAvatar = (req, res) =>{
     const token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
 
-    // console.log("************** Token ************", req.body)
-    let sql = "INSERT INTO groupomania.articles(title, content, users_id_user, image) VALUES (?)";
+    let sql = "INSERT INTO groupomania.avatar(users_id_user, img_avatar) VALUES (?)";
     let values = [decodedToken.id_user, req.file.filename];
 
-    db.query(sql, [values], (err, data) =>{
+    db.query(sql, [values], (err) =>{
         if(err){
             return res.status(400).json({err});
         }
     });
-    res.json({status: 201, data, message: 'Avatar créé !'});
+    res.json({status: 201, message: 'Avatar créé !'});
 }

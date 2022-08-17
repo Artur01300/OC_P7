@@ -8,6 +8,8 @@ import ArticleDetails from '../views/ArticleDetails.vue';
 import PostArticle from '../views/PostArticle.vue';
 import PostComment from '../views/PostComment.vue';
 import OneCommentDetails from '../views/OneCommentDetails.vue';
+import PostAvatars from '../views/PostAvatars';
+
 
 Vue.use(VueRouter)
 
@@ -46,7 +48,12 @@ const routes = [
     path: '/ArticleDetails/comment/:id_comment',
     name: 'oneCommentDetails',
     component: OneCommentDetails
-  }   
+  },
+  {
+    path: '/avatar',
+    name: 'PostAvatars',
+    component: PostAvatars
+  }
 ];
 
 const router =  new VueRouter({
