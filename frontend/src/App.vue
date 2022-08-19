@@ -25,9 +25,7 @@
         </router-link>
       </header>
       
-      <div v-if="isLoggedIn">
-        <BtnsScratchAcctions/>
-      </div>
+      <div v-if="isLoggedIn"></div>
       
     </div>
     <!-- router-view relier nos composants aux routes  -->
@@ -37,12 +35,8 @@
 
 <script>
 import { mapGetters} from 'vuex';
-import BtnsScratchAcctions from "./components/BtnsScratchAcctions";
 
 export default {
-  components: {
-    BtnsScratchAcctions
-	},
   computed: {
     ...mapGetters(['isLoggedIn'])
   }

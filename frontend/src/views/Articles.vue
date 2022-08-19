@@ -2,7 +2,8 @@
 
 <template>
     <main class="main">
-        <div v-if="isLoggedIn" class="container">
+        <BtnsScratchAcctions/>
+        <div v-if="isLoggedIn" class="container" >
             <div class="articles_containter">
                 <router-link to="/articles/creat" aria-label="Poster un nouvel article" class="btn_marge">
                     <button v-if="isLoggedIn" type= "button" class="btn btn-info btn-add">
@@ -14,28 +15,24 @@
                 </router-link>
             </div>
             <div v-if="isLoggedIn">
-                <div class="container">
-                    
-                    <div class='row marge_container'>
-                        <ul class="col-12 col-lg-12">
-                           <!-- attribut unique key(article.id_user) ajouté pour suivre l'identité de chaque entrecroisement,
-                                afin que les éléments puissent être réutilisés 
-                            -->
-                            <li v-for="article in articles" :key="article.id_user">
-                                <!--Importation du ArticlesItem-->
-                                <ArticlesItem 
-                                    :id_user="article.id_user"
-                                    :title="article.title"
-                                    :content="article.content"
-                                    :image ="article.image"
-                                    :name="article.name"
-                                    :create_at="article.create_at" 
-                                    :id_article="article.id_article"
-                                />
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <ul>
+                    <!-- attribut unique key(article.id_user) ajouté pour suivre l'identité de chaque entrecroisement,
+                        afin que les éléments puissent être réutilisés 
+                    -->
+                    <li v-for="article in articles" :key="article.id_user">
+                        <!--Importation du ArticlesItem-->
+                        <ArticlesItem 
+                            :id_user="article.id_user"
+                            :title="article.title"
+                            :content="article.content"
+                            :image ="article.image"
+                            :name="article.name"
+                            :create_at="article.create_at" 
+                            :id_article="article.id_article"
+                        />
+                    </li>
+                </ul>
+                
                 <!-- <p v-if="articles.length == 0">{{ message }}</p> -->
             </div>
         </div> 
@@ -51,12 +48,16 @@ import ArticlesItem from "../components/ArticlesItem";
 import ArticlesUrlDada from "../service/ArticlesUrlDada";
 import { mapGetters, mapState } from 'vuex';
 import Login from "../components/UsersLogin.vue";
+import BtnsScratchAcctions from "../components/BtnsScratchAcctions.vue"
+
         
 export default {
     name: "articles-list",
     components: {
-        ArticlesItem, Login
-	},
+    ArticlesItem,
+    Login,
+    BtnsScratchAcctions
+},
     data () {//j'effectue des calcules et je retourne les résultat
         return {
             // loginCalled: false,
@@ -110,8 +111,8 @@ export default {
 
     .articles_containter{
         padding-top: 20px;
-        position: fixed;
-        z-index: 1;
+        /* position: fixed; */
+        /* z-index: 1; */
         display: flex;
         border-radius: 40px;
     }

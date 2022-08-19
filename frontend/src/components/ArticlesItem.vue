@@ -5,27 +5,28 @@
 
 <template>
     <div class="home_container">
+        
         <!--Section affiche la liste complète des articles-->
-        <div v-if="this.$route.name == 'articles-list'" class=" home_container-radius card text-center">
+        <div v-if="this.$route.name == 'articles-list'">
 
-            <div class="card-body">
-                <a class="btn col-12 col-lg-12" :href="'/ArticleDetails/' + id_article">
-               
-                <span class="name">{{name}}</span><br>
-                <span> Le : {{new Date(create_at).toLocaleDateString()}}</span>
-                <h3 class="card-title name">{{ title }}</h3>
+            <div class="articlesItemContainer">
+                <div class="articlesItem-avatarContainer">
+                    <img class="" src="img/id-Image.webp" :alt="`Avatar de ${name}`" width="55" height="55" >
+                    <p>{{name}}</p>
+                </div>
+                <a :href="'/ArticleDetails/' + id_article">
+
+                    <p class="avatarContainer-date"> Publié le : {{new Date(create_at).toLocaleDateString()}}</p>
+                    <h3 class="articlesItem-contenu articlesItemContenu-titre">{{ title }}</h3>
+                    
+                    <p class="articlesItem-contenu" v-if="content">Déscrpitpon : {{ content }}</p><br>
+                    <!-- v-bind génère l'url dynamiquement -->
+                    <img class="articlesItem-contenu" v-if="image" v-bind:src="'http://localhost:3000/images/' + image" :alt="title">
                 
-                <p class="card-subtitle border border-warning" v-if="content">Déscrpitpon : {{ content }}</p><br>
-                <!-- v-bind génère l'url dynamiquement -->
-                <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" class="img-fluid" width="600" height="400" :alt="title">
-            </a>
+
+                </a>
             </div>
                
-            <!-- href="'/articles/articleId' associer avec index.js:  path: '/articles/articleId:id' -->
-            <!-- <a class="btn btn-info col-12 col-lg-12" :href="'/ArticleDetails/' + id_article">
-                <i class="fas fa-hand-point-up"></i>
-                Voir plus
-            </a><br> -->
         </div>
         <!--Section affiche un article en particulier-->
          <div v-else class="card text-center">
@@ -42,9 +43,9 @@
             </div>
             <div class="card-body">
                 <p>Article posté le : {{new Date(create_at).toLocaleDateString()}}</p>
-                <h2 class="card-title">{{title}}</h2>
-                <p class="card-text">{{content}}</p>
-                <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" class="img-fluid" width="600" height="400" alt=" Image sur l'article">
+                <h2>{{title}}</h2>
+                <p>{{content}}</p>
+                <img v-if="image" v-bind:src="'http://localhost:3000/images/' + image" width="600" height="400" alt=" Image sur l'article">
             </div>
         </div>
     </div>
@@ -91,51 +92,41 @@ export default {
 
 <style>
 
-    .home_container{
-        /* margin-bottom: 10px; */
-        margin: 15px;
-    }
-    .home_container-radius{
-        border-radius: 10px !important;
-    }
-    .name{
-        color: black;
-        font-size: 1.5em;
-        padding-top: 20px;
-    }
+.articlesItemContainer{
+    background-color: white;
+    border-radius: 20px;
+    padding: 28px;
+    margin: 10px;
+}
+.articlesItemContainer a{
+    text-decoration: none;
+    color: black;
+}
+.articlesItemContainer a:hover{
+    text-decoration: none;
+    color: rgb(87, 84, 84);
 
-    .card{
-        /* background-color: #11ffee00; */
-        background-color: white;
-        color:black;
-        
-    }
-    .card p{
-        font-size: 1.6em;
-    }
-
-    .btn-info{
-        width: 330px;
-        text-align: center;
-        margin: auto;
-    }
-    .border{
-        background-color: white;
-        color: black;
-    }
-
-  .list-group span{
-    color: #273746 ;
-    font-size: 2em;
-    padding-right: 10px;
-  }
-
- /* .fa-3x{
-    color: #58D68D ;
- }
- a span{
-    color: #58D68D !important;
- } */
+}
+.articlesItem-avatarContainer{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+.articlesItem-avatarContainer p{
+    padding-left: 1em;
+    padding-top: 1em;
+}
+.avatarContainer-date{
+    color: rgb(174, 164, 164);
+    margin-top: 4em;
+    font-size: .8em;
+}
+.articlesItem-contenu{
+    text-align: left;
+}
+.articlesItemContenu-titre{
+    font-weight: bolder;
+}
  .fa-cash-register{
     padding-right: 13px;
  }

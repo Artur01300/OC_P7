@@ -1,32 +1,32 @@
 <template>
-<main>
-    <div>
-        <p>Artur, aidez les autres utilisateurs à vous reconnaître.</p>
+    <div class="mainAvatarContainer">
+        <div class="avatarContainertest">
+            <!-- <p>Artur, aidez les autres utilisateurs à vous reconnaître.</p> -->
+            <button class="btnReturn" @click="returnMainBack()">X</button>
+            <form action="">
+                <input class="inputImageUload"
+                    type="file" 
+                    ref="image" 
+                    id="imageUpload"
+                    required
+                    @model="formData.image"
+                    accept="image/*"
+                    v-on:change="handleFileUpload()"
+                >
+                    
+                <label class="btnImageUload" for="imageUpload" >Télécharger la photo</label>
+                <button id="submit"  type="submit" value="Submit" @click.prevent="saveAvatarImg()">Enregistrer la photo</button>
+            </form>
 
-        <form action="">
-            <input class="inputImageUload"
-                type="file" 
-                ref="image" 
-                id="imageUpload"
-                required
-                @model="formData.image"
-                accept="image/*"
-                v-on:change="handleFileUpload()"
-            >
-                
-            <label class="btnImageUload" for="imageUpload" >Télécharger la photo</label>
-            <button id="submit"  type="submit" value="Submit" @click.prevent="saveAvatarImg()">Enregistrer la photo</button>
-        </form>
+        </div>
     </div>
-</main>
-
-
 </template>
 
 
 <script>
 import { mapState } from "vuex";
-import AvatarUrlData from "../service/PostAvatars";
+import AvatarUrlData from "../service/AvatarsUrls";
+
 
 export default{
     name: "PostAvatars",
@@ -42,6 +42,9 @@ export default{
     },
     
     methods:{
+        returnMainBack(){
+            this.$router.push({ path: "/articles" });
+        },
          handleFileUpload(){
             //Réstriction pour la taile de l'image: l'image ne doit pas dépassé le 1.2 Mo
             this.formData.image = this.$refs.image.files[0];
@@ -68,9 +71,25 @@ export default{
 }
 </script>
 
-
 <style>
 .header[data-v-7ba5bd90]{
+    position: relative;
+}
+.mainAvatarContainer{
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 91.5vh;
+    width: 100%;
+    margin-top: -50px;
+}
+.avatarContainertest{
+    width: 40%;
+    height: 60%;
+    border-radius: 20px;
+    background-color: aliceblue;
     position: relative;
 }
 .btnImageUload{
@@ -89,6 +108,14 @@ export default{
 }
 .inputImageUload{
     display: none;
+}
+
+.btnReturn{
+    margin: 1em;
+    position: absolute;
+    z-index: 5;
+    top: 1.2rem;
+    right: 2.2rem;
 }
 
 </style>

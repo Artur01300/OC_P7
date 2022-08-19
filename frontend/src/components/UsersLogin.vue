@@ -39,7 +39,7 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate';
 
 
 export default {
-    name: "articles-list",
+  name: "articles-list",
   components: {
     ValidationProvider, ValidationObserver
   },

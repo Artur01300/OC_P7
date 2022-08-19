@@ -1,14 +1,14 @@
 <template>
   <main>
     <div class="introPage container_form">
-      <div class="btnScratchContainer" v-on:click="btnScratchAction()" v-if="seenVoirPLus">
+      <div class="btnScratchContainer" v-on:click="btnScratchAction()" v-if="seenVoirPLus" v-show="ofContainerByAvatar">
           <div class="avatarContainer">
             <img class="avatarImg" src="img/id-Image.webp" alt="">
           </div>
           <button class="btnScratch">Voir Plus</button>
       </div>
       <transition name="fade">
-        <div v-if="btnScratch" class="mainScratch">
+        <div v-if="btnScratch" v-show="ofContainerByAvatar" class="mainScratch">
           <!--Ecran qui détaille les données du compte-->
           <div class="accountAsked" v-if="accountAsked">
            <div class="avatarContainer">
@@ -38,10 +38,8 @@
             </div>
           </div>
           <div class="scratchContainer w-1/3" v-if="seenDeconnection">
-            <div class="avatarContainer">
-              <a href="/avatar">
-                <img class="avatarImg" src="img/id-Image.webp" alt="">
-              </a>
+            <div class="avatarContainer" v-on:click="urlPostAvatar()">
+              <img class="avatarImg" src="img/id-Image.webp" alt="">
             </div>
             <!--Importation du Identification-->
             <UserIdentification
@@ -67,21 +65,22 @@ import UserUrlData from "../service/UserUrlData";
 import { mapGetters, mapState } from 'vuex';
     
 export default {
-	// name: "Home",
+	name: "articles-list",
 	components: {UserIdentification},
   
 	data() {
     return {
-        loginCalled: false,
-        accountAsked: false,
-        email: "",
-        name: "",
-        confirmation: false,
-        btnScratch: false,
-        seenVoirPLus: true,
-        seenDeconnection : true,
-        seenX: true,
-        seenAvoidDelBdn: true
+      loginCalled: false,
+      accountAsked: false,
+      email: "",
+      name: "",
+      confirmation: false,
+      btnScratch: false,
+      seenVoirPLus: true,
+      seenDeconnection : true,
+      seenX: true,
+      seenAvoidDelBdn: true,
+      ofContainerByAvatar: true
     }
   },
 	computed: {
@@ -100,6 +99,12 @@ export default {
         this.seenVoirPLus = false
       }
     },
+    urlPostAvatar(){
+      if(this.ofContainerByAvatar == true){
+        this.ofContainerByAvatar = false;
+        this.$router.push({ path: "/avatar" });
+      }
+    },    
     //Fonction de déconnexion
     logout() {
       this.$store.commit("logout");
@@ -194,16 +199,17 @@ export default {
   transform: translateY(4px);
 }
 .mainScratch{
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.3);
   position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 91.5vh;
-  width: 100%;
-  margin-top: -50px;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
 }
-
 .accountAsked{
   background-color: rgb(245, 235, 235);
   padding: 1em;
