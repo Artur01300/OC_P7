@@ -17,24 +17,33 @@
                 <label class="btnImageUload" for="imageUpload" >Télécharger la photo</label>
                 <button id="submit"  type="submit" value="Submit" @click.prevent="saveAvatarImg()">Enregistrer la photo</button>
             </form>
-
+                    
+            <AvatarItem
+                :avatar="userAvatar"
+            />
         </div>
     </div>
 </template>
 
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import AvatarUrlData from "../service/AvatarsUrls";
+import AvatarItem from "../components/AvatarItem"
+
 
 
 export default{
     name: "PostAvatars",
+    components:{
+        AvatarItem
+    },
     data(){
         return {
             formData: {
                 image: ""
-            }
+            },
+            userAvatar: ""
         }
     },
     computed:{
@@ -42,6 +51,8 @@ export default{
     },
     
     methods:{
+        ...mapMutations(['setUserAvatar']),
+
         returnMainBack(){
             this.$router.push({ path: "/articles" });
         },
@@ -66,7 +77,19 @@ export default{
                 console.log(response.data.message);
             })
             .catch(error => console.log(error));
+        },
+        getAvatar(Authorization){
+            Authorization = this.token;
+            AvatarUrlData.getOneAvatar({Authorization})
+            .then(res =>{
+                this.userAvatar = res.data.data[0].img_avatar;
+                this.setUserAvatar(res.data.data[0].img_avatar);
+            })
+            .catch(err => console.log(err));
         }
+    },
+     beforeMount() {
+        this.getAvatar()
     }
 }
 </script>

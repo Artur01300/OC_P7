@@ -14,6 +14,7 @@
                     </button>
                 </router-link>
             </div>
+            
             <div v-if="isLoggedIn">
                 <ul>
                     <!-- attribut unique key(article.id_user) ajouté pour suivre l'identité de chaque entrecroisement,
@@ -29,6 +30,7 @@
                             :name="article.name"
                             :create_at="article.create_at" 
                             :id_article="article.id_article"
+                            :storedUserAvatar="storedUserAvatar"
                         />
                     </li>
                 </ul>
@@ -48,7 +50,7 @@ import ArticlesItem from "../components/ArticlesItem";
 import ArticlesUrlDada from "../service/ArticlesUrlDada";
 import { mapGetters, mapState } from 'vuex';
 import Login from "../components/UsersLogin.vue";
-import BtnsScratchAcctions from "../components/BtnsScratchAcctions.vue"
+import BtnsScratchAcctions from "../components/BtnsScratchAcctions.vue";
 
         
 export default {
@@ -68,6 +70,8 @@ export default {
    computed: {//j'ai défini des valeurs réutilisables qu'ils sont liés avec propirété data
         ...mapGetters(['isLoggedIn']),
         ...mapState({ token: "token"}),
+        ...mapState({storedUserAvatar: "storedUserAvatar"})
+
     },
     methods: {//ici je définie mes fonction pour afficher tous mes article postés
         getAll() {

@@ -136,7 +136,7 @@ import { mapGetters, mapState } from 'vuex'
 
 export default {
 
-    name: "ArticleDetails",
+    // name: "ArticleDetails",
     components: {
         ArticlesItem, CommentsItem, UserIdentification
 	},

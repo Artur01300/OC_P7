@@ -11,7 +11,10 @@
 
             <div class="articlesItemContainer">
                 <div class="articlesItem-avatarContainer">
-                    <img class="" src="img/id-Image.webp" :alt="`Avatar de ${name}`" width="55" height="55" >
+                    <AvatarItem
+                        :avatar="storedUserAvatar"
+                        :altName="name"
+                    />
                     <p>{{name}}</p>
                 </div>
                 <a :href="'/ArticleDetails/' + id_article">
@@ -52,9 +55,11 @@
 </template>
 
 <script>
+import AvatarItem from "../components/AvatarItem.vue";
 
 export default {
 	name: "ArticlesItem",
+    components:{AvatarItem},
 	props: {
 		title: {
 			type: String,
@@ -79,6 +84,10 @@ export default {
         image:{
             type: String,
             required: null
+        },
+        storedUserAvatar:{
+            type: String,
+            required: true
         }
 	},
     methods: {

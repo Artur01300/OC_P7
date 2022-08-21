@@ -1,7 +1,6 @@
 <template>
  <main>
    <Login/>
-
    <div v-if="isLoggedIn" class="testH1">
      <router-link to="/articles">Accèss au résau</router-link>
    </div>

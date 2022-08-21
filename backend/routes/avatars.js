@@ -8,6 +8,6 @@ const rateLimit = require('../middleware/limitRepeatedRequests');
 
 
 router.post('/creatAvatar', rateLimit, multer, avatarCtrl.createAvatar);
-router.get('/showAvatar:id_user', auth, rateLimit, avatarCtrl.getOneAvatar);
+router.get('/showAvatar', auth, rateLimit, avatarCtrl.getOneAvatar);
 
 module.exports = router;

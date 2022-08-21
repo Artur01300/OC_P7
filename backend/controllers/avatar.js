@@ -26,12 +26,14 @@ exports.getOneAvatar = (req, res) => {
     const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
 
     let sql = "SELECT * FROM groupomania.avatar WHERE users_id_user = ?";
-    db.query(sql, [decodedToken.id_user], (err) => {
+
+    db.query(sql, [decodedToken.id_user], (err, data) => {
+
         if(err){
             return res.status(400).json({err});
         }
+        res.status(200).json({status: 201, data});
     });
-    res.json({status: 201, message: 'Get Avatar'});
 }
 
 

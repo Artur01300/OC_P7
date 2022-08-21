@@ -59,7 +59,8 @@ const store = new Vuex.Store({
     //Pour que la session de user persiste
     plugins: [vuexPersistedstate()],
     state: {
-        token: null
+        token: null,
+        storedUserAvatar: null
     },
     mutations: {
         //j'enrégiste le tocken dans le sotre de Vuex
@@ -68,6 +69,9 @@ const store = new Vuex.Store({
         },
         logout(state){
             state.token = null;
+        },
+        setUserAvatar(state, storedUserAvatar){
+            state.storedUserAvatar = storedUserAvatar;
         }
     },
     actions: {},

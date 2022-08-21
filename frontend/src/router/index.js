@@ -8,7 +8,8 @@ import ArticleDetails from '../views/ArticleDetails.vue';
 import PostArticle from '../views/PostArticle.vue';
 import PostComment from '../views/PostComment.vue';
 import OneCommentDetails from '../views/OneCommentDetails.vue';
-import PostAvatars from '../views/PostAvatars';
+import PostAvatars from '../views/PostAvatars.vue';
+// import GetUserAvatar from '../views/GetUserAvatar.vue';
 
 
 Vue.use(VueRouter)
@@ -53,7 +54,12 @@ const routes = [
     path: '/avatar',
     name: 'PostAvatars',
     component: PostAvatars
-  }
+  },
+  // {
+  //   path:'/avatar',
+  //   name: 'GetUserAvatar',
+  //   component: GetUserAvatar
+  // }
 ];
 
 const router =  new VueRouter({

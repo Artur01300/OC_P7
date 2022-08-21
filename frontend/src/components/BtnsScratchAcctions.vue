@@ -2,9 +2,10 @@
   <main>
     <div class="introPage container_form">
       <div class="btnScratchContainer" v-on:click="btnScratchAction()" v-if="seenVoirPLus" v-show="ofContainerByAvatar">
-          <div class="avatarContainer">
-            <img class="avatarImg" src="img/id-Image.webp" alt="">
-          </div>
+        <AvatarItem
+          :avatar="storedUserAvatar"
+          :altName="name"
+        />
           <button class="btnScratch">Voir Plus</button>
       </div>
       <transition name="fade">
@@ -14,7 +15,10 @@
            <div class="avatarContainer">
              <!-- <input type="file" class="btn-info" id="image" ref="image" v-on:change="AvatarImgUpload()" accept="image/*"/> -->
               <a href="/avatar">
-                <img class="avatarImg" src="img/id-Image.webp" alt="">
+                <AvatarItem
+                  :avatar="storedUserAvatar"
+                  :altName="name"
+                />
               </a>
             </div>
             <p>{{ name }}</p>
@@ -39,7 +43,10 @@
           </div>
           <div class="scratchContainer w-1/3" v-if="seenDeconnection">
             <div class="avatarContainer" v-on:click="urlPostAvatar()">
-              <img class="avatarImg" src="img/id-Image.webp" alt="">
+              <AvatarItem
+                :avatar="storedUserAvatar"
+                :altName="name"
+              />
             </div>
             <!--Importation du Identification-->
             <UserIdentification
@@ -63,10 +70,12 @@
 import UserIdentification from "../components/UserIdentification";
 import UserUrlData from "../service/UserUrlData";
 import { mapGetters, mapState } from 'vuex';
+import AvatarItem from "../components/AvatarItem.vue";
+
     
 export default {
 	name: "articles-list",
-	components: {UserIdentification},
+	components: { UserIdentification, AvatarItem },
   
 	data() {
     return {
@@ -80,13 +89,14 @@ export default {
       seenDeconnection : true,
       seenX: true,
       seenAvoidDelBdn: true,
-      ofContainerByAvatar: true
+      ofContainerByAvatar: true,
     }
   },
 	computed: {
     //Utilisation de Vuex pour déterminer les rôles et les autorisations du user (toutes ces informations étant conservées dans le store Vuex)
     ...mapGetters(['isLoggedIn']),
-    ...mapState({ token: "token"})
+    ...mapState({ token: "token"}),
+    ...mapState({storedUserAvatar: "storedUserAvatar"})
 	},
 	methods: {
     btnScratchAction(){
