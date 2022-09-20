@@ -5,8 +5,6 @@ const fs = require('fs');
 
 
 exports.createArticle = (req, res) => {
-
-    
     // pour PostMan
     // let tokenSplice = token.slice(7);
     // const decodedToken = jwt.verify(tokenSplice, process.env.DB_TOKEN);
@@ -42,12 +40,14 @@ exports.createArticle = (req, res) => {
 };
 
 exports.getAllArticles = (req, res, next) => {
-    let sql = "SELECT name, title, content, image, create_at, id_article FROM groupomania.v_getonearticle ORDER BY create_at DESC";
+    // let sql = "SELECT name, title, content, image, create_at, id_article FROM groupomania.v_getonearticle ORDER BY create_at DESC";
+    let sql = "SELECT name, title, content, image, create_at, id_article, img_avatar FROM groupomania.v_articleswithuseravatars ORDER BY create_at DESC";
+
     db.query(sql, (err, data) => {
         if (err) {
             return res.status(400).json({err});
         }
-        res.status(200).json({data})
+        res.status(200).json({data});
     });
 };
 

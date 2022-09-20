@@ -23,14 +23,13 @@
                     <li v-for="article in articles" :key="article.id_user">
                         <!--Importation du ArticlesItem-->
                         <ArticlesItem 
-                            :id_user="article.id_user"
                             :title="article.title"
                             :content="article.content"
                             :image ="article.image"
                             :name="article.name"
                             :create_at="article.create_at" 
                             :id_article="article.id_article"
-                            :storedUserAvatar="storedUserAvatar"
+                            :img_avatar="article.img_avatar"
                         />
                     </li>
                 </ul>
@@ -69,8 +68,7 @@ export default {
     },
    computed: {//j'ai défini des valeurs réutilisables qu'ils sont liés avec propirété data
         ...mapGetters(['isLoggedIn']),
-        ...mapState({ token: "token"}),
-        ...mapState({storedUserAvatar: "storedUserAvatar"})
+        ...mapState({ token: "token"})
 
     },
     methods: {//ici je définie mes fonction pour afficher tous mes article postés

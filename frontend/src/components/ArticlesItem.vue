@@ -11,10 +11,9 @@
 
             <div class="articlesItemContainer">
                 <div class="articlesItem-avatarContainer">
-                    <AvatarItem
-                        :avatar="storedUserAvatar"
-                        :altName="name"
-                    />
+                    <img class="imgAvatar" src="img/id-Image.webp" :alt="`Avatar de ${name}`" v-if="!img_avatar">
+                    <img class="imgAvatar" v-bind:src="'http://localhost:3000/images/' + img_avatar" :alt="`Avatar de ${name}`" v-if="img_avatar">
+
                     <p>{{name}}</p>
                 </div>
                 <a :href="'/ArticleDetails/' + id_article">
@@ -25,7 +24,6 @@
                     <p class="articlesItem-contenu" v-if="content">Déscrpitpon : {{ content }}</p><br>
                     <!-- v-bind génère l'url dynamiquement -->
                     <img class="articlesItem-contenu" v-if="image" v-bind:src="'http://localhost:3000/images/' + image" :alt="title">
-                
 
                 </a>
             </div>
@@ -55,11 +53,9 @@
 </template>
 
 <script>
-import AvatarItem from "../components/AvatarItem.vue";
 
 export default {
 	name: "ArticlesItem",
-    components:{AvatarItem},
 	props: {
 		title: {
 			type: String,
@@ -85,9 +81,9 @@ export default {
             type: String,
             required: null
         },
-        storedUserAvatar:{
+        img_avatar:{
             type: String,
-            required: true
+            required: null
         }
 	},
     methods: {
@@ -100,6 +96,13 @@ export default {
 </script>
 
 <style>
+
+.imgAvatar{
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-bottom: 1em;
+}
 
 .articlesItemContainer{
     background-color: white;
@@ -127,8 +130,8 @@ export default {
 }
 .avatarContainer-date{
     color: rgb(174, 164, 164);
-    margin-top: 4em;
     font-size: .8em;
+    /* padding-bottom: 1.6em; */
 }
 .articlesItem-contenu{
     text-align: left;

@@ -13,14 +13,13 @@
                     accept="image/*"
                     v-on:change="handleFileUpload()"
                 >
-                    
-                <label class="btnImageUload" for="imageUpload" >Télécharger la photo</label>
-                <button id="submit"  type="submit" value="Submit" @click.prevent="saveAvatarImg()">Enregistrer la photo</button>
             </form>
                     
             <AvatarItem
                 :avatar="userAvatar"
             />
+            <label class="btnImageUload" for="imageUpload" >Télécharger la photo</label>
+            <button id="submit"  type="submit" value="Submit" @click.prevent="saveAvatarImg()">Enregistrer la photo</button>
         </div>
     </div>
 </template>
@@ -99,20 +98,20 @@ export default{
     position: relative;
 }
 .mainAvatarContainer{
-    background-color: rgba(0, 0, 0, 0.7);
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 91.5vh;
-    width: 100%;
-    margin-top: -50px;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
 }
 .avatarContainertest{
     width: 40%;
     height: 60%;
     border-radius: 20px;
-    background-color: aliceblue;
+   background-color: rgba(155, 235, 7, 0.3);
     position: relative;
 }
 .btnImageUload{

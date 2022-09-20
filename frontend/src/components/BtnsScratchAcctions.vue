@@ -74,7 +74,7 @@ import AvatarItem from "../components/AvatarItem.vue";
 
     
 export default {
-	name: "articles-list",
+	// name: "articles-list",
 	components: { UserIdentification, AvatarItem },
   
 	data() {
