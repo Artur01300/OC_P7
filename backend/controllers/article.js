@@ -25,7 +25,6 @@ exports.createArticle = (req, res) => {
             }
             res.json({status: 201, data, message: 'Nouvelle article créé !'})
         });
-        
     }else{
         let sql = "INSERT INTO groupomania.articles(title, content, users_id_user) VALUES (?)";
         let values = [req.body.title, req.body.content, decodedToken.id_user,];

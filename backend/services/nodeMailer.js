@@ -17,7 +17,7 @@ let info = await transporter.sendMail({
     to: "artur.karapetyan@outlook.fr",
     subject: "Hello ✔ comment va", // Subject line
     text: "I specialize in web development by interest and passion. For the professional license, I obtained my Web Developer diploma in 2021 (in France).", // plain text body
-    // html: "<b>I specialize in web development by interest and passion. For the professional license, I obtained my Web Developer diploma in 2021 (in France).</b>", // html body
+    html: "<b>I specialize in web development by interest and passion. For the professional license, I obtained my Web Developer diploma in 2021 (in France).</b>", // html body
   });
   console.log("Message sent: %s", info);
 }

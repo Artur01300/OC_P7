@@ -4,6 +4,7 @@ require('dotenv').config();
 module.exports = (req, res, next) => {
   
   const token = req.headers.authorization;
+  console.log(token)
   
   if (!token) return res.status(401).send({auth: false, message: 'No token provided !'});
 

@@ -12,9 +12,9 @@ const client = require('twilio')(accountSid, authToken);
 
 client.messages 
 .create({
-    body: 'This is the ship that made the (414)775-0692',
+    body: 'Bonjour, le contrôle technique de votre véhicule DB-934-KN expire le 23/12/21. Pronez viteRDV sur autosecurite.com ou au 04 79 81 45 29 STOP 36034',
     from: '(414)775-0692',
     to: '+33781101937'
 })
 .then(message => console.log(message.sid))
-.catch(err => conslole.log("Error" , err))
+// .catch(err => conslole.log("Error" , err))
